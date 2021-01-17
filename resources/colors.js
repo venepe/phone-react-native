@@ -1,0 +1,11 @@
+export default {
+  BACKGROUND_MAIN: '#424242',
+  HEADER_MAIN: '#000000',
+  TEXT_MAIN: '#FAFAFA',
+  TEXT_DISABLED: '#757575',
+  DISABLED_MAIN: 'rgba(250, 250, 250, 0.2)',
+  CONTENT_BACKGROUND: '#212121',
+  GREY_BACKGROUND: 'rgba(0, 0, 0, 0.4)',
+  YES: '#00E676',
+  NO: '#FF1744',
+};

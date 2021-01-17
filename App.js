@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import { View } from 'react-native';
+import { enableScreens } from 'react-native-screens';
+import { enableExperimentalFragmentVariables } from 'graphql-tag';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { ApolloProvider } from 'react-apollo';
+import FlashMessage from 'react-native-flash-message';
+import client from './apolloClient';
+import AppApp from './components/App';
+import { initStore } from './store';
+enableScreens();
+enableExperimentalFragmentVariables()
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+const store = initStore();
+
+export default class Base extends React.Component {
+
+  render() {
+    return (
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <View style={{ flex: 1 }}>
+            <AppApp />
+            <FlashMessage position='top' animated={true}/>
+          </View>
+        </ApolloProvider>
+      </Provider>
   );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

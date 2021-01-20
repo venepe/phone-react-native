@@ -3,6 +3,7 @@ import UserTypes from '../constants/UserTypes';
 const initialState = {
   token: null,
   userId: null,
+  phoneNumber: '+13128151992',
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +24,14 @@ const reducer = (state = initialState, action) => {
         token,
       };
     }
+    case UserTypes.SET_PHONE_NUMBER:
+    {
+      const { phoneNumber } = action.payload;
+      return {
+        ...state,
+        phoneNumber,
+      };
+    }
     default:
       return state;
   }
@@ -30,5 +39,6 @@ const reducer = (state = initialState, action) => {
 
 export const getUserId = state => (state.userId < 1) ? null : state.userId;
 export const getToken = state => state.token;
+export const getPhoneNumber = state => state.phoneNumber;
 
 export default reducer;

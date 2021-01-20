@@ -11,7 +11,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import Blank from '../Blank';
-import AvailableNumberItem from '../AvailableNumberItem';
+import AvailableNumberItem from './AvailableNumberItem';
 import Empty from './Empty';
 import { getAvailableNumbers } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
@@ -45,6 +45,7 @@ class AvailableNumberList extends Component {
       const response = await getAvailableNumbers({ latitude, longitude });
       const statusCode = response.status;
       const data = await response.json();
+      console.log(data);
       if (response.status === 200) {
         let { phoneNumbers } = data;
         this.setState({

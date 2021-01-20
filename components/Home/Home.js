@@ -7,7 +7,7 @@ import {
 import { connect } from 'react-redux';
 import R from '../../resources';
 
-class Blank extends Component {
+class Home extends Component {
 
   constructor(props) {
     super(props);
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
 export default connect(
   null,
   { },
-)(Blank);
+)(Home);

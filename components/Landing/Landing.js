@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Auth0 from 'react-native-auth0';
 import R from '../../resources';
+import { AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_AUDIENCE } from '../../config';
 
 class Landing extends Component {
 
@@ -21,7 +23,14 @@ class Landing extends Component {
   }
 
   onLogin() {
-    this.props.navigation.push('Login');
+    const auth0 = new Auth0({ domain: AUTH0_DOMAIN, clientId: AUTH0_CLIENT_ID, audience: AUTH0_AUDIENCE });
+    auth0
+    .webAuth
+    .authorize({ scope: 'openid profile email', audience: AUTH0_AUDIENCE })
+    .then((credentials) => {
+      console.log(credentials);
+    })
+    .catch(error => console.log(error));
   }
 
   render() {
@@ -35,11 +44,8 @@ class Landing extends Component {
         </View>
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={[styles.loginButtonContainer, { backgroundColor: '#F50057' }]} onPress={this.onLogin}>
-              <Text style={styles.loginText}>{R.strings.LABEL_GETTING_STARTED}</Text>
-            </TouchableOpacity>
             <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onLogin}>
-              <Text style={styles.loginText}>{R.strings.LABEL_HAVE_ACCOUNT}</Text>
+              <Text style={styles.loginText}>{R.strings.LABEL_GETTING_STARTED}</Text>
             </TouchableOpacity>
           </View>
         </View>

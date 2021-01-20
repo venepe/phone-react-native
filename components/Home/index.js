@@ -1,3 +1,3 @@
-import MessageItem from './MessageItem';
+import Home from './Home';
 
-export default MessageItem;
+export default Home;

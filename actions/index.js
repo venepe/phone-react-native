@@ -10,8 +10,10 @@ export const initializeApplication = () =>
   async (dispatch) => {
     const userId = await AsyncStorage.getItem(Keys.USER_ID_KEY);
     const token = await AsyncStorage.getItem(Keys.TOKEN_KEY);
+    const phoneNumber = await AsyncStorage.getItem(Keys.PHONE_NUMBER_KEY);
     dispatch(setUserId({ payload: { userId } }));
     dispatch(setToken({ payload: { token } }));
+    dispatch(setPhoneNumber({ payload: { phoneNumber } }));
     dispatch(requestLocation());
     if (userId) {
       analytics.identify(userId);
@@ -22,15 +24,9 @@ export const logout = () =>
   (dispatch, getState) => {
     dispatch(storeAndSetUserId({ payload: { userId: '' } }));
     dispatch(storeAndSetToken({ payload: { token: '' } }));
+    dispatch(storeAndSetPhoneNumber({ payload: { phoneNumber: '' } }));
     getApolloClient().resetStore();
     analytics.reset();
-  };
-
-export const storeUserIdAndToken = payload =>
-  (dispatch) => {
-    let { payload: { userId, token } } = payload;
-    dispatch(storeAndSetUserId({ payload: { userId } }));
-    dispatch(storeAndSetToken({ payload: { token } }));
   };
 
 export const storeAndSetUserId = payload =>
@@ -47,6 +43,13 @@ export const storeAndSetToken = payload =>
     dispatch(setToken({ payload: { token } }));
   };
 
+export const storeAndSetPhoneNumber = payload =>
+  async (dispatch) => {
+    const { phoneNumber } = payload.payload;
+    AsyncStorage.setItem(Keys.PHONE_NUMBER_KEY, phoneNumber);
+    dispatch(setPhoneNumber({ payload: { phoneNumber } }));
+  };
+
 export const setUserId = payload =>
   (dispatch) => {
     const { userId = '' } = payload.payload;
@@ -58,6 +61,11 @@ export const setUserId = payload =>
 
 export const setToken = payload => ({
   type: UserTypes.SET_TOKEN,
+  ...payload,
+});
+
+export const setPhoneNumber = payload => ({
+  type: UserTypes.SET_PHONE_NUMBER,
   ...payload,
 });
 

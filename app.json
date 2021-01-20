@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Bubblepop",
-    "slug": "Bubblepop",
+    "name": "Lineus",
+    "slug": "Lineus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FAFAFA"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,13 +17,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.venepe.phone",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSLocationUsageDescription": "Lineus needs access to your location to find the local phone numbers."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#FAFAFA"
+      },
+      "package": "com.venepe.phone",
+      "versionCode": 1,
+      "permissions": ["LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

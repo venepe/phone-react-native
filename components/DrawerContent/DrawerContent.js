@@ -11,6 +11,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
+import LogoutButton from './LogoutButton';
 import { getUserId, getPhoneNumber } from '../../reducers';
 import { Feather } from '@expo/vector-icons';
 import analytics, { EVENTS } from '../../analytics';
@@ -58,6 +59,7 @@ class DrawerContent extends Component {
                 label={'points'}
                 onPress={this.forceRefresh}
                 />
+              <LogoutButton {...this.props}/>
             </View>
           </View>
       </DrawerContentScrollView>

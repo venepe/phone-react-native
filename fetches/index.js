@@ -1,5 +1,17 @@
 import { API_URL } from '../config';
 
+const handleResponse = async (response) => {
+  const statusCode = response.status;
+  const data = response.json();
+  return Promise.all([statusCode, data]).then(([res, data]) => {
+      if (res === 200) {
+        return Promise.resolve(data)
+      } else {
+        throw new Error(res.status);
+      }
+    });
+}
+
 export const getAvailableNumbers = ({ latitude, longitude }) => {
   return fetch(`${API_URL}/phone-numbers/available?lat=${latitude}&lon=${longitude}`, {
     method: 'GET',
@@ -73,6 +85,18 @@ export const getMessages = ({ token, phoneNumber }) => {
       Authorization: `Bearer ${token}`,
     },
   })
+};
+
+export const getDetailMessages = ({ token, phoneNumber, from }) => {
+  return fetch(`${API_URL}/accounts/${phoneNumber}/messages/${from}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse())
 };
 
 export const postMessage = ({ token, phoneNumber, to, body }) => {

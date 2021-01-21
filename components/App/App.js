@@ -5,21 +5,27 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { connect } from 'react-redux';
 import { initializeApplication } from '../../actions';
+import { getIsLoggedIn } from '../../reducers';
 
 import Blank from '../Blank';
 import Home from '../Home';
+import ChatList from '../ChatList';
+import ChatDetailList from '../ChatDetailList';
+import PhoneCallList from '../PhoneCallList';
 import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
 import Landing from '../Landing';
+import LandingTwo from '../LandingTwo';
 import R from '../../resources';
 
 const HomeStack = createStackNavigator();
+const LandingStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
 
-function HomeStackScreen() {
+function LandingStackScreen() {
   return (
-    <HomeStack.Navigator initialRouteName='HomeTabs'
+    <LandingStack.Navigator initialRouteName='Landing'
       screenOptions={{
         headerStyle: {
           backgroundColor: R.colors.HEADER_MAIN,
@@ -30,23 +36,27 @@ function HomeStackScreen() {
         },
       }}
     >
-      <HomeStack.Screen
+      <LandingStack.Screen
           name='AvailableNumberList'
           component={AvailableNumberList}
         />
-      <HomeStack.Screen
+      <LandingStack.Screen
           name='Landing'
           component={Landing}
         />
-    </HomeStack.Navigator>
+      <LandingStack.Screen
+          name='LandingTwo'
+          component={LandingTwo}
+        />
+    </LandingStack.Navigator>
   );
 };
 
 function HomeTabs() {
   return (
     <HomeTab.Navigator>
-      <HomeTab.Screen name="Home" component={Home} />
-      <HomeTab.Screen name="Settings" component={Home} />
+      <HomeTab.Screen name={R.strings.TITLE_CHATS} component={ChatList} />
+      <HomeTab.Screen name={R.strings.TITLE_CALLS} component={PhoneCallList} />
     </HomeTab.Navigator>
   );
 }
@@ -85,7 +95,14 @@ function DrawerStackScreen() {
       >
       <DrawerStack.Screen
         name="Home"
-        component={Landing}
+        component={HomeTabs}
+        options={({ route, navigation }) => ({
+          title: 'R.strings.TITLE_HOME',
+        })}
+      />
+      <DrawerStack.Screen
+        name="ChatDetailList"
+        component={ChatDetailList}
         options={({ route, navigation }) => ({
           title: 'R.strings.TITLE_HOME',
         })}
@@ -96,22 +113,62 @@ function DrawerStackScreen() {
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.renderAuthenticated = this.renderAuthenticated.bind(this);
+    this.renderUnauthenticated = this.renderUnauthenticated.bind(this);
+    this.state = {
+      isLoggedIn: props.isLoggedIn,
+    }
+  }
+
   componentDidMount() {
     this.props.initializeApplication();
   }
 
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.isLoggedIn !== prevProps.isLoggedIn) {
+      this.setState({
+        isLoggedIn: props.isLoggedIn,
+      });
+    }
+  }
+
+  renderAuthenticated() {
+    return (
+      <>
+        <RootStack.Screen name="Bubblepop" component={DrawerStackScreen} options={() => ({ headerShown: false })} />
+      </>
+    );
+  }
+
+  renderUnauthenticated() {
+    return (
+      <>
+        <RootStack.Screen name="Welcome" component={LandingStackScreen} options={() => ({ headerShown: false })} />
+      </>
+    );
+  }
+
   render() {
+    const { isLoggedIn } = this.state;
+    const screens = isLoggedIn ? this.renderAuthenticated() : this.renderUnauthenticated();
     return (
       <NavigationContainer>
         <RootStack.Navigator useanimationEnabled={false}>
-          <RootStack.Screen name="Bubblepop" component={DrawerStackScreen} options={() => ({ headerShown: false })} />
+          {screens}
         </RootStack.Navigator>
       </NavigationContainer>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  isLoggedIn: getIsLoggedIn(state),
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { initializeApplication },
 )(App);

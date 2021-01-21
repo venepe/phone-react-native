@@ -7,23 +7,26 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Auth0 from 'react-native-auth0';
 import R from '../../resources';
-import { AUTH0_DOMAIN, AUTH0_CLIENT_ID } from '../../config';
 
 class Landing extends Component {
 
   constructor(props) {
     super(props);
 
-    this.onLogin = this.onLogin.bind(this);
+    this.onJoinLine = this.onJoinLine.bind(this);
+    this.onCreateLine = this.onCreateLine.bind(this);
 
     this.state = {
     };
   }
 
-  onLogin() {
+  onJoinLine() {
+    this.props.navigation.navigate('LandingTwo');
+  }
 
+  onCreateLine() {
+    this.props.navigation.navigate('AvailableNumberList');
   }
 
   render() {
@@ -37,11 +40,11 @@ class Landing extends Component {
         </View>
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={[styles.loginButtonContainer, { backgroundColor: '#F50057' }]} onPress={this.onLogin}>
-              <Text style={styles.loginText}>{R.strings.LABEL_HAVE_PHONE_NUMBER}</Text>
+            <TouchableOpacity style={[styles.loginButtonContainer, { backgroundColor: '#F50057' }]} onPress={this.onJoinLine}>
+              <Text style={styles.loginText}>{R.strings.LABEL_JOIN_LINE}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onLogin}>
-              <Text style={styles.loginText}>{R.strings.LABEL_NEED_PHONE_NUMBER}</Text>
+            <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onCreateLine}>
+              <Text style={styles.loginText}>{R.strings.LABEL_CREATE_LINE}</Text>
             </TouchableOpacity>
           </View>
         </View>

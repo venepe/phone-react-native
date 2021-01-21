@@ -14,7 +14,6 @@ export const initializeApplication = () =>
     dispatch(setUserId({ payload: { userId } }));
     dispatch(setToken({ payload: { token } }));
     dispatch(setPhoneNumber({ payload: { phoneNumber } }));
-    dispatch(requestLocation());
     if (userId) {
       analytics.identify(userId);
     }

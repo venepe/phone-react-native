@@ -9,16 +9,17 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { GiftedChat } from 'react-native-gifted-chat'
 import { connect } from 'react-redux';
 import Blank from '../Blank';
-import ChatItem from './ChatItem';
+import ChatDetailItem from './ChatDetailItem';
 import Empty from './Empty';
-import { getMessages } from '../../fetches';
+import { getDetailMessages, postMessage } from '../../fetches';
 import { getToken, getPhoneNumber } from '../../reducers';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
-class ChatList extends Component {
+class ChatDetailList extends Component {
 
   constructor(props) {
     super(props);
@@ -26,28 +27,37 @@ class ChatList extends Component {
     this.onRefresh = this.onRefresh.bind(this);
     this.fetch = this.fetch.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
+    this.onSend = this.onSend.bind(this);
+    const { from } = this.props.route.params || {};
     this.state = {
       isFetching: false,
       token: props.token,
       phoneNumber: props.phoneNumber,
+      from,
       messages: [],
     };
   }
 
   async fetch() {
     try {
-      const { token, phoneNumber } = this.state;
-      const response = await getMessages({ token, phoneNumber });
+      const { token, phoneNumber, from } = this.state;
+      const response = await getDetailMessages({ token, phoneNumber, from });
       const statusCode = response.status;
       const data = await response.json();
       if (response.status === 200) {
         let { messages } = data;
+        messages = messages.map((message) => {
+          return {
+            ...message,
+            text: message.body,
+          };
+        })
         console.log(messages);
         this.setState({
           messages,
         });
       } else {
-
+        console.log('here');
       }
     } catch (e) {
       console.log(e);
@@ -91,24 +101,25 @@ class ChatList extends Component {
   renderItem({ item }) {
     const { navigation } = this.props;
     return (
-      <ChatItem chatItem={item} navigation={navigation}/>
+      <ChatDetailItem chatDetailItem={item} navigation={navigation}/>
     )
   }
 
+  onSend(message) {
+
+  }
+
   render() {
-    const { isFetching, messages } = this.state;
+    const { isFetching, messages, phoneNumber } = this.state;
     return (
-      <FlatList
-        data={messages}
-        keyExtractor={(message) => message.sid}
-        renderItem={this.renderItem}
-        onRefresh={() => this.onRefresh()}
-        refreshing={isFetching}
-        ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
-        ListFooterComponent={() => {
-          return (<View></View>)
-        }
-      }
+      <GiftedChat
+        placeholder={'Type a message'}
+        renderAvatar={() => null}
+        messages={messages}
+        onSend={this.onSend}
+        user={{
+          to: phoneNumber,
+        }}
       />
     )
   }
@@ -125,9 +136,9 @@ const styles = StyleSheet.create({
   },
 });
 
-ChatList.defaultProps = {};
+ChatDetailList.defaultProps = {};
 
-ChatList.propTypes = {}
+ChatDetailList.propTypes = {}
 
 const mapStateToProps = state => ({
   token: getToken(state),
@@ -137,4 +148,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { },
-)(ChatList);
+)(ChatDetailList);

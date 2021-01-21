@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Auth0 from 'react-native-auth0';
+import { connect } from 'react-redux';
+import { storeAndSetPhoneNumber} from '../../actions';
+import { login } from '../../utilities/auth';
+import { getAccounts } from '../../fetches';
 import R from '../../resources';
 import { AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_AUDIENCE } from '../../config';
 
@@ -15,22 +18,31 @@ class Landing extends Component {
 
   constructor(props) {
     super(props);
-
     this.onLogin = this.onLogin.bind(this);
-
-    this.state = {
-    };
   }
 
-  onLogin() {
-    const auth0 = new Auth0({ domain: AUTH0_DOMAIN, clientId: AUTH0_CLIENT_ID, audience: AUTH0_AUDIENCE });
-    auth0
-    .webAuth
-    .authorize({ scope: 'openid profile email', audience: AUTH0_AUDIENCE })
-    .then((credentials) => {
-      console.log(credentials);
-    })
-    .catch(error => console.log(error));
+  async onLogin() {
+    try {
+      const credentials = await login();
+      const { accessToken: token } = credentials;
+      const response = await getAccounts({ token });
+      const statusCode = response.status;
+      const data = await response.json();
+      if (response.status === 200) {
+        let { accounts } = data;
+        if (accounts && accounts.length > 0) {
+          const account = accounts[0];
+          const { phoneNumber } = account;
+          this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+        } else {
+          this.props.navigation.replace('LandingTwo');
+        }
+      } else {
+        this.props.navigation.replace('LandingTwo');
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
@@ -103,4 +115,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Landing;
+export default connect(
+  null,
+  { storeAndSetPhoneNumber },
+)(Landing);

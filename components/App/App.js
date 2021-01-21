@@ -10,7 +10,6 @@ import { getIsLoggedIn } from '../../reducers';
 import Blank from '../Blank';
 import Home from '../Home';
 import ChatList from '../ChatList';
-import ChatDetailList from '../ChatDetailList';
 import PhoneCallList from '../PhoneCallList';
 import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
@@ -96,13 +95,6 @@ function DrawerStackScreen() {
       <DrawerStack.Screen
         name="Home"
         component={HomeTabs}
-        options={({ route, navigation }) => ({
-          title: 'R.strings.TITLE_HOME',
-        })}
-      />
-      <DrawerStack.Screen
-        name="ChatDetailList"
-        component={ChatDetailList}
         options={({ route, navigation }) => ({
           title: 'R.strings.TITLE_HOME',
         })}

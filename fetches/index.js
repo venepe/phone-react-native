@@ -87,35 +87,6 @@ export const getMessages = ({ token, phoneNumber }) => {
   })
 };
 
-export const getDetailMessages = ({ token, phoneNumber, from }) => {
-  return fetch(`${API_URL}/accounts/${phoneNumber}/messages/${from}`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  .then(handleResponse())
-};
-
-export const postMessage = ({ token, phoneNumber, to, body }) => {
-  return fetch(`${API_URL}/accounts/${phoneNumber}/messages`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      message: {
-        to,
-        body,
-      },
-    }),
-  })
-};
-
 export const getCalls = ({ token, phoneNumber }) => {
   return fetch(`${API_URL}/accounts/${phoneNumber}/calls`, {
     method: 'GET',

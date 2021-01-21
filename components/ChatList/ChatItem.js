@@ -6,12 +6,15 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
 import parsePhoneNumber from 'libphonenumber-js';
+import { getDateDiffText } from '../../utilities/date';
 import R from '../../resources';
 
 class ChatItem extends Component {
   constructor(props) {
     super(props);
+    this.onPress = this.onPress.bind(this);
 
     this.state = {
       rowID: props.rowID,
@@ -28,11 +31,15 @@ class ChatItem extends Component {
     }
   }
 
+  onPress(phoneNumber) {
+    Linking.openURL(`sms:${phoneNumber}`);
+  }
+
   render() {
     const { navigation } = this.props;
     const chatItem = this.state.chatItem || {};
     const opacity = 1.0;
-    const { from, body } = chatItem;
+    const { from, body, dateCreated } = chatItem;
     const phoneNumber = parsePhoneNumber(from);
 
     return (
@@ -45,15 +52,18 @@ class ChatItem extends Component {
               </View>
               <View style={styles.topTextContainer}>
                 <Text style={styles.topTitle}>{phoneNumber.formatNational()}</Text>
+                  <View style={styles.bodyTextContainer}>
+                    <Text style={styles.bodyTitle}>{body}</Text>
+                  </View>
+              </View>
+              <View style={styles.dateTextContainer}>
+                <Text style={styles.topSubtitle}>{getDateDiffText(dateCreated)}</Text>
               </View>
             </View>
           </View>
-          <View style={styles.dateContainer}>
-            <Text style={styles.topSubtitle}>{'getDateDiffText(createdAt)'}</Text>
-          </View>
-        </View>
-        <View style={styles.bodyTextContainer}>
-          <Text style={styles.bodyTitle}>{body}</Text>
+          <TouchableOpacity style={styles.dateContainer} onPress={() => this.onPress(from)}>
+            <MaterialIcons name='message' size={30} color={R.colors.TEXT_MAIN} />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -81,8 +91,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 2,
+    marginTop: 15,
+    marginBottom: 5,
     marginLeft: 5,
   },
   topContainer: {
@@ -113,8 +123,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 5,
   },
+  dateTextContainer: {
+    flex: 1,
+    alignSelf: 'flex-start',
+    marginLeft: 5,
+  },
   bodyTextContainer: {
-    marginLeft: 40,
     marginBottom: 10,
   },
   bodyTitle: {

@@ -15,6 +15,9 @@ import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
 import Landing from '../Landing';
 import LandingTwo from '../LandingTwo';
+import EnterLine from '../EnterLine';
+import EnterCode from '../EnterCode';
+import MemberList from '../MemberList';
 import R from '../../resources';
 
 const HomeStack = createStackNavigator();
@@ -36,24 +39,51 @@ function LandingStackScreen() {
       }}
     >
       <LandingStack.Screen
-          name='AvailableNumberList'
-          component={AvailableNumberList}
-        />
+        name='AvailableNumberList'
+        component={AvailableNumberList}
+        options={() => ({
+          title: R.strings.TITLE_AVAILABLE_NUMBER,
+        })}
+      />
       <LandingStack.Screen
-          name='Landing'
-          component={Landing}
-        />
+        name='Landing'
+        component={Landing}
+        options={() => ({
+          title: R.strings.TITLE_LANDING,
+        })}
+      />
       <LandingStack.Screen
-          name='LandingTwo'
-          component={LandingTwo}
-        />
+        name='LandingTwo'
+        component={LandingTwo}
+        options={() => ({
+          title: R.strings.TITLE_LANDING_TWO,
+        })}
+      />
+      <LandingStack.Screen
+        name='EnterLine'
+        component={EnterLine}
+        options={() => ({
+          title: R.strings.TITLE_ENTER_LINE,
+        })}
+      />
+      <LandingStack.Screen
+        name='EnterCode'
+        component={EnterCode}
+        options={() => ({
+          title: R.strings.TITLE_ENTER_CODE,
+        })}
+      />
     </LandingStack.Navigator>
   );
 };
 
 function HomeTabs() {
   return (
-    <HomeTab.Navigator>
+    <HomeTab.Navigator
+      tabBarOptions={{
+        style: { backgroundColor: R.colors.TEXT_MAIN },
+      }}
+    >
       <HomeTab.Screen name={R.strings.TITLE_CHATS} component={ChatList} />
       <HomeTab.Screen name={R.strings.TITLE_CALLS} component={PhoneCallList} />
     </HomeTab.Navigator>
@@ -96,7 +126,14 @@ function DrawerStackScreen() {
         name="Home"
         component={HomeTabs}
         options={({ route, navigation }) => ({
-          title: 'R.strings.TITLE_HOME',
+          title: R.strings.TITLE_APP_NAME,
+        })}
+      />
+      <DrawerStack.Screen
+        name="Members"
+        component={MemberList}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_MEMBERS,
         })}
       />
     </DrawerStack.Navigator>

@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import parsePhoneNumber from 'libphonenumber-js';
 import R from '../../resources';
 
 class AvailableNumberItem extends Component {
@@ -37,20 +39,34 @@ class AvailableNumberItem extends Component {
 
   onPressPhoneNumber() {
     const { navigation } = this.props;
-    const { availableNumberItem: { phoneNumber } } = this.state;
-    // navigation.push('SearchDealList');
+    const { availableNumberItem } = this.state;
+    this.props.onPress(availableNumberItem);
   }
 
   render() {
     const { navigation } = this.props;
     const availableNumberItem = this.state.availableNumberItem || {};
     const opacity = 1.0;
-    const { phoneNumber, locality, region } = availableNumberItem;
+    const { phoneNumber: pn, locality, region } = availableNumberItem;
+    const phoneNumber = parsePhoneNumber(pn);
 
     return (
-      <TouchableOpacity style={styles.card} onPress={this.onPressPhoneNumber}>
-        <Text style={styles.phoneNumberText}>{phoneNumber}</Text>
-        <Text style={styles.phoneNumberText}>{this.getPlaceText({ locality, region })}</Text>
+      <TouchableOpacity style={styles.card} onPress={() => this.onPressPhoneNumber()}>
+        <View style={styles.headerContainer}>
+          <View style={styles.topContainer}>
+            <View style={styles.topSubContainer}>
+              <View style={styles.topTextContainer}>
+                <Text style={styles.topTitle}>{phoneNumber.formatNational()}</Text>
+                  <View style={styles.bodyTextContainer}>
+                    <Text style={styles.bodyTitle}>{this.getPlaceText({ locality, region })}</Text>
+                  </View>
+              </View>
+            </View>
+          </View>
+          <View style={styles.dateContainer}>
+            <MaterialIcons name='message' size={30} color={R.colors.TEXT_MAIN} />
+          </View>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -68,11 +84,64 @@ const styles = StyleSheet.create({
       width: 0,
     },
   },
-  phoneNumberText: {
+  title: {
     color: R.colors.TEXT_MAIN,
     fontSize: 28,
     fontWeight: '400',
   },
+  headerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 15,
+    marginBottom: 5,
+    marginLeft: 5,
+  },
+  topContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  topSubContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  topTextContainer: {
+    marginLeft: 5,
+    flexDirection: 'column',
+  },
+  topTitle: {
+    color: R.colors.TEXT_MAIN,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  topSubtitle: {
+    color: R.colors.TEXT_MAIN,
+    fontSize: 12,
+    fontWeight: '200',
+  },
+  dateContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    marginRight: 5,
+  },
+  dateTextContainer: {
+    flex: 1,
+    alignSelf: 'flex-start',
+    marginLeft: 5,
+  },
+  bodyTextContainer: {
+    marginBottom: 10,
+  },
+  bodyTitle: {
+    color: R.colors.TEXT_MAIN,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
+
+AvailableNumberItem.defaultProps = {
+  onPress: () => {},
+};
 
 export default AvailableNumberItem;

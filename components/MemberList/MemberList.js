@@ -11,14 +11,14 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import Blank from '../Blank';
-import PhoneCallItem from './PhoneCallItem';
+import MemberItem from './MemberItem';
 import Empty from './Empty';
-import { getCalls } from '../../fetches';
+import { getOwns } from '../../fetches';
 import { getToken, getPhoneNumber } from '../../reducers';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
-class PhoneCallList extends Component {
+class MemberList extends Component {
 
   constructor(props) {
     super(props);
@@ -30,21 +30,21 @@ class PhoneCallList extends Component {
       isFetching: false,
       token: props.token,
       phoneNumber: props.phoneNumber,
-      calls: [],
+      owners: [],
     };
   }
 
   async fetch() {
     try {
       const { token, phoneNumber } = this.state;
-      const response = await getCalls({ token, phoneNumber });
+      const response = await getOwns({ token, phoneNumber });
       const statusCode = response.status;
       const data = await response.json();
       if (response.status === 200) {
-        let { calls } = data;
-        console.log(calls);
+        let { owners } = data;
+        console.log(owners);
         this.setState({
-          calls,
+          owners,
         });
       } else {
 
@@ -57,8 +57,6 @@ class PhoneCallList extends Component {
   componentDidMount() {
     this.fetch();
   }
-
-
 
   componentDidUpdate(prevProps) {
     const props = this.props;
@@ -91,27 +89,25 @@ class PhoneCallList extends Component {
   renderItem({ item }) {
     const { navigation } = this.props;
     return (
-      <PhoneCallItem phoneCallItem={item} navigation={navigation}/>
+      <MemberItem memberItem={item} navigation={navigation}/>
     )
   }
 
   render() {
-    const { isFetching, calls } = this.state;
+    const { isFetching, owners } = this.state;
     return (
-      <View style={styles.root}>
-        <FlatList
-          data={calls}
-          keyExtractor={(call) => call.sid}
-          renderItem={this.renderItem}
-          onRefresh={() => this.onRefresh()}
-          refreshing={isFetching}
-          ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
-          ListFooterComponent={() => {
-            return (<View></View>)
-          }
+      <FlatList
+        data={owners}
+        keyExtractor={(owner) => owner.sid}
+        renderItem={this.renderItem}
+        onRefresh={() => this.onRefresh()}
+        refreshing={isFetching}
+        ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
+        ListFooterComponent={() => {
+          return (<View></View>)
         }
-        />
-    </View>
+      }
+      />
     )
   }
 }
@@ -120,15 +116,16 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     alignSelf: 'stretch',
+    backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   container: {
     flex: 1,
   },
 });
 
-PhoneCallList.defaultProps = {};
+MemberList.defaultProps = {};
 
-PhoneCallList.propTypes = {}
+MemberList.propTypes = {}
 
 const mapStateToProps = state => ({
   token: getToken(state),
@@ -138,4 +135,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { },
-)(PhoneCallList);
+)(MemberList);

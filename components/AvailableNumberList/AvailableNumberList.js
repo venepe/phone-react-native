@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import Blank from '../Blank';
 import AvailableNumberItem from './AvailableNumberItem';
 import Empty from './Empty';
+import SubscriptionModal from './SubscriptionModal';
 import { getAvailableNumbers } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
 import { getUserId } from '../../reducers';
@@ -26,6 +27,8 @@ class AvailableNumberList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
+    this.onAccept = this.onAccept.bind(this);
+    this.onPress = this.onPress.bind(this);
     this.state = {
       isFetching: false,
       location: props.location,
@@ -35,7 +38,9 @@ class AvailableNumberList extends Component {
         latitude: null,
         longitude: null,
       },
+      phoneNumber: '',
       phoneNumbers: [],
+      isSubscriptionModalVisible: false,
     };
   }
 
@@ -45,7 +50,6 @@ class AvailableNumberList extends Component {
       const response = await getAvailableNumbers({ latitude, longitude });
       const statusCode = response.status;
       const data = await response.json();
-      console.log(data);
       if (response.status === 200) {
         let { phoneNumbers } = data;
         this.setState({
@@ -88,15 +92,23 @@ class AvailableNumberList extends Component {
     }
   }
 
+  onPress() {
+    this.setState({ isSubscriptionModalVisible: true });
+  }
+
+  onAccept() {
+
+  }
+
   renderItem({ item }) {
     const { navigation } = this.props;
     return (
-      <AvailableNumberItem availableNumberItem={item} navigation={navigation}/>
+      <AvailableNumberItem availableNumberItem={item} navigation={navigation} onPress={this.onPress}/>
     )
   }
 
   render() {
-    const { isFetching, location, userId, phoneNumbers, didLoadLocation } = this.state;
+    const { isFetching, location, userId, phoneNumbers, didLoadLocation, phoneNumber, isSubscriptionModalVisible } = this.state;
     const { latitude, longitude } = location;
     if (!didLoadLocation) {
       return (<Blank/>);
@@ -117,6 +129,7 @@ class AvailableNumberList extends Component {
           }
           />
         </View>
+        <SubscriptionModal phoneNumber={phoneNumber} isVisible={isSubscriptionModalVisible} onAccept={this.onAccept} handleClose={() => this.setState({ isSubscriptionModalVisible: false })}/>
       </View>
     )
   }

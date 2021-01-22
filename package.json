@@ -37,9 +37,11 @@
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",
     "react-native-auth0": "^2.7.0",
+    "react-native-confirmation-code-input": "^1.0.4",
     "react-native-flash-message": "^0.1.18",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-gifted-chat": "^0.16.3",
+    "react-native-modal": "^11.6.1",
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.16.1",
@@ -50,7 +52,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "yarn": "^1.22.10",
-    "yup": "^0.32.8"
+    "yup": "^0.32.8",
+    "yup-phone": "^1.2.19"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

@@ -22,7 +22,7 @@ class Landing extends Component {
   }
 
   onJoinLine() {
-    this.props.navigation.navigate('LandingTwo');
+    this.props.navigation.navigate('EnterLine');
   }
 
   onCreateLine() {

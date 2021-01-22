@@ -10,10 +10,11 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+import parsePhoneNumber from 'libphonenumber-js';
 import { connect } from 'react-redux';
 import LogoutButton from './LogoutButton';
 import { getUserId, getPhoneNumber } from '../../reducers';
-import { Feather } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -43,21 +44,26 @@ class DrawerContent extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { userId, phoneNumber } = this.state;
+    const { userId, phoneNumber = '' } = this.state;
+    const formatter = parsePhoneNumber(phoneNumber);
+    let phoneNumberText = '';
+    if (formatter) {
+      phoneNumberText = formatter.formatNational();
+    }
     return (
       <DrawerContentScrollView {...this.props}>
           <View style={styles.root}>
             <View style={styles.drawerContent}>
-              <TouchableOpacity onPress={() => navigation.navigate('UpdateName')}>
-                <Text style={styles.title}>{phoneNumber}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                <Text style={styles.title}>{phoneNumberText}</Text>
               </TouchableOpacity>
               <DrawerItem
                 {...this.props}
                 icon={({ color, size }) => (
-                  <Feather name="award" color={R.colors.TEXT_MAIN} size={size} />
+                  <MaterialIcons name="people" color={R.colors.TEXT_MAIN} size={size} />
                 )}
-                label={'points'}
-                onPress={this.forceRefresh}
+                label={'Us'}
+                onPress={() => navigation.navigate('Members')}
                 />
               <LogoutButton {...this.props}/>
             </View>

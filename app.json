@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Lineus",
-    "slug": "Lineus",
+    "name": "Bubblepop",
+    "slug": "Bubblepop",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,7 +21,9 @@
       "bundleIdentifier": "com.venepe.phone",
       "buildNumber": "1.0.0",
       "infoPlist": {
-        "NSLocationUsageDescription": "Lineus needs access to your location to find the local phone numbers."
+        "NSLocationUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
+        "NSLocationWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers."
       }
     },
     "android": {

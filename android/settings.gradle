@@ -1,4 +1,4 @@
-rootProject.name = 'Lineus'
+rootProject.name = 'Bubblepop'
 
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'
 includeUnimodulesProjects()

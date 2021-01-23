@@ -5,6 +5,13 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXApplication (2.4.1):
     - UMCore
+  - EXBarCodeScanner (10.0.0):
+    - UMBarCodeScannerInterface
+    - UMCore
+    - UMImageLoaderInterface
+    - UMPermissionsInterface
+    - ZXingObjC/OneD
+    - ZXingObjC/PDF417
   - EXConstants (9.3.5):
     - UMConstantsInterface
     - UMCore
@@ -320,11 +327,17 @@ PODS:
   - UMSensorsInterface (5.4.0)
   - UMTaskManagerInterface (5.4.0)
   - Yoga (1.14.0)
+  - ZXingObjC/Core (3.6.5)
+  - ZXingObjC/OneD (3.6.5):
+    - ZXingObjC/Core
+  - ZXingObjC/PDF417 (3.6.5):
+    - ZXingObjC/Core
 
 DEPENDENCIES:
   - A0Auth0 (from `../node_modules/react-native-auth0/ios`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXApplication (from `../node_modules/expo-application/ios`)
+  - EXBarCodeScanner (from `../node_modules/expo-barcode-scanner/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
@@ -390,6 +403,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
+    - ZXingObjC
 
 EXTERNAL SOURCES:
   A0Auth0:
@@ -398,6 +412,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   EXApplication:
     :path: "../node_modules/expo-application/ios"
+  EXBarCodeScanner:
+    :path: "../node_modules/expo-barcode-scanner/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
   EXErrorRecovery:
@@ -522,6 +538,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   EXApplication: e3c201e7b913d081bbd37bd3c5d0e2cdc21733b4
+  EXBarCodeScanner: 6bfdcce1733157b1c023053da15f3c5e6e7f4958
   EXConstants: 54d0bf04319d1692c6c7bc03ca151ef7a71705a4
   EXErrorRecovery: b46af4b91e2b4ec598ab1fa51d2cf088aaf5511f
   EXFileSystem: 0e4974ab77bff04cda68d2886d070cbe64b93a6b
@@ -581,7 +598,8 @@ SPEC CHECKSUMS:
   UMSensorsInterface: 4df9ec662134de5614ae61acc249d6912db87ca5
   UMTaskManagerInterface: 4c60b43eaf3cb05a164bc9113258a171c18b7bf7
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
+  ZXingObjC: fdbb269f25dd2032da343e06f10224d62f537bdb
 
-PODFILE CHECKSUM: 710b3da0715223fa07cee29a5edde51ad83572fc
+PODFILE CHECKSUM: 06af51cffa5759c37a878e459e037bc3e4026d74
 
 COCOAPODS: 1.9.2

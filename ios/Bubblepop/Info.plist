@@ -46,6 +46,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Bubblepop needs access to your camera to read the join code.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Bubblepop needs access to your camera to read the join code.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Bubblepop needs access to your location to find local phone numbers.</string>
 	<key>NSLocationUsageDescription</key>

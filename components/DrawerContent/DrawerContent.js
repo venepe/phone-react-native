@@ -14,7 +14,7 @@ import parsePhoneNumber from 'libphonenumber-js';
 import { connect } from 'react-redux';
 import LogoutButton from './LogoutButton';
 import { getUserId, getPhoneNumber } from '../../reducers';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -70,7 +70,7 @@ class DrawerContent extends Component {
               <DrawerItem
                 {...this.props}
                 icon={({ color, size }) => (
-                  <MaterialIcons name="share" color={R.colors.TEXT_MAIN} size={size} />
+                  <MaterialCommunityIcons name="share" color={R.colors.TEXT_MAIN} size={size} />
                 )}
                 label={'Share'}
                 onPress={() => navigation.navigate('ShareCode')}

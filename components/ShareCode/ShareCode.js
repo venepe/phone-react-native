@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { getPhoneNumber, getUserId } from '../../reducers';
 import { init, getSignature } from '../../utilities/rsa';
 import R from '../../resources';
-const SCREEN_WIDTH = Dimensions.get('window').width - 10;
+const SCREEN_WIDTH = Dimensions.get('window').width - 40;
 
 class ShareCode extends Component {
 

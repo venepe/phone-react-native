@@ -53,6 +53,11 @@ class EnterCode extends Component {
   }
 
   async onFulfill({ code, isValid }) {
+    this.setState({
+      code,
+      isSubscriptionModalVisible: true,
+    });
+    return;
     try {
       const { phoneNumber, token } = this.state;
       const response = await getInvitation({ token, phoneNumber, code });
@@ -106,12 +111,12 @@ class EnterCode extends Component {
           ref='codeInputRef'
           keyboardType='numeric'
           codeLength={4}
-          size={80}
+          size={60}
           className='border-circle'
           compareWithCode={null}
           autoFocus={true}
           containerStyle={{flex: null}}
-          codeInputStyle={{ fontWeight: '800', fontSize: 40 }}
+          codeInputStyle={{ fontWeight: '800', fontSize: 35 }}
           onFulfill={(isValid, code) => this.onFulfill({ isValid, code })}
           onCodeChange={() => this.setState({ errorMessage: '' })}
         />

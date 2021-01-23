@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { storeAndSetPhoneNumber} from '../../actions';
 import { login } from '../../utilities/auth';
-import { getAccounts } from '../../fetches';
+import { postUser, getAccounts } from '../../fetches';
 import R from '../../resources';
 import { AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_AUDIENCE } from '../../config';
 
@@ -25,6 +25,8 @@ class Landing extends Component {
     try {
       const credentials = await login();
       const { accessToken: token } = credentials;
+      console.log(token);
+      await postUser({ token });
       const response = await getAccounts({ token });
       const statusCode = response.status;
       const data = await response.json();

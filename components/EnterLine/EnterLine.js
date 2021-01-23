@@ -48,7 +48,7 @@ class EnterLine extends Component {
     return (
       <View style={styles.root}>
         <Formik
-          initialValues={{ phoneNumber }}
+          initialValues={{ phoneNumber: '' }}
           validationSchema={EnterLineSchema}
           >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (

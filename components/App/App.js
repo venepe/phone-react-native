@@ -18,6 +18,7 @@ import LandingTwo from '../LandingTwo';
 import EnterLine from '../EnterLine';
 import EnterCode from '../EnterCode';
 import MemberList from '../MemberList';
+import ShareCode from '../ShareCode';
 import R from '../../resources';
 
 const HomeStack = createStackNavigator();
@@ -134,6 +135,13 @@ function DrawerStackScreen() {
         component={MemberList}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_MEMBERS,
+        })}
+      />
+      <DrawerStack.Screen
+        name="ShareCode"
+        component={ShareCode}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_SHARE_CODE,
         })}
       />
     </DrawerStack.Navigator>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -7,6 +8,7 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import { MaterialIcons } from '@expo/vector-icons';
+import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, getSubscriptions } from 'react-native-iap';
 import R from '../../resources';
 
 class SubscriptionModal extends Component {
@@ -14,10 +16,23 @@ class SubscriptionModal extends Component {
   constructor(props) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
+    this.onAccept = this.onAccept.bind(this);
 
     this.state = {
       isVisible: props.isVisible,
     };
+  }
+
+  async componentDidMount() {
+    await initConnection();
+    this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
+          console.log('purchaseUpdatedListener', purchase);
+          const receipt = purchase.transactionReceipt;
+          if (receipt) {
+            console.log(receipt);
+            await RNIap.finishTransaction(purchase, true);
+          }
+        });
   }
 
   componentDidUpdate(prevProps) {
@@ -33,12 +48,18 @@ class SubscriptionModal extends Component {
     this.props.handleClose();
   }
 
+  async onAccept() {
+    const subscriptions = await getSubscriptions(['1MONTH']);
+    console.log(subscriptions);
+    requestSubscription('1MONTH');
+  }
+
   render() {
     const { isVisible } = this.state;
     let text = '';
     return (
       <Modal isVisible={isVisible} coverScreen={false}>
-        <View style={styles.root}>
+        <ScrollView style={styles.root}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={this.handleClose}>
               <MaterialIcons name="close" size={48} color={`${R.colors.TEXT_MAIN}`} />
@@ -62,7 +83,7 @@ class SubscriptionModal extends Component {
               <Text style={styles.bodyText}>{`Cancel`}</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </Modal>
     );
   }

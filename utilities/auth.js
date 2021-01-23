@@ -1,8 +1,9 @@
 import { AsyncStorage } from 'react-native';
 import Auth0 from 'react-native-auth0';
+import base64 from 'react-native-base64';
 import Keys from '../constants/Keys';
 import { AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_AUDIENCE } from '../config';
-import { storeAndSetToken } from '../actions';
+import { storeAndSetToken, storeAndSetUserId } from '../actions';
 import { getStore } from '../store';
 
 export const refreshToken = async () => {
@@ -27,9 +28,15 @@ export const login = async () => {
   .webAuth
   .authorize({ scope: 'openid profile email, offline_access', audience: AUTH0_AUDIENCE })
   .then((credentials) => {
-    const { accessToken: token, refreshToken } = credentials;
+    const { accessToken: token, refreshToken, idToken } = credentials;
+    let payload = idToken.split('.')[1];
+    console.log(payload);
+    let { sub: userId } = JSON.parse(base64.decode(payload));
+    console.log(userId);
+
     AsyncStorage.setItem(Keys.REFRESH_TOKEN_KEY, refreshToken);
     getStore().dispatch(storeAndSetToken({ payload: { token } }));
+    getStore().dispatch(storeAndSetUserId({ payload: { userId } }));
     return credentials;
   });
 }

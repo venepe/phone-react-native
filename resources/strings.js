@@ -12,6 +12,7 @@ export default {
   TITLE_ENTER_LINE: 'Enter Line Number',
   TITLE_ENTER_CODE: 'Enter Code',
   TITLE_MEMBERS: 'Us',
+  TITLE_SHARE_CODE: 'Share',
   LABEL_NEXT: 'Next',
   LABEL_LOGIN: 'Login',
   LABEL_GETTING_STARTED: 'Get Started',

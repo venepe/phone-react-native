@@ -12,6 +12,17 @@ const handleResponse = async (response) => {
     });
 }
 
+export const postUser = ({ token }) => {
+  return fetch(`${API_URL}/users`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+};
+
 export const getAvailableNumbers = ({ latitude, longitude }) => {
   return fetch(`${API_URL}/phone-numbers/available?lat=${latitude}&lon=${longitude}`, {
     method: 'GET',
@@ -117,5 +128,21 @@ export const getCalls = ({ token, phoneNumber }) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
+  })
+};
+
+export const postPublicKey = ({ token, publicKey }) => {
+  return fetch(`${API_URL}/users/public-key`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      user: {
+        publicKey,
+      },
+    }),
   })
 };

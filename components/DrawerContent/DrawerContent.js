@@ -45,10 +45,12 @@ class DrawerContent extends Component {
   render() {
     const { navigation } = this.props;
     const { userId, phoneNumber = '' } = this.state;
-    const formatter = parsePhoneNumber(phoneNumber);
     let phoneNumberText = '';
-    if (formatter) {
-      phoneNumberText = formatter.formatNational();
+    if (phoneNumber) {
+      const formatter = parsePhoneNumber(phoneNumber);
+      if (formatter) {
+        phoneNumberText = formatter.formatNational();
+      }
     }
     return (
       <DrawerContentScrollView {...this.props}>
@@ -64,6 +66,14 @@ class DrawerContent extends Component {
                 )}
                 label={'Us'}
                 onPress={() => navigation.navigate('Members')}
+                />
+              <DrawerItem
+                {...this.props}
+                icon={({ color, size }) => (
+                  <MaterialIcons name="share" color={R.colors.TEXT_MAIN} size={size} />
+                )}
+                label={'Share'}
+                onPress={() => navigation.navigate('ShareCode')}
                 />
               <LogoutButton {...this.props}/>
             </View>

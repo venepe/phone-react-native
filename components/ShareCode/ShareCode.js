@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
 import {
+  Dimensions,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 import base64 from 'react-native-base64';
 import { connect } from 'react-redux';
 import { getPhoneNumber, getUserId } from '../../reducers';
 import { init, getSignature } from '../../utilities/rsa';
 import R from '../../resources';
+const SCREEN_WIDTH = Dimensions.get('window').width - 10;
 
 class ShareCode extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isFetching: false,
       phoneNumber: props.phoneNumber,
       userId: props.userId,
-      invitation: {},
+      token: 'a',
     };
   }
 
@@ -28,14 +30,19 @@ class ShareCode extends Component {
     let message = JSON.stringify({ phoneNumber, userId });
     const signature = await getSignature(message);
     const token = base64.encode(message) + '.' + base64.encode(signature);
-    console.log(token);
+    this.setState({
+      token,
+    });
   }
 
   render() {
-    const { invitation: { code = '' } } = this.state;
+    const { token = 'a' } = this.state;
     return (
       <View style={styles.root}>
-        <Text style={styles.text}>{code}</Text>
+        <QRCode
+          value={token}
+          size={SCREEN_WIDTH}
+        />
       </View>
     );
   }
@@ -44,6 +51,8 @@ class ShareCode extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   text: {

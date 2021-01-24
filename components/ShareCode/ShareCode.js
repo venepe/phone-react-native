@@ -20,7 +20,7 @@ class ShareCode extends Component {
     this.state = {
       phoneNumber: props.phoneNumber,
       userId: props.userId,
-      token: 'a',
+      invitation: 'a',
     };
   }
 
@@ -29,18 +29,18 @@ class ShareCode extends Component {
     await init();
     let message = JSON.stringify({ phoneNumber, userId });
     const signature = await getSignature(message);
-    const token = Base64.encode(message) + '.' + Base64.encode(signature);
+    const invitation = Base64.encode(message) + '.' + Base64.encode(signature);
     this.setState({
-      token,
+      invitation,
     });
   }
 
   render() {
-    const { token = 'a' } = this.state;
+    const { invitation = 'a' } = this.state;
     return (
       <View style={styles.root}>
         <QRCode
-          value={token}
+          value={invitation}
           size={200}
         />
       </View>

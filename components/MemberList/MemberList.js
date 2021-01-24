@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import Blank from '../Blank';
 import MemberItem from './MemberItem';
 import Empty from './Empty';
-import { getOwns } from '../../fetches';
+import { getOwners } from '../../fetches';
 import { getToken, getPhoneNumber } from '../../reducers';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
@@ -37,7 +37,7 @@ class MemberList extends Component {
   async fetch() {
     try {
       const { token, phoneNumber } = this.state;
-      const response = await getOwns({ token, phoneNumber });
+      const response = await getOwners({ token, phoneNumber });
       const statusCode = response.status;
       const data = await response.json();
       if (response.status === 200) {

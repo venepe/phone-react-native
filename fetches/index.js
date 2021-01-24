@@ -44,7 +44,7 @@ export const getAccounts = ({ token }) => {
   })
 };
 
-export const postAccounts = ({ token, phoneNumber }) => {
+export const postAccounts = ({ token, phoneNumber, receipt }) => {
   return fetch(`${API_URL}/accounts`, {
     method: 'POST',
     headers: {
@@ -55,12 +55,13 @@ export const postAccounts = ({ token, phoneNumber }) => {
     body: JSON.stringify({
       account: {
         phoneNumber,
+        receipt,
       },
     }),
   })
 };
 
-export const postInvitationVerify = ({ token, code }) => {
+export const postInvitationVerify = ({ token, invitation }) => {
   return fetch(`${API_URL}/invitations/verify`, {
     method: 'POST',
     headers: {
@@ -70,14 +71,14 @@ export const postInvitationVerify = ({ token, code }) => {
     },
     body: JSON.stringify({
       verify: {
-        token: code,
+        invitation,
       },
     }),
   })
 };
 
-export const getOwns = ({ token, phoneNumber }) => {
-  return fetch(`${API_URL}/accounts/${phoneNumber}/owns`, {
+export const getOwners = ({ token, phoneNumber }) => {
+  return fetch(`${API_URL}/accounts/${phoneNumber}/owners`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -87,9 +88,8 @@ export const getOwns = ({ token, phoneNumber }) => {
   })
 };
 
-export const postOwn = ({ token, phoneNumber, code }) => {
-  console.log(phoneNumber);
-  return fetch(`${API_URL}/accounts/${phoneNumber}/owns`, {
+export const postOwners = ({ token, phoneNumber, invitation, receipt }) => {
+  return fetch(`${API_URL}/accounts/${phoneNumber}/owners`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -97,8 +97,9 @@ export const postOwn = ({ token, phoneNumber, code }) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      own: {
-        token: code,
+      owner: {
+        invitation,
+        receipt,
       },
     }),
   })

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Platform,
   StyleSheet,
   Text,
   View,
@@ -10,10 +11,11 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
+import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
 import SubscriptionModal from './SubscriptionModal';
 import PermissionStatus from '../../constants/PermissionStatus';
 import { storeAndSetPhoneNumber} from '../../actions';
-import { getInvitation, postInvitationVerify, postOwn } from '../../fetches';
+import { getInvitation, postInvitationVerify, postOwners } from '../../fetches';
 import { getToken } from '../../reducers';
 import R from '../../resources';
 
@@ -28,7 +30,7 @@ class EnterCode extends Component {
       phoneNumber: '',
       isSubscriptionModalVisible: false,
       errorMessage: '',
-      code: '',
+      invitation: '',
       isGranted: false,
       token: props.token,
       didScan: false,
@@ -42,6 +44,33 @@ class EnterCode extends Component {
         isGranted: true,
       });
     }
+    await initConnection();
+    this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
+      console.log('purchaseUpdatedListener', purchase);
+      if (purchase.transactionReceipt) {
+        const { productId, transactionId, transactionReceipt } = purchase;
+        const { phoneNumber, token, invitation } = this.state;
+        const platform = Platform.OS;
+        const response = await postOwners({ token, phoneNumber, invitation, receipt: { productId, transactionId, transactionReceipt, platform } });
+        const statusCode = response.status;
+        const data = await response.json();
+        if (response.status === 200) {
+          await RNIap.finishTransaction(purchase, true);
+          this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+        } else {
+          this.setState({
+            errorMessage: 'Failed up load. Try again.',
+          });
+        }
+      } else {
+
+      }
+    });
+    this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
+      console.log('purchaseErrorListener', error);
+      console.log(error);
+
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -53,25 +82,26 @@ class EnterCode extends Component {
     }
   }
 
-  async handleBarCodeScanned({ data: code }) {
+  async handleBarCodeScanned({ data: invitation }) {
+    console.log(invitation);
     this.setState({
       didScan: true,
     });
     try {
       const { token } = this.state;
-      response = await postInvitationVerify({ token, code });
+      response = await postInvitationVerify({ token, invitation });
       const statusCode = response.status;
       const data = await response.json();
       if (response.status === 200) {
         let { verify } = data;
         if (verify && verify.isValid) {
-          let [ base64Message, base64Signature ] = code.split('.');
+          let [ base64Message, base64Signature ] = invitation.split('.');
           const message = Base64.decode(base64Message);
           const payload = JSON.parse(message);
           const { phoneNumber } = payload;
           console.log(payload);
           this.setState({
-            code,
+            invitation,
             phoneNumber,
             isSubscriptionModalVisible: true,
           });
@@ -89,29 +119,24 @@ class EnterCode extends Component {
       }
     } catch (e) {
       console.log(e);
+      this.setState({
+        didScan: false,
+      });
     }
   }
 
   async onAccept() {
     try {
-      const { phoneNumber, token, code } = this.state;
-      const response = await postOwn({ token, phoneNumber, code });
-      const statusCode = response.status;
-      const data = await response.json();
-      if (response.status === 200) {
-        this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
-      } else {
-        this.setState({
-          errorMessage: 'Failed up load. Try again.',
-        });
-      }
+      const subscriptions = await getSubscriptions(['1MONTH']);
+      console.log(subscriptions);
+      requestSubscription('1MONTH');
     } catch (e) {
       console.log(e);
     }
   }
 
   render() {
-    const { code, phoneNumber, isGranted, isValid, isSubscriptionModalVisible, errorMessage } = this.state;
+    const { invitation, phoneNumber, isGranted, isValid, isSubscriptionModalVisible, errorMessage } = this.state;
     if (!isGranted) {
       return (
         <View style={styles.root}>

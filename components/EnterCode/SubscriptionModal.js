@@ -9,7 +9,6 @@ import {
 import Modal from 'react-native-modal';
 import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
-import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
 import R from '../../resources';
 
 class SubscriptionModal extends Component {
@@ -22,27 +21,12 @@ class SubscriptionModal extends Component {
     this.state = {
       isVisible: props.isVisible,
       phoneNumber: props.phoneNumber,
+      code: props.code,
     };
   }
 
   async componentDidMount() {
-    await initConnection();
-    this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
-      console.log('purchaseUpdatedListener', purchase);
-      const receipt = purchase.transactionReceipt;
-      if (receipt) {
-        console.log(receipt);
-        await RNIap.finishTransaction(purchase, true);
-        this.props.onAccept();
-      } else {
-        this.props.onAccept();
-      }
-    });
-    this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
-      console.log('purchaseErrorListener', error);
-      console.log(error);
-      this.props.onAccept();
-    });
+
   }
 
   componentDidUpdate(prevProps) {
@@ -63,10 +47,8 @@ class SubscriptionModal extends Component {
     this.props.handleClose();
   }
 
-  async onAccept() {
-    const subscriptions = await getSubscriptions(['1MONTH']);
-    console.log(subscriptions);
-    requestSubscription('1MONTH');
+  onAccept() {
+    this.props.onAccept();
   }
 
   render() {

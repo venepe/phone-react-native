@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -15,10 +16,17 @@ class SubscriptionModal extends Component {
   constructor(props) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
+    this.onAccept = this.onAccept.bind(this);
 
     this.state = {
       isVisible: props.isVisible,
+      phoneNumber: props.phoneNumber,
+      code: props.code,
     };
+  }
+
+  async componentDidMount() {
+
   }
 
   componentDidUpdate(prevProps) {
@@ -28,18 +36,26 @@ class SubscriptionModal extends Component {
         isVisible: props.isVisible,
       });
     }
+    if (props.phoneNumber !== prevProps.phoneNumber) {
+      this.setState({
+        phoneNumber: props.phoneNumber,
+      });
+    }
   }
 
   handleClose() {
     this.props.handleClose();
   }
 
+  onAccept() {
+    this.props.onAccept();
+  }
+
   render() {
     const { isVisible, phoneNumber } = this.state;
-    let text = '';
     return (
       <Modal isVisible={isVisible} coverScreen={false}>
-        <View style={styles.root}>
+        <ScrollView style={styles.root}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={this.handleClose}>
               <MaterialIcons name="close" size={48} color={`${R.colors.TEXT_MAIN}`} />
@@ -47,7 +63,8 @@ class SubscriptionModal extends Component {
           </View>
           <View style={styles.mainContainer}>
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{`Join ${getFormattedNumber(phoneNumber)}`}</Text>
+              <Text style={styles.titleText}>{`Join`}</Text>
+              <Text style={styles.titleText}>{getFormattedNumber(phoneNumber)}</Text>
             </View>
             <View style={styles.bodyContainer}>
               <Text style={styles.bodyText}>{`Auto-renewable subscriptions are available from the App Store for $0.99.`}</Text>
@@ -63,7 +80,7 @@ class SubscriptionModal extends Component {
               <Text style={styles.bodyText}>{`Cancel`}</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </Modal>
     );
   }

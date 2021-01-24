@@ -10,13 +10,15 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
 import Blank from '../Blank';
 import AvailableNumberItem from './AvailableNumberItem';
 import Empty from './Empty';
 import SubscriptionModal from './SubscriptionModal';
-import { getAvailableNumbers } from '../../fetches';
+import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
-import { getUserId } from '../../reducers';
+import { storeAndSetPhoneNumber} from '../../actions';
+import { getToken, getUserId } from '../../reducers';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -25,13 +27,15 @@ class AvailableNumberList extends Component {
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);
-    this.onRefresh = this.onRefresh.bind(this);
+    this.startFetching = this.startFetching.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
+    this.fetch = this.fetch.bind(this);
     this.onAccept = this.onAccept.bind(this);
     this.onPress = this.onPress.bind(this);
     this.state = {
       isFetching: false,
       location: props.location,
+      token: props.token,
       userId: props.userId,
       didLoadLocation: false,
       location: {
@@ -45,7 +49,53 @@ class AvailableNumberList extends Component {
   }
 
   async componentDidMount() {
+    this.fetch();
+    await initConnection();
+    this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
+      console.log('purchaseUpdatedListener', purchase);
+      if (purchase.transactionReceipt) {
+        const { productId, transactionId, transactionReceipt } = purchase;
+        const { phoneNumber, token } = this.state;
+        const platform = Platform.OS;
+        const response = await postAccounts({ token, phoneNumber, receipt: { productId, transactionId, transactionReceipt, platform } });
+        const statusCode = response.status;
+        const data = await response.json();
+        if (response.status === 200) {
+          await RNIap.finishTransaction(purchase, true);
+          this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+        } else {
+          this.setState({
+            errorMessage: 'Failed up load. Try again.',
+          });
+        }
+      } else {
+
+      }
+    });
+    this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
+      console.log('purchaseErrorListener', error);
+      console.log(error);
+
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.userId !== prevProps.userId) {
+      this.setState({
+        userId: props.userId,
+      });
+    }
+    if (props.token !== prevProps.token) {
+      this.setState({
+        token: props.token,
+      });
+    }
+  }
+
+  async fetch() {
     const { latitude, longitude } = await requestLocation();
+    this.startFetching();
     try {
       const response = await getAvailableNumbers({ latitude, longitude });
       const statusCode = response.status;
@@ -57,47 +107,33 @@ class AvailableNumberList extends Component {
           phoneNumbers,
           didLoadLocation: true,
         });
-      } else {
-
       }
     } catch (e) {
       console.log(e);
     }
-  }
-
-
-
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.userId !== prevProps.userId) {
-      this.setState({
-        userId: props.userId,
-      });
-    }
-  }
-
-  async onRefresh(refetch) {
-    this.setState({
-      isFetching: true,
-    });
-    const location = await requestLocation();
-    this.setState({ location });
-    await refetch();
     this.stopFetching();
   }
 
+  startFetching() {
+    this.setState({ isFetching: true });
+  }
+
   stopFetching() {
-    if (this.state.isFetching) {
-      this.setState({ isFetching: false });
+    this.setState({ isFetching: false });
+  }
+
+  onPress({ phoneNumber }) {
+    this.setState({ phoneNumber, isSubscriptionModalVisible: true });
+  }
+
+  async onAccept() {
+    try {
+      const subscriptions = await getSubscriptions(['1MONTH']);
+      console.log(subscriptions);
+      requestSubscription('1MONTH');
+    } catch (e) {
+      console.log(e);
     }
-  }
-
-  onPress() {
-    this.setState({ isSubscriptionModalVisible: true });
-  }
-
-  onAccept() {
-
   }
 
   renderItem({ item }) {
@@ -120,7 +156,7 @@ class AvailableNumberList extends Component {
             data={phoneNumbers}
             keyExtractor={(node) => node.nodeId}
             renderItem={this.renderItem}
-            onRefresh={() => this.onRefresh(refetch)}
+            onRefresh={() => this.fetch()}
             refreshing={isFetching}
             ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
             ListFooterComponent={() => {
@@ -154,9 +190,10 @@ AvailableNumberList.propTypes = {}
 
 const mapStateToProps = state => ({
   userId: getUserId(state),
+  token: getToken(state),
 });
 
 export default connect(
   mapStateToProps,
-  { },
+  { storeAndSetPhoneNumber },
 )(AvailableNumberList);

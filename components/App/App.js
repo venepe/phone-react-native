@@ -10,12 +10,10 @@ import { getIsLoggedIn } from '../../reducers';
 import Blank from '../Blank';
 import Home from '../Home';
 import ChatList from '../ChatList';
-import PhoneCallList from '../PhoneCallList';
 import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
 import Landing from '../Landing';
 import LandingTwo from '../LandingTwo';
-import EnterLine from '../EnterLine';
 import EnterCode from '../EnterCode';
 import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
@@ -62,13 +60,6 @@ function LandingStackScreen() {
         })}
       />
       <LandingStack.Screen
-        name='EnterLine'
-        component={EnterLine}
-        options={() => ({
-          title: R.strings.TITLE_ENTER_LINE,
-        })}
-      />
-      <LandingStack.Screen
         name='EnterCode'
         component={EnterCode}
         options={() => ({
@@ -87,7 +78,6 @@ function HomeTabs() {
       }}
     >
       <HomeTab.Screen name={R.strings.TITLE_CHATS} component={ChatList} />
-      <HomeTab.Screen name={R.strings.TITLE_CALLS} component={PhoneCallList} />
     </HomeTab.Navigator>
   );
 }

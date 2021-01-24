@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
-import parsePhoneNumber from 'libphonenumber-js';
+import { getFormattedNumber } from '../../utilities/phone';
 import { getDateDiffText } from '../../utilities/date';
 import R from '../../resources';
 

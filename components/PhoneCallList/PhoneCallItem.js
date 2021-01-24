@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
-import parsePhoneNumber from 'libphonenumber-js';
+import { getFormattedNumber } from '../../utilities/phone';
 import { getDateDiffText } from '../../utilities/date';
 import R from '../../resources';
 
@@ -40,7 +40,6 @@ class PhoneCallItem extends Component {
     const phoneCallItem = this.state.phoneCallItem || {};
     const opacity = 1.0;
     const { from, body, date_created } = phoneCallItem;
-    const phoneNumber = parsePhoneNumber(from);
     return (
       <View style={styles.card}>
         <View style={styles.headerContainer}>
@@ -50,7 +49,7 @@ class PhoneCallItem extends Component {
                 <MaterialIcons name='account-circle' size={30} color={R.colors.TEXT_MAIN} />
               </View>
               <View style={styles.topTextContainer}>
-                <Text style={styles.topTitle}>{phoneNumber.formatNational()}</Text>
+                <Text style={styles.topTitle}>{getFormattedNumber(from)}</Text>
                 <Text style={styles.topSubtitle}>{getDateDiffText(date_created)}</Text>
               </View>
             </View>

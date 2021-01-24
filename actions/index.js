@@ -4,6 +4,7 @@ import UserTypes from '../constants/UserTypes';
 import { getApolloClient } from '../apolloClient';
 import { getStore } from '../store';
 import analytics, { EVENTS } from '../analytics';
+import { deletePrivateKey } from '../utilities/rsa';
 import R from '../resources';
 
 export const initializeApplication = () =>
@@ -25,6 +26,7 @@ export const logout = () =>
     dispatch(storeAndSetToken({ payload: { token: '' } }));
     dispatch(storeAndSetPhoneNumber({ payload: { phoneNumber: '' } }));
     getApolloClient().resetStore();
+    deletePrivateKey();
     analytics.reset();
   };
 

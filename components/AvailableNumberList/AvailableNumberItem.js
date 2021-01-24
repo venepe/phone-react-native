@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import parsePhoneNumber from 'libphonenumber-js';
+import { getFormattedNumber } from '../../utilities/phone';
 import R from '../../resources';
 
 class AvailableNumberItem extends Component {
@@ -47,8 +47,7 @@ class AvailableNumberItem extends Component {
     const { navigation } = this.props;
     const availableNumberItem = this.state.availableNumberItem || {};
     const opacity = 1.0;
-    const { phoneNumber: pn, locality, region } = availableNumberItem;
-    const phoneNumber = parsePhoneNumber(pn);
+    const { phoneNumber, locality, region } = availableNumberItem;
 
     return (
       <TouchableOpacity style={styles.card} onPress={() => this.onPressPhoneNumber()}>
@@ -56,7 +55,7 @@ class AvailableNumberItem extends Component {
           <View style={styles.topContainer}>
             <View style={styles.topSubContainer}>
               <View style={styles.topTextContainer}>
-                <Text style={styles.topTitle}>{phoneNumber.formatNational()}</Text>
+                <Text style={styles.topTitle}>{getFormattedNumber(phoneNumber)}</Text>
                   <View style={styles.bodyTextContainer}>
                     <Text style={styles.bodyTitle}>{this.getPlaceText({ locality, region })}</Text>
                   </View>

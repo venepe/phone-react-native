@@ -10,7 +10,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import parsePhoneNumber from 'libphonenumber-js';
+import { getFormattedNumber } from '../../utilities/phone';
 import { connect } from 'react-redux';
 import LogoutButton from './LogoutButton';
 import { getUserId, getPhoneNumber } from '../../reducers';
@@ -44,20 +44,13 @@ class DrawerContent extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { userId, phoneNumber = '' } = this.state;
-    let phoneNumberText = '';
-    if (phoneNumber) {
-      const formatter = parsePhoneNumber(phoneNumber);
-      if (formatter) {
-        phoneNumberText = formatter.formatNational();
-      }
-    }
+    const { userId, phoneNumber } = this.state;
     return (
       <DrawerContentScrollView {...this.props}>
           <View style={styles.root}>
             <View style={styles.drawerContent}>
               <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                <Text style={styles.title}>{phoneNumberText}</Text>
+                <Text style={styles.title}>{getFormattedNumber(phoneNumber)}</Text>
               </TouchableOpacity>
               <DrawerItem
                 {...this.props}

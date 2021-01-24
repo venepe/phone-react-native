@@ -51,10 +51,8 @@ class Landing extends Component {
 
     return (
       <View style={styles.root}>
-        <View style={styles.iconContainer}>
-          <View style={styles.subContainer}>
-            <Text style={styles.primaryText}>{R.strings.LABEL_APP_SLOGAN}</Text>
-          </View>
+        <View style={styles.topContainer}>
+          <Text style={styles.primaryText}>{R.strings.LABEL_APP_SLOGAN}</Text>
         </View>
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
           <View style={styles.actionContainer}>
@@ -73,30 +71,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#18ffff',
   },
-  subContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  emojiText: {
-    height: 120,
-    fontSize: 92,
-  },
-  primaryText: {
-    height: 32,
-    fontSize: 24,
-    color: '#424242',
-    fontWeight: 'bold',
-  },
-  secondaryText: {
-    height: 26,
-    fontSize: 12,
-    color: '#424242',
-  },
-  iconContainer: {
+  topContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     fontWeight: 'bold',
+  },
+  primaryText: {
+    fontSize: 24,
+    color: '#424242',
+    fontWeight: 'bold',
+    flexWrap:'wrap',
   },
   actionContainer: {
     flex: 1,

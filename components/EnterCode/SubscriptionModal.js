@@ -7,8 +7,9 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
-import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, getSubscriptions } from 'react-native-iap';
+import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
 import R from '../../resources';
 
 class SubscriptionModal extends Component {
@@ -20,19 +21,28 @@ class SubscriptionModal extends Component {
 
     this.state = {
       isVisible: props.isVisible,
+      phoneNumber: props.phoneNumber,
     };
   }
 
   async componentDidMount() {
     await initConnection();
     this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
-          console.log('purchaseUpdatedListener', purchase);
-          const receipt = purchase.transactionReceipt;
-          if (receipt) {
-            console.log(receipt);
-            await RNIap.finishTransaction(purchase, true);
-          }
-        });
+      console.log('purchaseUpdatedListener', purchase);
+      const receipt = purchase.transactionReceipt;
+      if (receipt) {
+        console.log(receipt);
+        await RNIap.finishTransaction(purchase, true);
+        this.props.onAccept();
+      } else {
+        this.props.onAccept();
+      }
+    });
+    this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
+      console.log('purchaseErrorListener', error);
+      console.log(error);
+      this.props.onAccept();
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -40,6 +50,11 @@ class SubscriptionModal extends Component {
     if (props.isVisible !== prevProps.isVisible) {
       this.setState({
         isVisible: props.isVisible,
+      });
+    }
+    if (props.phoneNumber !== prevProps.phoneNumber) {
+      this.setState({
+        phoneNumber: props.phoneNumber,
       });
     }
   }
@@ -55,8 +70,7 @@ class SubscriptionModal extends Component {
   }
 
   render() {
-    const { isVisible } = this.state;
-    let text = '';
+    const { isVisible, phoneNumber } = this.state;
     return (
       <Modal isVisible={isVisible} coverScreen={false}>
         <ScrollView style={styles.root}>
@@ -67,7 +81,8 @@ class SubscriptionModal extends Component {
           </View>
           <View style={styles.mainContainer}>
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{`Join +18155439618`}</Text>
+              <Text style={styles.titleText}>{`Join`}</Text>
+              <Text style={styles.titleText}>{getFormattedNumber(phoneNumber)}</Text>
             </View>
             <View style={styles.bodyContainer}>
               <Text style={styles.bodyText}>{`Auto-renewable subscriptions are available from the App Store for $0.99.`}</Text>

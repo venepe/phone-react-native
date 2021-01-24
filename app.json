@@ -21,6 +21,7 @@
       "bundleIdentifier": "com.venepe.phone",
       "buildNumber": "1.0.0",
       "infoPlist": {
+        "NSCameraUsageDescription": "Bubblepop needs access to your camera to read the join code.",
         "NSLocationUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
         "NSLocationWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers."
@@ -33,7 +34,7 @@
       },
       "package": "com.venepe.phone",
       "versionCode": 1,
-      "permissions": ["LOCATION"]
+      "permissions": ["CAMERA", "LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

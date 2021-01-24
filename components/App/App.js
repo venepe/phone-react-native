@@ -51,6 +51,7 @@ function LandingStackScreen() {
         component={Landing}
         options={() => ({
           title: R.strings.TITLE_LANDING,
+          headerShown: false,
         })}
       />
       <LandingStack.Screen

@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import parsePhoneNumber from 'libphonenumber-js';
+import { getFormattedNumber } from '../../utilities/phone';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import 'yup-phone';
@@ -32,15 +32,6 @@ class EnterLine extends Component {
 
   onEnterLine({ values }) {
     const { phoneNumber } = values;
-    if (phoneNumber && phoneNumber.length > 0) {
-      const { navigation } = this.props;
-      let formatter = parsePhoneNumber(phoneNumber, 'US');
-      let fPhoneNumber = formatter.number;
-      navigation.navigate('EnterCode', {
-        title: fPhoneNumber,
-        phoneNumber: fPhoneNumber,
-      });
-    }
   }
 
   render() {

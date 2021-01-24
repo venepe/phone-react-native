@@ -22,7 +22,7 @@ class Landing extends Component {
   }
 
   onJoinLine() {
-    this.props.navigation.navigate('EnterLine');
+    this.props.navigation.navigate('EnterCode');
   }
 
   onCreateLine() {
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#424242',
     fontWeight: 'bold',
+    flexWrap:'wrap',
   },
   secondaryText: {
     height: 26,

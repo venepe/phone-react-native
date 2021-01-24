@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
 import R from '../../resources';
 
@@ -34,7 +35,7 @@ class SubscriptionModal extends Component {
   }
 
   render() {
-    const { isVisible } = this.state;
+    const { isVisible, phoneNumber } = this.state;
     let text = '';
     return (
       <Modal isVisible={isVisible} coverScreen={false}>
@@ -46,7 +47,7 @@ class SubscriptionModal extends Component {
           </View>
           <View style={styles.mainContainer}>
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{`Join +18155439618`}</Text>
+              <Text style={styles.titleText}>{`Join ${getFormattedNumber(phoneNumber)}`}</Text>
             </View>
             <View style={styles.bodyContainer}>
               <Text style={styles.bodyText}>{`Auto-renewable subscriptions are available from the App Store for $0.99.`}</Text>

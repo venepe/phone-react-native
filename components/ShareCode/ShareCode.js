@@ -6,12 +6,12 @@ import {
   View,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import base64 from 'react-native-base64';
+import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
 import { getPhoneNumber, getUserId } from '../../reducers';
 import { init, getSignature } from '../../utilities/rsa';
 import R from '../../resources';
-const SCREEN_WIDTH = Dimensions.get('window').width - 40;
+const SCREEN_WIDTH = Dimensions.get('window').width - 100;
 
 class ShareCode extends Component {
 
@@ -29,7 +29,7 @@ class ShareCode extends Component {
     await init();
     let message = JSON.stringify({ phoneNumber, userId });
     const signature = await getSignature(message);
-    const token = base64.encode(message) + '.' + base64.encode(signature);
+    const token = Base64.encode(message) + '.' + Base64.encode(signature);
     this.setState({
       token,
     });
@@ -41,7 +41,7 @@ class ShareCode extends Component {
       <View style={styles.root}>
         <QRCode
           value={token}
-          size={SCREEN_WIDTH}
+          size={200}
         />
       </View>
     );
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: R.colors.BACKGROUND_MAIN,
+    backgroundColor: R.colors.TEXT_MAIN,
   },
   text: {
     color: R.colors.TEXT_MAIN,

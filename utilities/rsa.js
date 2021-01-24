@@ -15,3 +15,7 @@ export const getSignature = async (message) => {
   let signature = await RSAKeychain.sign(message, Keys.PRIVATE_KEY_KEY);
   return signature;
 }
+
+export const deletePrivateKey = async () => {
+  RSAKeychain.deletePrivateKey(Keys.PRIVATE_KEY_KEY);
+}

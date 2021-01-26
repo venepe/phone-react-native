@@ -19,6 +19,7 @@ import { getMessages } from '../../fetches';
 import { getToken, getPhoneNumber } from '../../reducers';
 import PermissionStatus from '../../constants/PermissionStatus';
 import { getFormattedNumber } from '../../utilities/phone';
+import { requestContactsPermission } from '../../utilities/permissions';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -47,7 +48,6 @@ class ChatList extends Component {
       const data = await response.json();
       if (response.status === 200) {
         let { messages } = data;
-        console.log(messages);
         messages = await this.formatMessages(messages);
         this.setState({
           messages,
@@ -102,17 +102,8 @@ class ChatList extends Component {
   }
 
   async formatMessages(messages) {
-    console.log('asdf');
     try {
-      // await PermissionsAndroid.request(
-      //   PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-      //   {
-      //     'title': 'Contacts',
-      //     'message': 'This app would like to view your contacts.',
-      //     'buttonPositive': 'Please accept bare mortal'
-      //   }
-      // );
-
+      await requestContactsPermission();
       await Promise.all(messages.map(async ({ from }, index) => {
         let contacts = await Contacts.getContactsByPhoneNumber(from);
         if (contacts && contacts.length > 0) {
@@ -123,9 +114,8 @@ class ChatList extends Component {
           messages[index].from = getFormattedNumber(from);
         }
       }));
-
     } catch (e) {
-
+      console.log(e);
     }
     return messages;
   }

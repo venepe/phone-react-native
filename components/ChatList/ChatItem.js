@@ -50,7 +50,7 @@ class ChatItem extends Component {
                 <MaterialIcons name='account-circle' size={30} color={R.colors.TEXT_MAIN} />
               </View>
               <View style={styles.topTextContainer}>
-                <Text style={styles.topTitle}>{getFormattedNumber(from)}</Text>
+                <Text style={styles.topTitle}>{from}</Text>
                   <View style={styles.bodyTextContainer}>
                     <Text style={styles.bodyTitle}>{body}</Text>
                   </View>

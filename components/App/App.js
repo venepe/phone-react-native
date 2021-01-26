@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { AppState } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -143,15 +144,18 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.renderAuthenticated = this.renderAuthenticated.bind(this);
     this.renderUnauthenticated = this.renderUnauthenticated.bind(this);
     this.state = {
       isLoggedIn: props.isLoggedIn,
+      appState: AppState.currentState
     }
   }
 
   componentDidMount() {
     this.props.initializeApplication();
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentDidUpdate(prevProps) {
@@ -161,6 +165,17 @@ class App extends Component {
         isLoggedIn: props.isLoggedIn,
       });
     }
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange(nextAppState) {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('here');
+    }
+    this.setState({ appState: nextAppState });
   }
 
   renderAuthenticated() {

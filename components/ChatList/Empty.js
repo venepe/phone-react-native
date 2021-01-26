@@ -22,8 +22,9 @@ class Empty extends Component {
       <View style={styles.root}>
         <View style={styles.iconContainer}>
           <View style={styles.localContainer}>
-            <MaterialCommunityIcons name="tag" size={100} color={R.colors.TEXT_MAIN} />
-            <Text style={styles.primaryText}>{R.strings.LABEL_POPULAR_EMPTY_PRIMARY}</Text>
+            <MaterialCommunityIcons name="comment-processing-outline" size={100} color={R.colors.TEXT_MAIN} />
+            <Text style={styles.primaryText}>{R.strings.LABEL_CHAT_EMPTY_PRIMARY}</Text>
+            <Text style={styles.secondaryText}>{R.strings.LABEL_CHAT_EMPTY_SECONDARY}</Text>
           </View>
         </View>
       </View>
@@ -40,10 +41,6 @@ const styles = StyleSheet.create({
   localContainer: {
     flex: 1,
     alignItems: 'center',
-  },
-  emojiText: {
-    height: 120,
-    fontSize: 92,
   },
   primaryText: {
     height: 32,

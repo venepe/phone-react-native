@@ -131,11 +131,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    dexOptions {
+      javaMaxHeapSize "4g"
+    }
+
     defaultConfig {
         applicationId 'com.venepe.phone'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 3
         versionName "1.0.0"
     }
     splits {
@@ -153,15 +157,21 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            if (project.hasProperty('BUBBLEPOP_RELEASE_STORE_FILE')) {
+                storeFile file(BUBBLEPOP_RELEASE_STORE_FILE)
+                storePassword BUBBLEPOP_RELEASE_STORE_PASSWORD
+                keyAlias BUBBLEPOP_RELEASE_KEY_ALIAS
+                keyPassword BUBBLEPOP_RELEASE_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

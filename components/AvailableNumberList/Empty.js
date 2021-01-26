@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 const SCREEN_HEIGHT = Dimensions.get('window').height - 70;
 import R from '../../resources';
 
@@ -22,8 +22,8 @@ class Empty extends Component {
       <View style={styles.root}>
         <View style={styles.iconContainer}>
           <View style={styles.localContainer}>
-            <MaterialCommunityIcons name="tag" size={100} color={R.colors.TEXT_MAIN} />
-            <Text style={styles.primaryText}>{R.strings.LABEL_POPULAR_EMPTY_PRIMARY}</Text>
+            <MaterialIcons name="phone" size={100} color={R.colors.TEXT_MAIN} />
+            <Text style={styles.primaryText}>{R.strings.LABEL_AVAILABLE_NUMBER_EMPTY_PRIMARY}</Text>
           </View>
         </View>
       </View>
@@ -40,10 +40,6 @@ const styles = StyleSheet.create({
   localContainer: {
     flex: 1,
     alignItems: 'center',
-  },
-  emojiText: {
-    height: 120,
-    fontSize: 92,
   },
   primaryText: {
     height: 32,

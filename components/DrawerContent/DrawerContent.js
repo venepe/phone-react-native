@@ -10,11 +10,12 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import { getFormattedNumber } from '../../utilities/phone';
 import { connect } from 'react-redux';
-import LogoutButton from './LogoutButton';
-import { getUserId, getPhoneNumber } from '../../reducers';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import LogoutButton from './LogoutButton';
+import { getFormattedNumber } from '../../utilities/phone';
+import { manageSubscription } from '../../utilities/subscriptions';
+import { getUserId, getPhoneNumber } from '../../reducers';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -63,10 +64,18 @@ class DrawerContent extends Component {
               <DrawerItem
                 {...this.props}
                 icon={({ color, size }) => (
-                  <MaterialCommunityIcons name="share" color={R.colors.TEXT_MAIN} size={size} />
+                  <MaterialIcons name="person-add" color={R.colors.TEXT_MAIN} size={size} />
                 )}
-                label={'Share'}
+                label={'Invite'}
                 onPress={() => navigation.navigate('ShareCode')}
+                />
+              <DrawerItem
+                {...this.props}
+                icon={({ color, size }) => (
+                  <MaterialCommunityIcons name="shopping" color={R.colors.TEXT_MAIN} size={size} />
+                )}
+                label={'Manage'}
+                onPress={() => manageSubscription()}
                 />
               <LogoutButton {...this.props}/>
             </View>

@@ -6,12 +6,14 @@ import {
   View,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import moment from 'moment';
 import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
 import { getPhoneNumber, getUserId } from '../../reducers';
 import { init, getSignature } from '../../utilities/rsa';
 import R from '../../resources';
 const SCREEN_WIDTH = Dimensions.get('window').width - 100;
+const MINS_TO_EXPIRE = '15';
 
 class ShareCode extends Component {
 
@@ -26,8 +28,9 @@ class ShareCode extends Component {
 
   async componentDidMount() {
     const { phoneNumber, userId } = this.state;
+    const expires = moment.utc().add(MINS_TO_EXPIRE, 'minutes').toISOString();
     await init();
-    let message = JSON.stringify({ phoneNumber, userId });
+    let message = JSON.stringify({ phoneNumber, userId, expires });
     const signature = await getSignature(message);
     const invitation = Base64.encode(message) + '.' + Base64.encode(signature);
     this.setState({

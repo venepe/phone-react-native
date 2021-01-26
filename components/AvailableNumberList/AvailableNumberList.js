@@ -26,6 +26,8 @@ class AvailableNumberList extends Component {
 
   constructor(props) {
     super(props);
+    this.purchaseUpdateSubscription = {};
+    this.purchaseErrorSubscription = {};
     this.renderItem = this.renderItem.bind(this);
     this.startFetching = this.startFetching.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
@@ -93,9 +95,14 @@ class AvailableNumberList extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.purchaseUpdateSubscription.remove();
+    this.purchaseErrorSubscription.remove();
+  }
+
   async fetch() {
-    const { latitude, longitude } = await requestLocation();
     this.startFetching();
+    const { latitude, longitude } = await requestLocation();
     try {
       const response = await getAvailableNumbers({ latitude, longitude });
       const statusCode = response.status;

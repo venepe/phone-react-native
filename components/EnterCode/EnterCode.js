@@ -23,7 +23,8 @@ class EnterCode extends Component {
 
   constructor(props) {
     super(props);
-    console.log('go');
+    this.purchaseUpdateSubscription = {};
+    this.purchaseErrorSubscription = {};
     this.handleBarCodeScanned = this.handleBarCodeScanned.bind(this);
     this.onAccept = this.onAccept.bind(this);
     this.state = {
@@ -80,6 +81,11 @@ class EnterCode extends Component {
         token: props.token,
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.purchaseUpdateSubscription.remove();
+    this.purchaseErrorSubscription.remove();
   }
 
   async handleBarCodeScanned({ data: invitation }) {

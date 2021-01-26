@@ -21,6 +21,7 @@
       "bundleIdentifier": "com.venepe.phone",
       "buildNumber": "1.0.0",
       "infoPlist": {
+        "NSContactsUsageDescription": "Bubblepop needs access to access your contacts to display contact information.  Otherwise you'll just see a number.",
         "NSCameraUsageDescription": "Bubblepop needs access to your camera to read the join code.",
         "NSLocationUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
         "NSLocationWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
@@ -34,7 +35,7 @@
       },
       "package": "com.venepe.phone",
       "versionCode": 1,
-      "permissions": ["CAMERA", "LOCATION"]
+      "permissions": ["CAMERA", "ACCESS_COARSE_LOCATION", "CONTACTS"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

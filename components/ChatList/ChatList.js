@@ -3,18 +3,22 @@ import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   FlatList,
+  PermissionsAndroid,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import Contacts from 'react-native-contacts';
 import { connect } from 'react-redux';
 import Blank from '../Blank';
 import ChatItem from './ChatItem';
 import Empty from './Empty';
 import { getMessages } from '../../fetches';
 import { getToken, getPhoneNumber } from '../../reducers';
+import PermissionStatus from '../../constants/PermissionStatus';
+import { getFormattedNumber } from '../../utilities/phone';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -25,6 +29,7 @@ class ChatList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.fetch = this.fetch.bind(this);
+    this.formatMessages = this.formatMessages.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
     this.state = {
       isFetching: false,
@@ -43,6 +48,7 @@ class ChatList extends Component {
       if (response.status === 200) {
         let { messages } = data;
         console.log(messages);
+        messages = await this.formatMessages(messages);
         this.setState({
           messages,
         });
@@ -93,6 +99,35 @@ class ChatList extends Component {
     return (
       <ChatItem chatItem={item} navigation={navigation}/>
     )
+  }
+
+  async formatMessages(messages) {
+    console.log('asdf');
+    try {
+      // await PermissionsAndroid.request(
+      //   PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      //   {
+      //     'title': 'Contacts',
+      //     'message': 'This app would like to view your contacts.',
+      //     'buttonPositive': 'Please accept bare mortal'
+      //   }
+      // );
+
+      await Promise.all(messages.map(async ({ from }, index) => {
+        let contacts = await Contacts.getContactsByPhoneNumber(from);
+        if (contacts && contacts.length > 0) {
+          let { givenName, familyName } = contacts[0];
+          let name = `${givenName} ${familyName}`;
+          messages[index].from = name;
+        } else {
+          messages[index].from = getFormattedNumber(from);
+        }
+      }));
+
+    } catch (e) {
+
+    }
+    return messages;
   }
 
   render() {

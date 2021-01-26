@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import LandingCarousel from './LandingCarousel';
 import { storeAndSetPhoneNumber} from '../../actions';
 import { login } from '../../utilities/auth';
 import { postUser, getAccounts } from '../../fetches';

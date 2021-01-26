@@ -58,6 +58,7 @@ buck-out/
 \.buckd/
 *.keystore
 !debug.keystore
+android/java_pid*.hprof
 
 # fastlane
 #

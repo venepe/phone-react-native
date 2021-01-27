@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -32,15 +33,25 @@ class Landing extends Component {
   render() {
 
     return (
-      <View style={styles.root}>
-        <View style={styles.iconContainer}>
-          <View style={styles.subContainer}>
-            <Text style={styles.primaryText}>{R.strings.LABEL_APP_SLOGAN}</Text>
+      <SafeAreaView style={styles.root}>
+        <View style={styles.topContainer}>
+          <View style={styles.imageContainer}>
+            <Image
+              style={[styles.image, { alignSelf: 'flex-end' }]}
+              source={require('../../assets/together.png')}
+            />
+          </View>
+          <Text style={styles.primaryText}>{R.strings.LABEL_LANDING_TWO}</Text>
+          <View style={styles.imageContainer}>
+            <Image
+              style={[styles.image, { alignSelf: 'flex-start' }]}
+              source={require('../../assets/running.png')}
+            />
           </View>
         </View>
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
+        <View style={{flex: .25, flexDirection: 'row', alignItems: 'flex-end'}}>
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={[styles.loginButtonContainer, { backgroundColor: '#F50057' }]} onPress={this.onJoinLine}>
+            <TouchableOpacity style={[styles.loginButtonContainer, { backgroundColor: '#B388FF' }]} onPress={this.onJoinLine}>
               <Text style={styles.loginText}>{R.strings.LABEL_JOIN_LINE}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onCreateLine}>
@@ -48,7 +59,7 @@ class Landing extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -56,41 +67,36 @@ class Landing extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#18ffff',
+    backgroundColor: '#40C4FF',
   },
-  subContainer: {
+  topContainer: {
     flex: 1,
-    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    fontWeight: 'bold',
   },
-  emojiText: {
-    height: 120,
-    fontSize: 92,
+  imageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  image: {
+    height: 200,
+    margin: 20,
   },
   primaryText: {
-    height: 32,
     fontSize: 24,
     color: '#424242',
     fontWeight: 'bold',
     flexWrap:'wrap',
-  },
-  secondaryText: {
-    height: 26,
-    fontSize: 12,
-    color: '#424242',
-  },
-  iconContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    fontWeight: 'bold',
+    alignSelf: 'center',
   },
   actionContainer: {
     flex: 1,
   },
   loginButtonContainer: {
-    flex: .25,
+    height: 100,
     flexDirection: 'row',
-    backgroundColor: '#FFFF00',
+    backgroundColor: '#FFF59D',
     alignItems: 'center',
     justifyContent: 'center',
   },

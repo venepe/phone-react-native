@@ -22,8 +22,6 @@ class Empty extends Component {
       <View style={styles.root}>
         <View style={styles.iconContainer}>
           <View style={styles.localContainer}>
-            <MaterialIcons name="phone" size={100} color={R.colors.TEXT_MAIN} />
-            <Text style={styles.primaryText}>{R.strings.LABEL_AVAILABLE_NUMBER_EMPTY_PRIMARY}</Text>
           </View>
         </View>
       </View>

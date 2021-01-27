@@ -63,7 +63,7 @@ class AvailableNumberItem extends Component {
             </View>
           </View>
           <View style={styles.dateContainer}>
-            <MaterialIcons name='message' size={30} color={R.colors.TEXT_MAIN} />
+            
           </View>
         </View>
       </TouchableOpacity>

@@ -58,7 +58,7 @@ class DrawerContent extends Component {
                 icon={({ color, size }) => (
                   <MaterialIcons name="people" color={R.colors.TEXT_MAIN} size={size} />
                 )}
-                label={'Us'}
+                label={R.strings.TITLE_MEMBERS}
                 onPress={() => navigation.navigate('Members')}
                 />
               <DrawerItem
@@ -66,15 +66,15 @@ class DrawerContent extends Component {
                 icon={({ color, size }) => (
                   <MaterialIcons name="person-add" color={R.colors.TEXT_MAIN} size={size} />
                 )}
-                label={'Invite'}
+                label={R.strings.TITLE_SHARE_CODE}
                 onPress={() => navigation.navigate('ShareCode')}
                 />
               <DrawerItem
                 {...this.props}
                 icon={({ color, size }) => (
-                  <MaterialCommunityIcons name="shopping" color={R.colors.TEXT_MAIN} size={size} />
+                  <MaterialIcons name="settings" color={R.colors.TEXT_MAIN} size={size} />
                 )}
-                label={'Manage'}
+                label={R.strings.TITLE_MANAGE_SUBSCRIPTION}
                 onPress={() => manageSubscription()}
                 />
               <LogoutButton {...this.props}/>

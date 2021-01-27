@@ -58,6 +58,7 @@ function LandingStackScreen() {
         component={LandingTwo}
         options={() => ({
           title: R.strings.TITLE_LANDING_TWO,
+          headerShown: false,
         })}
       />
       <LandingStack.Screen
@@ -75,7 +76,15 @@ function HomeTabs() {
   return (
     <HomeTab.Navigator
       tabBarOptions={{
-        style: { backgroundColor: R.colors.TEXT_MAIN },
+        style: {
+          backgroundColor: R.colors.BACKGROUND_DARK,
+        },
+        indicatorStyle: {
+          backgroundColor: R.colors.TEXT_MAIN,
+        },
+        labelStyle: {
+          color: R.colors.TEXT_MAIN,
+        }
       }}
     >
       <HomeTab.Screen name={R.strings.TITLE_CHATS} component={ChatList} />

@@ -47,7 +47,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Bubblepop needs access to your camera to read the join code.</string>
+	<string>Bubblepop needs access to your camera to read your invitation.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Bubblepop needs access to access your contacts to display contact information.  Otherwise you'll just see a number.</string>
 	<key>NSMicrophoneUsageDescription</key>

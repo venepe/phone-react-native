@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import LandingCarousel from './LandingCarousel';
 import { storeAndSetPhoneNumber} from '../../actions';
 import { login } from '../../utilities/auth';
 import { postUser, getAccounts } from '../../fetches';
@@ -51,18 +51,30 @@ class Landing extends Component {
   render() {
 
     return (
-      <View style={styles.root}>
+      <SafeAreaView style={styles.root}>
         <View style={styles.topContainer}>
+          <View style={styles.imageContainer}>
+            <Image
+              style={[styles.image, { alignSelf: 'flex-end' }]}
+              source={require('../../assets/couple_two.png')}
+            />
+          </View>
           <Text style={styles.primaryText}>{R.strings.LABEL_APP_SLOGAN}</Text>
+          <View style={styles.imageContainer}>
+            <Image
+              style={[styles.image, { alignSelf: 'flex-start' }]}
+              source={require('../../assets/couple_one.png')}
+            />
+          </View>
         </View>
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
+        <View>
           <View style={styles.actionContainer}>
             <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onLogin}>
               <Text style={styles.loginText}>{R.strings.LABEL_GETTING_STARTED}</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -70,28 +82,35 @@ class Landing extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#18ffff',
+    backgroundColor: '#40C4FF',
   },
   topContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     fontWeight: 'bold',
+  },
+  imageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  image: {
+    height: 200,
+    margin: 20,
   },
   primaryText: {
     fontSize: 24,
     color: '#424242',
     fontWeight: 'bold',
     flexWrap:'wrap',
+    alignSelf: 'center',
   },
   actionContainer: {
-    flex: 1,
+    height: 100,
   },
   loginButtonContainer: {
-    flex: .25,
-    flexDirection: 'row',
-    backgroundColor: '#FFFF00',
+    height: 100,
+    backgroundColor: '#FFF59D',
     alignItems: 'center',
     justifyContent: 'center',
   },

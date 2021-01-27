@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import Modal from 'react-native-modal';
 import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
 import R from '../../resources';
+const PRICE = '2.99';
 
 class SubscriptionModal extends Component {
 
@@ -22,11 +24,15 @@ class SubscriptionModal extends Component {
       isVisible: props.isVisible,
       phoneNumber: props.phoneNumber,
       code: props.code,
+      storeName: Platform.select({
+        ios: 'App Store',
+        android: 'Google Play Store',
+      }),
+      accountName: Platform.select({
+        ios: 'iTunes',
+        android: 'Google Play',
+      }),
     };
-  }
-
-  async componentDidMount() {
-
   }
 
   componentDidUpdate(prevProps) {
@@ -52,7 +58,7 @@ class SubscriptionModal extends Component {
   }
 
   render() {
-    const { isVisible, phoneNumber } = this.state;
+    const { isVisible, phoneNumber, storeName, accountName } = this.state;
     return (
       <Modal isVisible={isVisible} coverScreen={false}>
         <ScrollView style={styles.root}>
@@ -67,14 +73,14 @@ class SubscriptionModal extends Component {
               <Text style={styles.titleText}>{getFormattedNumber(phoneNumber)}</Text>
             </View>
             <View style={styles.bodyContainer}>
-              <Text style={styles.bodyText}>{`Auto-renewable subscriptions are available from the App Store for $0.99.`}</Text>
-              <Text style={styles.bodyText}>{`Payment will be charged to your iTunes account at confirmation of purchase and will automatically renew (at the duration/price selected) unless auto-renew is turned off at least 24 hrs before the end of the current period.`}</Text>
+              <Text style={styles.bodyText}>{`Auto-renewable subscriptions are available from the ${storeName} for $${PRICE}.`}</Text>
+              <Text style={styles.bodyText}>{`Payment will be charged to your ${accountName} account at confirmation of purchase and will automatically renew (at the duration/price selected) unless auto-renew is turned off at least 24 hrs before the end of the current period.`}</Text>
               <Text style={styles.bodyText}>{`Account will be charged for renewal within 24-hours prior to the end of the current period.`}</Text>
-              <Text style={styles.bodyText}>{`Current subscription may not be cancelled during the active subscription period; however, you can manage your subscription and/or turn off auto-renewal by visiting your iTunes Account Settings after purchase.`}</Text>
+              <Text style={styles.bodyText}>{`Current subscription may not be cancelled during the active subscription period; however, you can manage your subscription and/or turn off auto-renewal by visiting your ${accountName} Account Settings after purchase.`}</Text>
               <Text style={styles.bodyText}>{`Please select one of the auto-renewable subscriptions below.`}</Text>
             </View>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={this.onAccept}>
-              <Text style={styles.bodyText}>{`$0.99/month`}</Text>
+              <Text style={styles.bodyText}>{`$${PRICE}/month`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButtonContainer} onPress={this.handleClose}>
               <Text style={styles.bodyText}>{`Cancel`}</Text>

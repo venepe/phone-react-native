@@ -12,7 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
 import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
-import SubscriptionModal from './SubscriptionModal';
+import SubscriptionModal from '../SubscriptionModal';
 import PermissionStatus from '../../constants/PermissionStatus';
 import { storeAndSetPhoneNumber} from '../../actions';
 import { getInvitation, postInvitationVerify, postOwners } from '../../fetches';

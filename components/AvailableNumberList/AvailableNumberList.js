@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   FlatList,
+  RefreshControl,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,7 +15,7 @@ import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, pu
 import Blank from '../Blank';
 import AvailableNumberItem from './AvailableNumberItem';
 import Empty from './Empty';
-import SubscriptionModal from './SubscriptionModal';
+import SubscriptionModal from '../SubscriptionModal';
 import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
 import { storeAndSetPhoneNumber} from '../../actions';
@@ -39,7 +40,6 @@ class AvailableNumberList extends Component {
       location: props.location,
       token: props.token,
       userId: props.userId,
-      didLoadLocation: false,
       location: {
         latitude: null,
         longitude: null,
@@ -102,8 +102,8 @@ class AvailableNumberList extends Component {
 
   async fetch() {
     this.startFetching();
-    const { latitude, longitude } = await requestLocation();
     try {
+      const { latitude, longitude } = await requestLocation();
       const response = await getAvailableNumbers({ latitude, longitude });
       const statusCode = response.status;
       const data = await response.json();
@@ -112,7 +112,6 @@ class AvailableNumberList extends Component {
         this.setState({
           location: { latitude, longitude },
           phoneNumbers,
-          didLoadLocation: true,
         });
       }
     } catch (e) {
@@ -151,11 +150,8 @@ class AvailableNumberList extends Component {
   }
 
   render() {
-    const { isFetching, location, userId, phoneNumbers, didLoadLocation, phoneNumber, isSubscriptionModalVisible } = this.state;
+    const { isFetching, location, userId, phoneNumbers, phoneNumber, isSubscriptionModalVisible } = this.state;
     const { latitude, longitude } = location;
-    if (!didLoadLocation) {
-      return (<Blank/>);
-    }
     return (
       <View style={styles.root}>
         <View style={styles.container}>
@@ -163,8 +159,8 @@ class AvailableNumberList extends Component {
             data={phoneNumbers}
             keyExtractor={(node) => node.nodeId}
             renderItem={this.renderItem}
-            onRefresh={() => this.fetch()}
-            refreshing={isFetching}
+            refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN} colors={[R.colors.TEXT_MAIN]}
+              refreshing={isFetching} onRefresh={() => this.onRefresh()} />)}
             ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
             ListFooterComponent={() => {
               return (<View></View>)

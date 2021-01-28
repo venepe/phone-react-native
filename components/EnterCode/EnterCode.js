@@ -99,28 +99,19 @@ class EnterCode extends Component {
     });
     try {
       const { token } = this.state;
-      response = await postInvitationVerify({ token, invitation });
-      const statusCode = response.status;
-      const data = await response.json();
-      if (response.status === 200) {
-        let { verify } = data;
-        if (verify && verify.isValid) {
-          let [ base64Message, base64Signature ] = invitation.split('.');
-          const message = Base64.decode(base64Message);
-          const payload = JSON.parse(message);
-          const { phoneNumber } = payload;
-          console.log(payload);
-          this.setState({
-            invitation,
-            phoneNumber,
-            isSubscriptionModalVisible: true,
-          });
-        } else {
-          this.setState({
-            didScan: false,
-            errorMessage: 'Invalid code.',
-          });
-        }
+      let data = await postInvitationVerify({ token, invitation });
+      let { verify } = data;
+      if (verify && verify.isValid) {
+        let [ base64Message, base64Signature ] = invitation.split('.');
+        const message = Base64.decode(base64Message);
+        const payload = JSON.parse(message);
+        const { phoneNumber } = payload;
+        console.log(payload);
+        this.setState({
+          invitation,
+          phoneNumber,
+          isSubscriptionModalVisible: true,
+        });
       } else {
         this.setState({
           didScan: false,

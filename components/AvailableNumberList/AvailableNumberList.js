@@ -108,16 +108,12 @@ class AvailableNumberList extends Component {
     this.startFetching();
     try {
       const { latitude, longitude } = await requestLocation();
-      const response = await getAvailableNumbers({ latitude, longitude });
-      const statusCode = response.status;
-      const data = await response.json();
-      if (response.status === 200) {
-        let { phoneNumbers } = data;
-        this.setState({
-          location: { latitude, longitude },
-          phoneNumbers,
-        });
-      }
+      const data = await getAvailableNumbers({ latitude, longitude });
+      let { phoneNumbers } = data;
+      this.setState({
+        location: { latitude, longitude },
+        phoneNumbers,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -164,7 +160,7 @@ class AvailableNumberList extends Component {
             keyExtractor={(node) => node.nodeId}
             renderItem={this.renderItem}
             refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN} colors={[R.colors.TEXT_MAIN]}
-              refreshing={isFetching} onRefresh={() => this.onRefresh()} />)}
+              refreshing={isFetching} onRefresh={() => this.fetch()} />)}
             ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
             ListFooterComponent={() => {
               return (<View></View>)

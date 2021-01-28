@@ -28,18 +28,12 @@ class Landing extends Component {
       const { accessToken: token } = credentials;
       console.log(token);
       await postUser({ token });
-      const response = await getAccounts({ token });
-      const statusCode = response.status;
-      const data = await response.json();
-      if (response.status === 200) {
-        let { accounts } = data;
-        if (accounts && accounts.length > 0) {
-          const account = accounts[0];
-          const { phoneNumber } = account;
-          this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
-        } else {
-          this.props.navigation.replace('LandingTwo');
-        }
+      const data = await getAccounts({ token });
+      let { accounts } = data;
+      if (accounts && accounts.length > 0) {
+        const account = accounts[0];
+        const { phoneNumber } = account;
+        this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
       } else {
         this.props.navigation.replace('LandingTwo');
       }

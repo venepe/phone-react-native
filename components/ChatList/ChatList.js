@@ -44,18 +44,12 @@ class ChatList extends Component {
   async fetch() {
     try {
       const { token, phoneNumber } = this.state;
-      const response = await getMessages({ token, phoneNumber });
-      const statusCode = response.status;
-      const data = await response.json();
-      if (response.status === 200) {
-        let { messages } = data;
-        messages = await this.formatMessages(messages);
-        this.setState({
-          messages,
-        });
-      } else {
-
-      }
+      const data = await getMessages({ token, phoneNumber });
+      let { messages } = data;
+      messages = await this.formatMessages(messages);
+      this.setState({
+        messages,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -129,7 +123,7 @@ class ChatList extends Component {
           data={messages}
           keyExtractor={(message) => message.sid}
           renderItem={this.renderItem}
-          refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN} colors={[R.colors.TEXT_MAIN]} 
+          refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN} colors={[R.colors.TEXT_MAIN]}
             refreshing={isFetching} onRefresh={() => this.onRefresh()} />)}
           ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
           ListFooterComponent={() => {

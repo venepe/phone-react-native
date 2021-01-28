@@ -84,7 +84,7 @@ class SubscriptionModal extends Component {
             </View>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={this.onAccept}>
               <Text style={styles.btnPrimaryText}>{`$${PRICE}/month`}</Text>
-              <Text style={styles.btnSecondaryText}>{`Unlimited incoming messages`}</Text>
+              <Text style={styles.btnSecondaryText}>{`Includes number and incoming messages`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButtonContainer} onPress={this.handleClose}>
               <Text style={styles.bodyText}>{`Cancel`}</Text>

@@ -1,4 +1,6 @@
+import { Alert } from 'react-native';
 import { API_URL } from '../config';
+import R from '../resources';
 
 const handleResponse = async (response) => {
   const statusCode = response.status;
@@ -9,6 +11,16 @@ const handleResponse = async (response) => {
       } else {
         throw new Error(res.status);
       }
+    })
+    .catch((e) => {
+      Alert.alert(
+        R.strings.ERROR_REQUEST_TITLE,
+        R.strings.ERROR_REQUEST_MESSAGE,
+        [
+          { text: R.strings.LABEL_OKAY },
+        ],
+        { cancelable: true }
+      );
     });
 }
 
@@ -21,6 +33,7 @@ export const postUser = ({ token }) => {
       Authorization: `Bearer ${token}`,
     },
   })
+  .then(handleResponse)
 };
 
 export const getAvailableNumbers = ({ latitude, longitude }) => {
@@ -31,6 +44,7 @@ export const getAvailableNumbers = ({ latitude, longitude }) => {
       'Content-Type': 'application/json',
     },
   })
+  .then(handleResponse)
 };
 
 export const getAccounts = ({ token }) => {
@@ -42,6 +56,7 @@ export const getAccounts = ({ token }) => {
       Authorization: `Bearer ${token}`,
     },
   })
+  .then(handleResponse)
 };
 
 export const postAccounts = ({ token, phoneNumber, receipt }) => {
@@ -75,6 +90,7 @@ export const postInvitationVerify = ({ token, invitation }) => {
       },
     }),
   })
+  .then(handleResponse)
 };
 
 export const getOwners = ({ token, phoneNumber }) => {
@@ -86,6 +102,7 @@ export const getOwners = ({ token, phoneNumber }) => {
       Authorization: `Bearer ${token}`,
     },
   })
+  .then(handleResponse)
 };
 
 export const postOwners = ({ token, phoneNumber, invitation, receipt }) => {
@@ -114,17 +131,7 @@ export const getMessages = ({ token, phoneNumber }) => {
       Authorization: `Bearer ${token}`,
     },
   })
-};
-
-export const getCalls = ({ token, phoneNumber }) => {
-  return fetch(`${API_URL}/accounts/${phoneNumber}/calls`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  .then(handleResponse)
 };
 
 export const postPublicKey = ({ token, publicKey }) => {

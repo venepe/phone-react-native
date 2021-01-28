@@ -37,18 +37,12 @@ class MemberList extends Component {
   async fetch() {
     try {
       const { token, phoneNumber } = this.state;
-      const response = await getOwners({ token, phoneNumber });
-      const statusCode = response.status;
-      const data = await response.json();
-      if (response.status === 200) {
-        let { owners } = data;
-        console.log(owners);
-        this.setState({
-          owners,
-        });
-      } else {
-
-      }
+      const data = await getOwners({ token, phoneNumber });
+      let { owners } = data;
+      console.log(owners);
+      this.setState({
+        owners,
+      });
     } catch (e) {
       console.log(e);
     }

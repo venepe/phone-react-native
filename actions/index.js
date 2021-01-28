@@ -1,7 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import Keys from '../constants/Keys';
 import UserTypes from '../constants/UserTypes';
-import { getApolloClient } from '../apolloClient';
 import { getStore } from '../store';
 import analytics, { EVENTS } from '../analytics';
 import { deletePrivateKey } from '../utilities/rsa';
@@ -25,7 +24,6 @@ export const logout = () =>
     dispatch(storeAndSetUserId({ payload: { userId: '' } }));
     dispatch(storeAndSetToken({ payload: { token: '' } }));
     dispatch(storeAndSetPhoneNumber({ payload: { phoneNumber: '' } }));
-    getApolloClient().resetStore();
     deletePrivateKey();
     analytics.reset();
   };

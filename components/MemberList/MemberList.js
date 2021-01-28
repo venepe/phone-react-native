@@ -90,18 +90,20 @@ class MemberList extends Component {
   render() {
     const { isFetching, owners } = this.state;
     return (
-      <FlatList
-        data={owners}
-        keyExtractor={(owner) => owner.sid}
-        renderItem={this.renderItem}
-        onRefresh={() => this.onRefresh()}
-        refreshing={isFetching}
-        ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
-        ListFooterComponent={() => {
-          return (<View></View>)
+      <View style={styles.root}>
+        <FlatList
+          data={owners}
+          keyExtractor={(owner) => owner.sid}
+          renderItem={this.renderItem}
+          onRefresh={() => this.onRefresh()}
+          refreshing={isFetching}
+          ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
+          ListFooterComponent={() => {
+            return (<View></View>)
+          }
         }
-      }
-      />
+        />
+      </View>
     )
   }
 }
@@ -109,8 +111,7 @@ class MemberList extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    alignSelf: 'stretch',
-    backgroundColor: R.colors.BACKGROUND_MAIN,
+    backgroundColor: R.colors.BACKGROUND_DARK,
   },
   container: {
     flex: 1,

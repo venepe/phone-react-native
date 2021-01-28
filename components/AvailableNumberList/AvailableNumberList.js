@@ -63,8 +63,12 @@ class AvailableNumberList extends Component {
         const statusCode = response.status;
         const data = await response.json();
         if (response.status === 200) {
-          await RNIap.finishTransaction(purchase, true);
-          this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+          try {
+            await RNIap.finishTransaction(purchase, true);
+            this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+          } catch (e) {
+            this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+          }
         } else {
           this.setState({
             errorMessage: 'Failed up load. Try again.',
@@ -134,9 +138,9 @@ class AvailableNumberList extends Component {
 
   async onAccept() {
     try {
-      const subscriptions = await getSubscriptions(['1MONTH']);
+      const subscriptions = await getSubscriptions(['1month']);
       console.log(subscriptions);
-      requestSubscription('1MONTH');
+      requestSubscription('1month');
     } catch (e) {
       console.log(e);
     }

@@ -1,4 +1,4 @@
-rootProject.name = 'Bubblepop'
+rootProject.name = 'Promise'
 
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'
 includeUnimodulesProjects()

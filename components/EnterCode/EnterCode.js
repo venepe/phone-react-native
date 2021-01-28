@@ -56,8 +56,12 @@ class EnterCode extends Component {
         const statusCode = response.status;
         const data = await response.json();
         if (response.status === 200) {
-          await RNIap.finishTransaction(purchase, true);
-          this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+          try {
+            await RNIap.finishTransaction(purchase, true);
+            this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+          } catch (e) {
+            this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+          }
         } else {
           this.setState({
             errorMessage: 'Failed up load. Try again.',

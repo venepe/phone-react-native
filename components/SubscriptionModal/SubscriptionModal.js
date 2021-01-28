@@ -11,7 +11,7 @@ import Modal from 'react-native-modal';
 import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
 import R from '../../resources';
-const PRICE = '2.99';
+const PRICE = '5.99';
 
 class SubscriptionModal extends Component {
 
@@ -79,8 +79,12 @@ class SubscriptionModal extends Component {
               <Text style={styles.bodyText}>{`Current subscription may not be cancelled during the active subscription period; however, you can manage your subscription and/or turn off auto-renewal by visiting your ${accountName} Account Settings after purchase.`}</Text>
               <Text style={styles.bodyText}>{`Please select one of the auto-renewable subscriptions below.`}</Text>
             </View>
+            <View style={styles.freeTrialContainer}>
+              <Text style={styles.freeTrialText}>{`Start with a 1 month free trial.`}</Text>
+            </View>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={this.onAccept}>
-              <Text style={styles.bodyText}>{`$${PRICE}/month`}</Text>
+              <Text style={styles.btnPrimaryText}>{`$${PRICE}/month`}</Text>
+              <Text style={styles.btnSecondaryText}>{`Unlimited incoming messages`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButtonContainer} onPress={this.handleClose}>
               <Text style={styles.bodyText}>{`Cancel`}</Text>
@@ -125,6 +129,28 @@ const styles = StyleSheet.create({
     color: `${R.colors.TEXT_MAIN}`,
     fontSize: 18,
     fontWeight: 'bold',
+    flexWrap:'wrap',
+    padding: 5,
+  },
+  btnPrimaryText: {
+    color: `${R.colors.TEXT_MAIN}`,
+    fontSize: 18,
+    fontWeight: 'bold',
+    flexWrap:'wrap',
+  },
+  btnSecondaryText: {
+    color: `${R.colors.TEXT_MAIN}`,
+    fontSize: 14,
+    fontWeight: '400',
+    flexWrap:'wrap',
+  },
+  freeTrialContainer: {
+    alignItems: 'center',
+  },
+  freeTrialText: {
+    color: `${R.colors.TEXT_MAIN}`,
+    fontSize: 18,
+    fontWeight: '500',
     flexWrap:'wrap',
     padding: 5,
   },

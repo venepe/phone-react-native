@@ -60,7 +60,7 @@ class ChatItem extends Component {
               </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.dateContainer} onPress={() => this.onPress(from)}>
+          <TouchableOpacity style={styles.rightContainer} onPress={() => this.onPress(from)}>
             <MaterialIcons name='message' size={30} color={R.colors.TEXT_MAIN} />
           </TouchableOpacity>
         </View>
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '200',
   },
-  dateContainer: {
-    flex: 1,
+  rightContainer: {
+    flex: .3,
     alignItems: 'flex-end',
     marginRight: 5,
   },
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'flex-start',
     marginLeft: 5,
+    marginTop: 2,
   },
   bodyTextContainer: {
     marginBottom: 10,

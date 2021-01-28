@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Bubblepop",
-    "slug": "Bubblepop",
+    "name": "Promise",
+    "slug": "Promise",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,11 +21,12 @@
       "bundleIdentifier": "com.venepe.phone",
       "buildNumber": "1.0.0",
       "infoPlist": {
-        "NSContactsUsageDescription": "Bubblepop needs access to access your contacts to display contact information.  Otherwise you'll just see a number.",
-        "NSCameraUsageDescription": "Bubblepop needs access to your camera to read the join code.",
-        "NSLocationUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
-        "NSLocationWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers."
+        "NSContactsUsageDescription": "Promise needs access to your contacts to display contact information. Otherwise you'll just see a number.",
+        "NSCameraUsageDescription": "Promise needs access to your camera to read the join code.",
+        "NSMicrophoneUsageDescription": "Promise needs access to your camera to read the join code.",
+        "NSLocationUsageDescription": "Promise needs access to your location to find local phone numbers.",
+        "NSLocationWhenInUseUsageDescription": "Promise needs access to your location to find local phone numbers.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Promise needs access to your location to find local phone numbers."
       }
     },
     "android": {

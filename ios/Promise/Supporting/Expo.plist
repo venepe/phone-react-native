@@ -5,7 +5,7 @@
     <key>EXUpdatesSDKVersion</key>
     <string>40.0.0</string>
     <key>EXUpdatesURL</key>
-    <string>https://exp.host/@venepe/Bubblepop</string>
+    <string>https://exp.host/@venepe/Promise</string>
     <key>EXUpdatesEnabled</key>
     <true/>
     <key>EXUpdatesCheckOnLaunch</key>

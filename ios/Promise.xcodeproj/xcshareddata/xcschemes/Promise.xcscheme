@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "phone.app"
-               BlueprintName = "Bubblepop"
-               ReferencedContainer = "container:Bubblepop.xcodeproj">
+               BlueprintName = "Promise"
+               ReferencedContainer = "container:Promise.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "BubblepopTests.xctest"
-               BlueprintName = "BubblepopTests"
-               ReferencedContainer = "container:Bubblepop.xcodeproj">
+               BuildableName = "PromiseTests.xctest"
+               BlueprintName = "PromiseTests"
+               ReferencedContainer = "container:Promise.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,8 +56,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "phone.app"
-            BlueprintName = "Bubblepop"
-            ReferencedContainer = "container:Bubblepop.xcodeproj">
+            BlueprintName = "Promise"
+            ReferencedContainer = "container:Promise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -73,8 +73,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "phone.app"
-            BlueprintName = "Bubblepop"
-            ReferencedContainer = "container:Bubblepop.xcodeproj">
+            BlueprintName = "Promise"
+            ReferencedContainer = "container:Promise.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

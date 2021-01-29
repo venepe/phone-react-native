@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { copyPhoneNumber } from '../../utilities/copy';
 const SCREEN_HEIGHT = Dimensions.get('window').height - 70;
 import R from '../../resources';
 
@@ -21,11 +22,11 @@ class Empty extends Component {
     return (
       <View style={styles.root}>
         <View style={styles.iconContainer}>
-          <View style={styles.localContainer}>
+          <TouchableOpacity onLongPress={() => copyPhoneNumber()} style={styles.localContainer}>
             <MaterialCommunityIcons name="comment-processing-outline" size={100} color={R.colors.TEXT_MAIN} />
             <Text style={styles.primaryText}>{R.strings.LABEL_CHAT_EMPTY_PRIMARY}</Text>
             <Text style={styles.secondaryText}>{R.strings.LABEL_CHAT_EMPTY_SECONDARY}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );

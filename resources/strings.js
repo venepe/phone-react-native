@@ -24,5 +24,6 @@ export default {
   LABEL_CREATE_LINE: 'Create New Number',
   LABEL_CANCEL: 'Cancel',
   LABEL_CHAT_EMPTY_PRIMARY: 'Looks quiet',
+  LABEL_CHAT_EMPTY_SECONDARY: 'Hold to copy your number',
   LABEL_AVAILABLE_NUMBER_EMPTY_PRIMARY: '',
 };

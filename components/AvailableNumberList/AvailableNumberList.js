@@ -50,6 +50,7 @@ class AvailableNumberList extends Component {
   }
 
   async componentDidMount() {
+    console.log('componentDidMount');
     await initConnection();
     this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
       console.log('purchaseUpdatedListener', purchase);
@@ -106,8 +107,10 @@ class AvailableNumberList extends Component {
 
   async fetch() {
     this.startFetching();
+    console.log('fetch');
     try {
       const { latitude, longitude } = await requestLocation();
+      console.log('latitude', longitude);
       const data = await getAvailableNumbers({ latitude, longitude });
       let { phoneNumbers } = data;
       this.setState({

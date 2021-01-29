@@ -9,4 +9,5 @@ export default {
   GREY_BACKGROUND: 'rgba(0, 0, 0, 0.4)',
   YES: '#00E676',
   NO: '#FF1744',
+  SUCCESS: '#00E676',
 };

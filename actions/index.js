@@ -3,6 +3,7 @@ import Keys from '../constants/Keys';
 import UserTypes from '../constants/UserTypes';
 import { getStore } from '../store';
 import analytics, { EVENTS } from '../analytics';
+import { refreshToken } from '../utilities/auth';
 import { deletePrivateKey } from '../utilities/rsa';
 import R from '../resources';
 
@@ -16,6 +17,9 @@ export const initializeApplication = () =>
     dispatch(setPhoneNumber({ payload: { phoneNumber } }));
     if (userId) {
       analytics.identify(userId);
+    }
+    if (token) {
+      refreshToken();
     }
   };
 

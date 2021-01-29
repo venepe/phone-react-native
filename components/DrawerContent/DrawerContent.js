@@ -15,6 +15,7 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import LogoutButton from './LogoutButton';
 import { getFormattedNumber } from '../../utilities/phone';
 import { manageSubscription } from '../../utilities/subscriptions';
+import { copyPhoneNumber } from '../../utilities/copy';
 import { getUserId, getPhoneNumber } from '../../reducers';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
@@ -50,7 +51,9 @@ class DrawerContent extends Component {
       <DrawerContentScrollView {...this.props}>
           <View style={styles.root}>
             <View style={styles.drawerContent}>
-              <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <TouchableOpacity
+                onLongPress={() => copyPhoneNumber()}
+                onPress={() => navigation.navigate('Home')}>
                 <Text style={styles.title}>{getFormattedNumber(phoneNumber)}</Text>
               </TouchableOpacity>
               <DrawerItem

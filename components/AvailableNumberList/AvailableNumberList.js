@@ -53,7 +53,6 @@ class AvailableNumberList extends Component {
     console.log('componentDidMount');
     await initConnection();
     this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
-      console.log('purchaseUpdatedListener', purchase);
       const { phoneNumber, token } = this.state;
       const { productId, transactionId, transactionReceipt } = purchase;
       if (transactionReceipt && phoneNumber.length > 0) {
@@ -107,10 +106,8 @@ class AvailableNumberList extends Component {
 
   async fetch() {
     this.startFetching();
-    console.log('fetch');
     try {
       const { latitude, longitude } = await requestLocation();
-      console.log('latitude', longitude);
       const data = await getAvailableNumbers({ latitude, longitude });
       let { phoneNumbers } = data;
       this.setState({

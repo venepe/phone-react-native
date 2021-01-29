@@ -31,7 +31,6 @@ class Landing extends Component {
     try {
       const credentials = await login();
       const { accessToken: token } = credentials;
-      console.log(token);
       await postUser({ token });
       const data = await getAccounts({ token });
       let { accounts } = data;

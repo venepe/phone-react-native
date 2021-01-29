@@ -182,7 +182,7 @@ class App extends Component {
 
   handleAppStateChange(nextAppState) {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('here');
+
     }
     this.setState({ appState: nextAppState });
   }

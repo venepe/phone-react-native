@@ -45,7 +45,6 @@ class EnterCode extends Component {
     }
     await initConnection();
     this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
-      console.log('purchaseUpdatedListener', purchase);
       const { productId, transactionId, transactionReceipt } = purchase;
       const { phoneNumber, token, invitation } = this.state;
       if (transactionReceipt) {

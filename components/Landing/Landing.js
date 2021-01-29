@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  ActivityIndicator,
   Image,
   SafeAreaView,
   StyleSheet,
@@ -20,9 +21,13 @@ class Landing extends Component {
   constructor(props) {
     super(props);
     this.onLogin = this.onLogin.bind(this);
+    this.state = {
+      isLoading: false,
+    };
   }
 
   async onLogin() {
+    this.setState({ isLoading: true });
     try {
       const credentials = await login();
       const { accessToken: token } = credentials;
@@ -38,12 +43,13 @@ class Landing extends Component {
         this.props.navigation.replace('LandingTwo');
       }
     } catch (e) {
+      this.setState({ isLoading: false });
       console.log(e);
     }
   }
 
   render() {
-
+    const { isLoading } = this.state;
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.topContainer}>
@@ -63,8 +69,14 @@ class Landing extends Component {
         </View>
         <View>
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onLogin}>
-              <Text style={styles.loginText}>{R.strings.LABEL_GETTING_STARTED}</Text>
+            <TouchableOpacity style={styles.loginButtonContainer} disabled={isLoading} onPress={this.onLogin} isd>
+              {
+                isLoading ? (
+                  <ActivityIndicator style={styles.spinner} size='large' color={R.colors.BACKGROUND_MAIN} />
+                ) : (
+                  <Text style={styles.loginText}>{R.strings.LABEL_GETTING_STARTED}</Text>
+                )
+              }
             </TouchableOpacity>
           </View>
         </View>
@@ -114,6 +126,9 @@ const styles = StyleSheet.create({
     margin: 10,
     alignSelf: 'center',
     color: '#424242',
+  },
+  spinner: {
+    height: 35,
   },
 });
 

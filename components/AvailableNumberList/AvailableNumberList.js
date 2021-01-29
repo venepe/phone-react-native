@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  ActivityIndicator,
   FlatList,
   RefreshControl,
   StyleSheet,
@@ -51,13 +50,12 @@ class AvailableNumberList extends Component {
   }
 
   async componentDidMount() {
-    this.fetch();
     await initConnection();
     this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
       console.log('purchaseUpdatedListener', purchase);
-      if (purchase.transactionReceipt) {
-        const { productId, transactionId, transactionReceipt } = purchase;
-        const { phoneNumber, token } = this.state;
+      const { phoneNumber, token } = this.state;
+      const { productId, transactionId, transactionReceipt } = purchase;
+      if (transactionReceipt && phoneNumber.length > 0) {
         const platform = Platform.OS;
         const response = await postAccounts({ token, phoneNumber, receipt: { productId, transactionId, transactionReceipt, platform } });
         const statusCode = response.status;
@@ -83,6 +81,8 @@ class AvailableNumberList extends Component {
       console.log(error);
 
     });
+    this.fetch();
+
   }
 
   componentDidUpdate(prevProps) {

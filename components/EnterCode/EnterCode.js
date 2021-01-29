@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
   Platform,
   StyleSheet,
   Text,
@@ -48,9 +46,9 @@ class EnterCode extends Component {
     await initConnection();
     this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
       console.log('purchaseUpdatedListener', purchase);
-      if (purchase.transactionReceipt) {
-        const { productId, transactionId, transactionReceipt } = purchase;
-        const { phoneNumber, token, invitation } = this.state;
+      const { productId, transactionId, transactionReceipt } = purchase;
+      const { phoneNumber, token, invitation } = this.state;
+      if (transactionReceipt) {
         const platform = Platform.OS;
         const response = await postOwners({ token, phoneNumber, invitation, receipt: { productId, transactionId, transactionReceipt, platform } });
         const statusCode = response.status;
@@ -137,7 +135,7 @@ class EnterCode extends Component {
   }
 
   render() {
-    const { invitation, phoneNumber, isGranted, isValid, isSubscriptionModalVisible, errorMessage } = this.state;
+    const { invitation, phoneNumber, isGranted, isSubscriptionModalVisible, errorMessage } = this.state;
     if (!isGranted) {
       return (
         <View style={styles.root}>

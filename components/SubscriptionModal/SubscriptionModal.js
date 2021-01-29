@@ -82,11 +82,11 @@ class SubscriptionModal extends Component {
             <View style={styles.freeTrialContainer}>
               <Text style={styles.freeTrialText}>{`Start with a 1 month free trial.`}</Text>
             </View>
-            <TouchableOpacity style={styles.subscribeButtonContainer} onPress={this.onAccept}>
+            <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept()}>
               <Text style={styles.btnPrimaryText}>{`$${PRICE}/month`}</Text>
               <Text style={styles.btnSecondaryText}>{`Includes number and incoming messages`}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cancelButtonContainer} onPress={this.handleClose}>
+            <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => this.handleClose()}>
               <Text style={styles.bodyText}>{`Cancel`}</Text>
             </TouchableOpacity>
           </View>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   btnSecondaryText: {
     color: `${R.colors.TEXT_MAIN}`,
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '400',
     flexWrap:'wrap',
   },
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   subscribeButtonContainer: {
     alignItems: 'center',
-    padding: 15,
+    padding: 10,
     backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   cancelButtonContainer: {

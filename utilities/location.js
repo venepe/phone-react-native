@@ -15,7 +15,7 @@ const getCurrentPosition = async () => {
 }
 
 export const requestLocation = async () => {
-    let { status } = await Location.getPermissionsAsync();
+    let { status } = await Location.requestPermissionsAsync();
     if (status === PermissionStatus.GRANTED) {
       const location = await getCurrentPosition();
       return location;

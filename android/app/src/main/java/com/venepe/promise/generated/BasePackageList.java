@@ -1,4 +1,4 @@
-package com.venepe.phone.generated;
+package com.venepe.promise.generated;
 
 import java.util.Arrays;
 import java.util.List;

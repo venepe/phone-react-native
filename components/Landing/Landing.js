@@ -33,6 +33,7 @@ class Landing extends Component {
       const { accessToken: token } = credentials;
       await postUser({ token });
       const data = await getAccounts({ token });
+      console.log(data);
       let { accounts } = data;
       if (accounts && accounts.length > 0) {
         const account = accounts[0];

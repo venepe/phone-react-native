@@ -29,18 +29,18 @@
 			<string>auth0</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.venepe.phone</string>
+				<string>com.venepe.promise</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.venepe.phone</string>
+				<string>com.venepe.promise</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -57,17 +57,17 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Promise needs access to your camera to read the proposal.</string>
+	<string>Promise needs access to your camera to read the join code.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Promise needs access to your contacts to display contact information. Otherwise you'll just see a number.</string>
+	<string>Promise needs access to your contacts to display contact information. Otherwise you'll just see the number.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Promise needs access to your location to find nearby numbers.</string>
+	<string>Promise needs access to your location to find local phone numbers.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Promise needs access to your location to find nearby numbers.</string>
+	<string>Promise needs access to your location to find local phone numbers.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Promise needs access to your location to find nearby numbers.</string>
+	<string>Promise needs access to your location to find local phone numbers.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Promise needs access to your microphone to read the proposal.</string>
+	<string>Promise needs access to your camera to read the join code.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

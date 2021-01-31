@@ -125,9 +125,8 @@ class EnterCode extends Component {
 
   async onAccept() {
     try {
-      const subscriptions = await getSubscriptions(['1MONTH']);
-      console.log(subscriptions);
-      requestSubscription('1MONTH');
+      const subscriptions = await getSubscriptions(['1month']);
+      requestSubscription('1month');
     } catch (e) {
       console.log(e);
     }

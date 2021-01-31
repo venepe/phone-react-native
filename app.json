@@ -18,10 +18,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.venepe.phone",
+      "bundleIdentifier": "com.venepe.promise",
       "buildNumber": "1.0.0",
       "infoPlist": {
-        "NSContactsUsageDescription": "Promise needs access to your contacts to display contact information. Otherwise you'll just see a number.",
+        "NSContactsUsageDescription": "Promise needs access to your contacts to display contact information. Otherwise you'll just see the number.",
         "NSCameraUsageDescription": "Promise needs access to your camera to read the join code.",
         "NSMicrophoneUsageDescription": "Promise needs access to your camera to read the join code.",
         "NSLocationUsageDescription": "Promise needs access to your location to find local phone numbers.",
@@ -34,7 +34,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FAFAFA"
       },
-      "package": "com.venepe.phone",
+      "package": "com.venepe.promise",
       "versionCode": 1,
       "permissions": ["CAMERA", "ACCESS_COARSE_LOCATION", "CONTACTS"]
     },

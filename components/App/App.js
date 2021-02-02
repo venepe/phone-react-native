@@ -19,6 +19,7 @@ import LandingTwo from '../LandingTwo';
 import EnterCode from '../EnterCode';
 import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
+import Manage from '../Manage';
 import R from '../../resources';
 
 const LandingStack = createStackNavigator();
@@ -180,10 +181,10 @@ function HomeStackScreen() {
         })}
       />
       <HomeStack.Screen
-        name="ShareCode"
-        component={ShareCode}
+        name="Manage"
+        component={Manage}
         options={({ route, navigation }) => ({
-          title: R.strings.TITLE_SHARE_CODE,
+          title: R.strings.TITLE_MANAGE_SUBSCRIPTION,
         })}
       />
     </HomeStack.Navigator>

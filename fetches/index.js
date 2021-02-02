@@ -8,6 +8,15 @@ const handleResponse = async (response) => {
   return Promise.all([statusCode, data]).then(([res, data]) => {
       if (res === 200) {
         return Promise.resolve(data)
+      } else if (res === 400 && data.message) {
+        Alert.alert(
+          R.strings.ERROR_REQUEST_TITLE,
+          data.message,
+          [
+            { text: R.strings.LABEL_OKAY },
+          ],
+          { cancelable: true }
+        );
       } else {
         throw new Error(res.status);
       }
@@ -118,6 +127,18 @@ export const postOwners = ({ token, phoneNumber, invitation }) => {
         invitation,
       },
     }),
+  })
+  .then(handleResponse)
+};
+
+export const deleteOwner = ({ token, phoneNumber }) => {
+  return fetch(`${API_URL}/accounts/${phoneNumber}/owners/me`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
   })
   .then(handleResponse)
 };

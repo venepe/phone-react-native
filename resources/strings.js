@@ -31,5 +31,12 @@ export default {
   CONFIRM_PURCHASE_AFFIRMATIVE: 'Yes',
   CONFIRM_PURCHASE_NEGATIVE: 'No',
   CONGRATULATIONS_TITLE: 'Congratulations! 🎉🎉🎉',
-  CONGRATULATIONS_MESSAGE: 'It\'s official! You\'re sharing a number! Share it with friends and family and start reading text messages together.',
+  CONGRATULATIONS_MESSAGE: 'It\'s official! You\'re sharing a number! Copy your number and share it to start.',
+  LABEL_LEAVE_LINE: 'Leave Line',
+  LEAVE_LINE_TITLE: 'Leave Line?',
+  LEAVE_LINE_MESSAGE: 'You are about to leave the line and will no longer have access to the number. ' +
+  'If you are the last person on the line, the line will be deleted.  Do you wish to continue?',
+  LEAVE_LINE_AFFIRMATIVE: 'Yes, remove me',
+  LABEL_COPY_NUMBER: 'Copy now',
+  LABEL_MAYBE_LATER: 'Maybe later',
 };

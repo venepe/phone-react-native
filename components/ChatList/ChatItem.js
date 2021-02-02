@@ -32,6 +32,7 @@ class ChatItem extends Component {
   }
 
   onPress(phoneNumber) {
+    console.log(phoneNumber);
     Linking.openURL(`sms:${phoneNumber}`);
   }
 
@@ -39,7 +40,7 @@ class ChatItem extends Component {
     const { navigation } = this.props;
     const chatItem = this.state.chatItem || {};
     const opacity = 1.0;
-    const { from, body, dateCreated } = chatItem;
+    const { from, fromText, body, dateCreated } = chatItem;
 
     return (
       <View style={styles.card}>
@@ -51,7 +52,7 @@ class ChatItem extends Component {
               </View>
               <View style={styles.topTextContainer}>
                 <View style={styles.titleContainer}>
-                  <Text style={styles.topTitle}>{from}</Text>
+                  <Text style={styles.topTitle}>{fromText}</Text>
                   <Text style={styles.topSubtitle}>{getDateDiffText(dateCreated)}</Text>
                 </View>
                   <View style={styles.bodyTextContainer}>

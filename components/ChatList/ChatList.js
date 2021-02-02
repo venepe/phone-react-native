@@ -103,9 +103,9 @@ class ChatList extends Component {
         if (contacts && contacts.length > 0) {
           let { givenName, familyName } = contacts[0];
           let name = `${givenName} ${familyName}`;
-          messages[index].from = name;
+          messages[index].fromText = name;
         } else {
-          messages[index].from = getFormattedNumber(from);
+          messages[index].fromText = getFormattedNumber(from);
         }
       }));
     } catch (e) {

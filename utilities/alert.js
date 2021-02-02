@@ -1,4 +1,5 @@
-import { Alert } from 'react-native';;
+import { Alert } from 'react-native';
+import { copyPhoneNumber } from './copy';
 import R from '../resources';
 
 export const showConfirmPurchaseAlert = ({ phoneNumber }, callback) => {
@@ -25,7 +26,11 @@ export const showCongratulationsAlert = () => {
     R.strings.CONGRATULATIONS_MESSAGE,
     [
       {
-        text: R.strings.LABEL_OKAY,
+        text: R.strings.LABEL_COPY_NUMBER,
+        onPress: () => copyPhoneNumber(),
+      },
+      {
+        text: R.strings.LABEL_MAYBE_LATER,
       },
     ],
     { cancelable: true }

@@ -59,7 +59,7 @@ export const getAccounts = ({ token }) => {
   .then(handleResponse)
 };
 
-export const postAccounts = ({ token, phoneNumber, receipt }) => {
+export const postAccounts = ({ token, phoneNumber }) => {
   return fetch(`${API_URL}/accounts`, {
     method: 'POST',
     headers: {
@@ -70,10 +70,10 @@ export const postAccounts = ({ token, phoneNumber, receipt }) => {
     body: JSON.stringify({
       account: {
         phoneNumber,
-        receipt,
       },
     }),
   })
+  .then(handleResponse)
 };
 
 export const postInvitationVerify = ({ token, invitation }) => {
@@ -105,7 +105,7 @@ export const getOwners = ({ token, phoneNumber }) => {
   .then(handleResponse)
 };
 
-export const postOwners = ({ token, phoneNumber, invitation, receipt }) => {
+export const postOwners = ({ token, phoneNumber, invitation }) => {
   return fetch(`${API_URL}/accounts/${phoneNumber}/owners`, {
     method: 'POST',
     headers: {
@@ -116,10 +116,10 @@ export const postOwners = ({ token, phoneNumber, invitation, receipt }) => {
     body: JSON.stringify({
       owner: {
         invitation,
-        receipt,
       },
     }),
   })
+  .then(handleResponse)
 };
 
 export const getMessages = ({ token, phoneNumber }) => {

@@ -122,7 +122,8 @@ class ChatList extends Component {
           data={messages}
           keyExtractor={(message) => message.sid}
           renderItem={this.renderItem}
-          refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN} colors={[R.colors.TEXT_MAIN]}
+          refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN}
+            progressBackgroundColor={R.colors.BACKGROUND_DARK}  colors={[R.colors.TEXT_MAIN]}
             refreshing={isFetching} onRefresh={() => this.onRefresh()} />)}
           ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
           ListFooterComponent={() => {

@@ -9,25 +9,21 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
-import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
-import SubscriptionModal from '../SubscriptionModal';
 import PermissionStatus from '../../constants/PermissionStatus';
-import { storeAndSetPhoneNumber} from '../../actions';
+import { storeAndSetActiveUser} from '../../actions';
 import { getInvitation, postInvitationVerify, postOwners } from '../../fetches';
 import { getToken } from '../../reducers';
+import { showConfirmPurchaseAlert, showCongratulationsAlert } from '../../utilities/alert';
 import R from '../../resources';
 
 class EnterCode extends Component {
 
   constructor(props) {
     super(props);
-    this.purchaseUpdateSubscription = {};
-    this.purchaseErrorSubscription = {};
     this.handleBarCodeScanned = this.handleBarCodeScanned.bind(this);
-    this.onAccept = this.onAccept.bind(this);
+    this.purchase = this.purchase.bind(this);
     this.state = {
       phoneNumber: '',
-      isSubscriptionModalVisible: false,
       errorMessage: '',
       invitation: '',
       isGranted: false,
@@ -43,36 +39,6 @@ class EnterCode extends Component {
         isGranted: true,
       });
     }
-    await initConnection();
-    this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
-      const { productId, transactionId, transactionReceipt } = purchase;
-      const { phoneNumber, token, invitation } = this.state;
-      if (transactionReceipt) {
-        const platform = Platform.OS;
-        const response = await postOwners({ token, phoneNumber, invitation, receipt: { productId, transactionId, transactionReceipt, platform } });
-        const statusCode = response.status;
-        const data = await response.json();
-        if (response.status === 200) {
-          try {
-            await RNIap.finishTransaction(purchase, true);
-            this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
-          } catch (e) {
-            this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
-          }
-        } else {
-          this.setState({
-            errorMessage: 'Failed up load. Try again.',
-          });
-        }
-      } else {
-
-      }
-    });
-    this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
-      console.log('purchaseErrorListener', error);
-      console.log(error);
-
-    });
   }
 
   componentDidUpdate(prevProps) {
@@ -82,11 +48,6 @@ class EnterCode extends Component {
         token: props.token,
       });
     }
-  }
-
-  componentWillUnmount() {
-    this.purchaseUpdateSubscription.remove();
-    this.purchaseErrorSubscription.remove();
   }
 
   async handleBarCodeScanned({ data: invitation }) {
@@ -107,8 +68,8 @@ class EnterCode extends Component {
         this.setState({
           invitation,
           phoneNumber,
-          isSubscriptionModalVisible: true,
         });
+        showConfirmPurchaseAlert({ phoneNumber }, () => this.purchase());
       } else {
         this.setState({
           didScan: false,
@@ -123,17 +84,23 @@ class EnterCode extends Component {
     }
   }
 
-  async onAccept() {
+  async purchase() {
+    console.log('purchase');
+    const { token, phoneNumber, invitation } = this.state;
     try {
-      const subscriptions = await getSubscriptions(['1month']);
-      requestSubscription('1month');
+      const data = await postOwners({ token, phoneNumber, invitation });
+      let { owner } = data;
+      if (owner) {
+        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive: true } });
+        showCongratulationsAlert();
+      }
     } catch (e) {
       console.log(e);
     }
   }
 
   render() {
-    const { invitation, phoneNumber, isGranted, isSubscriptionModalVisible, errorMessage } = this.state;
+    const { invitation, phoneNumber, isGranted, errorMessage } = this.state;
     if (!isGranted) {
       return (
         <View style={styles.root}>
@@ -153,7 +120,6 @@ class EnterCode extends Component {
             </View>
           </View>
         </BarCodeScanner>
-        <SubscriptionModal phoneNumber={phoneNumber} isVisible={isSubscriptionModalVisible} onAccept={this.onAccept} handleClose={() => this.setState({ didScan: false, isSubscriptionModalVisible: false })}/>
       </View>
     );
   }
@@ -187,5 +153,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { storeAndSetPhoneNumber },
+  { storeAndSetActiveUser },
 )(EnterCode);

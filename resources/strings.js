@@ -26,4 +26,10 @@ export default {
   LABEL_CHAT_EMPTY_PRIMARY: 'Looks quiet',
   LABEL_CHAT_EMPTY_SECONDARY: 'Hold to copy your number',
   LABEL_AVAILABLE_NUMBER_EMPTY_PRIMARY: '',
+  CONFIRM_PURCHASE_TITLE: 'Continue?',
+  CONFIRM_PURCHASE_MESSAGE: 'Do you want to take the next step in your relationship and use a number for us?',
+  CONFIRM_PURCHASE_AFFIRMATIVE: 'Yes',
+  CONFIRM_PURCHASE_NEGATIVE: 'No',
+  CONGRATULATIONS_TITLE: 'Congratulations! 🎉🎉🎉',
+  CONGRATULATIONS_MESSAGE: 'It\'s official! You\'re sharing a number! Share it with friends and family and start reading text messages together.',
 };

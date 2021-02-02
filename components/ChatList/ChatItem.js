@@ -50,13 +50,13 @@ class ChatItem extends Component {
                 <MaterialIcons name='account-circle' size={30} color={R.colors.TEXT_MAIN} />
               </View>
               <View style={styles.topTextContainer}>
-                <Text style={styles.topTitle}>{from}</Text>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.topTitle}>{from}</Text>
+                  <Text style={styles.topSubtitle}>{getDateDiffText(dateCreated)}</Text>
+                </View>
                   <View style={styles.bodyTextContainer}>
                     <Text style={styles.bodyTitle}>{body}</Text>
                   </View>
-              </View>
-              <View style={styles.dateTextContainer}>
-                <Text style={styles.topSubtitle}>{getDateDiffText(dateCreated)}</Text>
               </View>
             </View>
           </View>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   topSubContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   topTextContainer: {
     marginLeft: 5,
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   },
   topSubtitle: {
     color: R.colors.TEXT_MAIN,
+    marginLeft: 3,
     fontSize: 12,
     fontWeight: '200',
   },
@@ -122,11 +123,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 5,
   },
-  dateTextContainer: {
+  titleContainer: {
     flex: 1,
-    alignSelf: 'flex-start',
-    marginLeft: 5,
-    marginTop: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   bodyTextContainer: {
     marginBottom: 10,

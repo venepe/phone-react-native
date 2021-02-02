@@ -12,9 +12,12 @@ export const initializeApplication = () =>
     const userId = await AsyncStorage.getItem(Keys.USER_ID_KEY);
     const token = await AsyncStorage.getItem(Keys.TOKEN_KEY);
     const phoneNumber = await AsyncStorage.getItem(Keys.PHONE_NUMBER_KEY);
+    let isActive = await AsyncStorage.getItem(Keys.IS_ACTIVE_KEY);
+    isActive = JSON.parse(isActive);
     dispatch(setUserId({ payload: { userId } }));
     dispatch(setToken({ payload: { token } }));
     dispatch(setPhoneNumber({ payload: { phoneNumber } }));
+    dispatch(setIsActive({ payload: { isActive } }));
     if (userId) {
       analytics.identify(userId);
     }
@@ -27,7 +30,7 @@ export const logout = () =>
   (dispatch, getState) => {
     dispatch(storeAndSetUserId({ payload: { userId: '' } }));
     dispatch(storeAndSetToken({ payload: { token: '' } }));
-    dispatch(storeAndSetPhoneNumber({ payload: { phoneNumber: '' } }));
+    dispatch(storeAndSetActiveUser({ payload: { phoneNumber: '', isActive: false } }));
     deletePrivateKey();
     analytics.reset();
   };
@@ -53,6 +56,20 @@ export const storeAndSetPhoneNumber = payload =>
     dispatch(setPhoneNumber({ payload: { phoneNumber } }));
   };
 
+export const storeAndSetIsActive = payload =>
+  async (dispatch) => {
+    const { isActive } = payload.payload;
+    AsyncStorage.setItem(Keys.IS_ACTIVE_KEY, JSON.stringify(isActive));
+    dispatch(setIsActive({ payload: { isActive } }));
+  };
+
+export const storeAndSetActiveUser = payload =>
+  async (dispatch) => {
+    const { phoneNumber, isActive } = payload.payload;
+    dispatch(storeAndSetPhoneNumber({ payload: { phoneNumber } }));
+    dispatch(storeAndSetIsActive({ payload: { isActive } }));
+  };
+
 export const setUserId = payload =>
   (dispatch) => {
     const { userId = '' } = payload.payload;
@@ -69,6 +86,11 @@ export const setToken = payload => ({
 
 export const setPhoneNumber = payload => ({
   type: UserTypes.SET_PHONE_NUMBER,
+  ...payload,
+});
+
+export const setIsActive = payload => ({
+  type: UserTypes.SET_IS_ACTIVE,
   ...payload,
 });
 

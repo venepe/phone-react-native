@@ -6,13 +6,14 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { connect } from 'react-redux';
 import { initializeApplication } from '../../actions';
-import { getIsLoggedIn } from '../../reducers';
+import { getIsLoggedIn, getIsActiveUser } from '../../reducers';
 
 import Blank from '../Blank';
 import Home from '../Home';
 import ChatList from '../ChatList';
 import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
+import SimpleDrawer from '../DrawerContent/SimpleDrawer';
 import Landing from '../Landing';
 import LandingTwo from '../LandingTwo';
 import EnterCode from '../EnterCode';
@@ -20,10 +21,11 @@ import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
 import R from '../../resources';
 
-const HomeStack = createStackNavigator();
 const LandingStack = createStackNavigator();
+const ProposeStack = createDrawerNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
+const HomeStack = createDrawerNavigator();
 
 function LandingStackScreen() {
   return (
@@ -72,6 +74,47 @@ function LandingStackScreen() {
   );
 };
 
+function ProposeStackScreen() {
+  return (
+    <ProposeStack.Navigator
+      initialRouteName="ProposeStack"
+      screenOptions={{
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+      drawerStyle={{
+        flex: 1,
+        backgroundColor: R.colors.CONTENT_BACKGROUND,
+      }}
+      drawerContentOptions={{
+        itemStyle: {
+          color: R.colors.TEXT_MAIN,
+        },
+        labelStyle: {
+          color: R.colors.TEXT_MAIN,
+        },
+        activeTintColor: R.colors.TEXT_MAIN,
+      }}
+      drawerPosition={'left'}
+      drawerContent={(props) => (<SimpleDrawer {...props} />)}
+      >
+      <ProposeStack.Screen
+        name="ShareCode"
+        component={ShareCode}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_SHARE_CODE,
+        })}
+      />
+    </ProposeStack.Navigator>
+  );
+};
+
 function HomeTabs() {
   return (
     <HomeTab.Navigator
@@ -92,11 +135,9 @@ function HomeTabs() {
   );
 }
 
-const DrawerStack = createDrawerNavigator();
-
-function DrawerStackScreen() {
+function HomeStackScreen() {
   return (
-    <DrawerStack.Navigator
+    <HomeStack.Navigator
       initialRouteName="Home"
       screenOptions={{
         headerShown: true,
@@ -124,28 +165,28 @@ function DrawerStackScreen() {
       drawerPosition={'left'}
       drawerContent={(props) => (<DrawerContent {...props} />)}
       >
-      <DrawerStack.Screen
+      <HomeStack.Screen
         name="Home"
         component={HomeTabs}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_APP_NAME,
         })}
       />
-      <DrawerStack.Screen
+      <HomeStack.Screen
         name="Members"
         component={MemberList}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_MEMBERS,
         })}
       />
-      <DrawerStack.Screen
+      <HomeStack.Screen
         name="ShareCode"
         component={ShareCode}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_SHARE_CODE,
         })}
       />
-    </DrawerStack.Navigator>
+    </HomeStack.Navigator>
   );
 }
 
@@ -156,8 +197,10 @@ class App extends Component {
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.renderAuthenticated = this.renderAuthenticated.bind(this);
     this.renderUnauthenticated = this.renderUnauthenticated.bind(this);
+    this.renderProposal = this.renderProposal.bind(this);
     this.state = {
       isLoggedIn: props.isLoggedIn,
+      isActiveUser: props.isActiveUser,
       appState: AppState.currentState
     }
   }
@@ -172,6 +215,11 @@ class App extends Component {
     if (props.isLoggedIn !== prevProps.isLoggedIn) {
       this.setState({
         isLoggedIn: props.isLoggedIn,
+      });
+    }
+    if (props.isActiveUser !== prevProps.isActiveUser) {
+      this.setState({
+        isActiveUser: props.isActiveUser,
       });
     }
   }
@@ -190,7 +238,15 @@ class App extends Component {
   renderAuthenticated() {
     return (
       <>
-        <RootStack.Screen name="Bubblepop" component={DrawerStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name="Bubblepop" component={HomeStackScreen} options={() => ({ headerShown: false })} />
+      </>
+    );
+  }
+
+  renderProposal() {
+    return (
+      <>
+        <RootStack.Screen name="Propose" component={ProposeStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }
@@ -204,8 +260,8 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.state;
-    const screens = isLoggedIn ? this.renderAuthenticated() : this.renderUnauthenticated();
+    const { isLoggedIn, isActiveUser } = this.state;
+    const screens = isActiveUser ? this.renderAuthenticated() : isLoggedIn ? this.renderProposal() : this.renderUnauthenticated();
     return (
       <NavigationContainer>
         <RootStack.Navigator useanimationEnabled={false}>
@@ -218,6 +274,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   isLoggedIn: getIsLoggedIn(state),
+  isActiveUser: getIsActiveUser(state),
 });
 
 export default connect(

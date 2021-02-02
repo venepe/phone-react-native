@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { storeAndSetPhoneNumber} from '../../actions';
+import { storeAndSetActiveUser } from '../../actions';
 import { login } from '../../utilities/auth';
 import { postUser, getAccounts } from '../../fetches';
 import R from '../../resources';
@@ -33,12 +33,11 @@ class Landing extends Component {
       const { accessToken: token } = credentials;
       await postUser({ token });
       const data = await getAccounts({ token });
-      console.log(data);
       let { accounts } = data;
       if (accounts && accounts.length > 0) {
         const account = accounts[0];
-        const { phoneNumber } = account;
-        this.props.storeAndSetPhoneNumber({ payload: { phoneNumber } });
+        const { phoneNumber, isActive } = account;
+        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive } });
       } else {
         this.props.navigation.replace('LandingTwo');
       }
@@ -134,5 +133,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   null,
-  { storeAndSetPhoneNumber },
+  { storeAndSetActiveUser },
 )(Landing);

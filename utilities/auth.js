@@ -11,13 +11,15 @@ export const refreshToken = async () => {
   const auth0 = new Auth0({ domain: AUTH0_DOMAIN, clientId: AUTH0_CLIENT_ID });
 
   return auth0
-  .webAuth
+  .auth
   .refreshToken({ refreshToken, scope: 'openid profile email offline_access' })
   .then((credentials) => {
-    const { accessToken: token, refreshToken } = credentials;
-    AsyncStorage.setItem(Keys.REFRESH_TOKEN_KEY, refreshToken);
+    const { accessToken: token } = credentials;
     getStore().dispatch(storeAndSetToken({ payload: { token } }));
     return credentials;
+  })
+  .catch(e => {
+    console.log(e);
   });
 }
 

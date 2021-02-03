@@ -26,7 +26,7 @@ export default {
   LABEL_CHAT_EMPTY_SECONDARY: 'Hold to copy your number',
   LABEL_AVAILABLE_NUMBER_EMPTY_PRIMARY: '',
   CONFIRM_PURCHASE_TITLE: 'Continue?',
-  CONFIRM_PURCHASE_MESSAGE: 'Take the next step in your relationship and get a number for us?',
+  CONFIRM_PURCHASE_MESSAGE: 'Take the next step in your relationship and get a number?',
   CONFIRM_PURCHASE_AFFIRMATIVE: 'Yes',
   CONFIRM_PURCHASE_NEGATIVE: 'No',
   CONGRATULATIONS_TITLE: 'Congratulations! 🎉🎉🎉',
@@ -38,5 +38,5 @@ export default {
   LEAVE_LINE_AFFIRMATIVE: 'Yes, remove me',
   LABEL_COPY_NUMBER: 'Copy now',
   LABEL_MAYBE_LATER: 'Maybe later',
-  LABEL_ACTIVATE: 'To activate number, \n ask better half to scan code',
+  LABEL_ACTIVATE: 'To activate number, \n have your other half scan code',
 };

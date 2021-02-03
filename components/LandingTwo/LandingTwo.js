@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
 class Landing extends Component {
@@ -20,6 +21,10 @@ class Landing extends Component {
 
     this.state = {
     };
+  }
+
+  componentDidMount() {
+    analytics.track(EVENTS.VIEWED_LANDING_TWO);
   }
 
   onJoinLine() {
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     fontSize: 24,
-    color: '#424242',
+    color: R.colors.TEXT_DARK,
     fontWeight: 'bold',
     flexWrap:'wrap',
     alignSelf: 'center',
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     margin: 10,
     alignSelf: 'center',
-    color: '#424242',
+    color: R.colors.TEXT_DARK,
   },
 });
 

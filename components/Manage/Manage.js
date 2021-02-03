@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { deleteOwner } from '../../fetches';
 import { getToken, getPhoneNumber } from '../../reducers';
-import { logout } from '../../utilities/auth';
+import { clearSession } from '../../utilities/auth';
 import R from '../../resources';
 
 class Manage extends Component {
@@ -46,10 +46,9 @@ class Manage extends Component {
     this.setState({ isLoading: true });
     try {
       const data = await deleteOwner({ token, phoneNumber });
-      console.log(data);
       let { owner } = data;
       if (owner) {
-        logout();
+        await clearSession();
       }
     } catch (e) {
       console.log(e);

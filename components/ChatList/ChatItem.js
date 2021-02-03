@@ -32,7 +32,6 @@ class ChatItem extends Component {
   }
 
   onPress(phoneNumber) {
-    console.log(phoneNumber);
     Linking.openURL(`sms:${phoneNumber}`);
   }
 

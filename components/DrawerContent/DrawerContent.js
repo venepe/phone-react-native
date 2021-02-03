@@ -14,10 +14,8 @@ import { connect } from 'react-redux';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import LogoutButton from './LogoutButton';
 import { getFormattedNumber } from '../../utilities/phone';
-import { manageSubscription } from '../../utilities/subscriptions';
 import { copyPhoneNumber } from '../../utilities/copy';
 import { getUserId, getPhoneNumber } from '../../reducers';
-import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
 class DrawerContent extends Component {
@@ -69,7 +67,7 @@ class DrawerContent extends Component {
                 icon={({ color, size }) => (
                   <MaterialIcons name="settings" color={R.colors.TEXT_MAIN} size={size} />
                 )}
-                label={R.strings.TITLE_MANAGE_SUBSCRIPTION}
+                label={R.strings.TITLE_MANAGE}
                 onPress={() => navigation.navigate('Manage')}
                 />
               <LogoutButton {...this.props}/>

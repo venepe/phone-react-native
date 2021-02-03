@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Loading from './Loading';
 import { storeAndSetActiveUser } from '../../actions';
 import { login } from '../../utilities/auth';
 import { postUser, getAccounts } from '../../fetches';
@@ -23,6 +24,7 @@ class Landing extends Component {
     this.onLogin = this.onLogin.bind(this);
     this.state = {
       isLoading: false,
+      didLogin: false,
     };
   }
 
@@ -30,6 +32,7 @@ class Landing extends Component {
     this.setState({ isLoading: true });
     try {
       const credentials = await login();
+      this.setState({ didLogin: true });
       const { accessToken: token } = credentials;
       await postUser({ token });
       const data = await getAccounts({ token });
@@ -42,13 +45,16 @@ class Landing extends Component {
         this.props.navigation.replace('LandingTwo');
       }
     } catch (e) {
-      this.setState({ isLoading: false });
+      this.setState({ isLoading: false, didLogin: false });
       console.log(e);
     }
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, didLogin } = this.state;
+    if (didLogin) {
+      return (<Loading/>);
+    }
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.topContainer}>
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     fontSize: 24,
-    color: '#424242',
+    color: R.colors.TEXT_DARK,
     fontWeight: 'bold',
     flexWrap:'wrap',
     alignSelf: 'center',
@@ -124,7 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     margin: 10,
     alignSelf: 'center',
-    color: '#424242',
+    color: R.colors.TEXT_DARK,
   },
   spinner: {
     height: 35,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AppState,
   Dimensions,
   StyleSheet,
   Text,
@@ -12,26 +13,68 @@ import { connect } from 'react-redux';
 import { getPhoneNumber, getUserId } from '../../reducers';
 import { init, getSignature } from '../../utilities/rsa';
 import { initSocket } from '../../utilities/socket';
+import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 const SCREEN_WIDTH = Dimensions.get('window').width - 100;
-const MINS_TO_EXPIRE = '15';
+const SECS_TO_EXPIRE = 300;
+const TIME_BUFFER = 30 * 1000;
 
 class ShareCode extends Component {
 
   constructor(props) {
     super(props);
+    this.intervalID = '';
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
+    this.generateInvitationQRCode = this.generateInvitationQRCode.bind(this);
+    this.renderInvitation = this.renderInvitation.bind(this);
     this.state = {
       phoneNumber: props.phoneNumber,
       userId: props.userId,
       invitation: '',
+      appState: AppState.currentState
     };
   }
 
   async componentDidMount() {
-    const { phoneNumber, userId } = this.state;
-    const expires = moment.utc().add(MINS_TO_EXPIRE, 'minutes').toISOString();
+    const { phoneNumber } = this.state;
+    AppState.addEventListener('change', this.handleAppStateChange);
     await init();
     initSocket({ phoneNumber });
+    await this.generateInvitationQRCode();
+    this.startTimer();
+    analytics.track(EVENTS.VIEWED_INVITATION);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+    this.stopTimer();
+  }
+
+  handleAppStateChange(nextAppState) {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.generateInvitationQRCode();
+      this.startTimer();
+    } else {
+      this.stopTimer();
+    }
+    this.setState({ appState: nextAppState });
+  }
+
+  startTimer() {
+    this.intervalID = setInterval(() => {
+      this.generateInvitationQRCode();
+    }, SECS_TO_EXPIRE * 1000 - TIME_BUFFER);
+  }
+
+  stopTimer() {
+    clearInterval(this.intervalID);
+  }
+
+  async generateInvitationQRCode() {
+    const { phoneNumber, userId } = this.state;
+    const expires = moment.utc().add(SECS_TO_EXPIRE, 'seconds').toISOString();
     let message = JSON.stringify({ phoneNumber, userId, expires });
     const signature = await getSignature(message);
     const invitation = Base64.encode(message) + '.' + Base64.encode(signature);
@@ -40,12 +83,22 @@ class ShareCode extends Component {
     });
   }
 
-  render() {
+  renderInvitation() {
     const { invitation } = this.state;
+    if (invitation.length > 0) {
+      return (
+        <View style={styles.container}>
+          <QRCode value={invitation} size={200}/>
+          <Text style={styles.text}>{R.strings.LABEL_ACTIVATE}</Text>
+        </View>
+      );
+    }
+  }
 
+  render() {
     return (
       <View style={styles.root}>
-        {invitation.length > 0 ? <QRCode value={invitation} size={200}/> : null}
+        {this.renderInvitation()}
       </View>
     );
   }
@@ -56,12 +109,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: R.colors.TEXT_MAIN,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
-    color: R.colors.TEXT_MAIN,
-    fontSize: 16,
+    color: R.colors.TEXT_DARK,
+    fontSize: 14,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

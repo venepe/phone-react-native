@@ -14,7 +14,6 @@ export const initSocket = async ({ phoneNumber }) => {
   });
 
   socket.on('connect', () => {
-    console.log('did');
     socket.emit('set-phone-number', {
       phoneNumber,
     });

@@ -11,11 +11,11 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
+import { MaterialIcons } from '@expo/vector-icons';
 import LogoutButton from './LogoutButton';
 import { getFormattedNumber } from '../../utilities/phone';
 import { copyPhoneNumber } from '../../utilities/copy';
 import { getUserId, getPhoneNumber } from '../../reducers';
-import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
 class SimpleDrawer extends Component {
@@ -51,9 +51,17 @@ class SimpleDrawer extends Component {
             <View style={styles.drawerContent}>
               <TouchableOpacity
                 onLongPress={() => copyPhoneNumber()}
-                onPress={() =>{}}>
+                onPress={() => navigation.navigate('ShareCode')}>
                 <Text style={styles.title}>{getFormattedNumber(phoneNumber)}</Text>
               </TouchableOpacity>
+              <DrawerItem
+                {...this.props}
+                icon={({ color, size }) => (
+                  <MaterialIcons name="settings" color={R.colors.TEXT_MAIN} size={size} />
+                )}
+                label={R.strings.TITLE_MANAGE}
+                onPress={() => navigation.navigate('Manage')}
+                />
               <LogoutButton {...this.props}/>
             </View>
           </View>

@@ -56,6 +56,7 @@ class ChatList extends Component {
 
   componentDidMount() {
     this.fetch();
+    analytics.track(EVENTS.VIEWED_MESSAGES);
   }
 
 

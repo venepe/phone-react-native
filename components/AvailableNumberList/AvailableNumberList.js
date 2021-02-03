@@ -47,6 +47,7 @@ class AvailableNumberList extends Component {
 
   async componentDidMount() {
     this.fetch();
+    analytics.track(EVENTS.VIEWED_AVAILABLE_NUMBERS);
   }
 
   componentDidUpdate(prevProps) {
@@ -88,7 +89,6 @@ class AvailableNumberList extends Component {
   }
 
   async purchase({ phoneNumber }) {
-    console.log('purchase');
     const { token } = this.state;
     try {
       const data = await postAccounts({ token, phoneNumber });

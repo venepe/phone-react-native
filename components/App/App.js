@@ -112,6 +112,13 @@ function ProposeStackScreen() {
           title: R.strings.TITLE_SHARE_CODE,
         })}
       />
+      <ProposeStack.Screen
+        name="Manage"
+        component={Manage}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_MANAGE,
+        })}
+      />
     </ProposeStack.Navigator>
   );
 };
@@ -184,7 +191,7 @@ function HomeStackScreen() {
         name="Manage"
         component={Manage}
         options={({ route, navigation }) => ({
-          title: R.strings.TITLE_MANAGE_SUBSCRIPTION,
+          title: R.strings.TITLE_MANAGE,
         })}
       />
     </HomeStack.Navigator>

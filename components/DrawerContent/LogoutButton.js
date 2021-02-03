@@ -9,9 +9,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { AntDesign } from '@expo/vector-icons';
-import { connect } from 'react-redux';
-import { logout } from '../../actions';
-import { logout as authLogout } from '../../utilities/auth';
+import { clearSession } from '../../utilities/auth';
 import R from '../../resources';
 
 class LogoutButton extends Component {
@@ -22,8 +20,7 @@ class LogoutButton extends Component {
   }
 
   async onLogout() {
-    await authLogout();
-    this.props.logout();
+    await clearSession();
   }
 
   render() {
@@ -46,7 +43,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  null,
-  { logout },
-)(LogoutButton);
+export default LogoutButton;

@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 import Keys from '../constants/Keys';
 import UserTypes from '../constants/UserTypes';
 import { getStore } from '../store';
-import analytics, { EVENTS } from '../analytics';
+import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
 import { deletePrivateKey } from '../utilities/rsa';
 import R from '../resources';
@@ -18,9 +18,6 @@ export const initializeApplication = () =>
     dispatch(setToken({ payload: { token } }));
     dispatch(setPhoneNumber({ payload: { phoneNumber } }));
     dispatch(setIsActive({ payload: { isActive } }));
-    if (userId) {
-      analytics.identify(userId);
-    }
     if (token) {
       refreshToken();
     }
@@ -73,6 +70,9 @@ export const storeAndSetActiveUser = payload =>
 export const setUserId = payload =>
   (dispatch) => {
     const { userId = '' } = payload.payload;
+    if (userId) {
+      analytics.identify(userId);
+    }
     dispatch({
       type: UserTypes.SET_USER_ID,
       ...payload,

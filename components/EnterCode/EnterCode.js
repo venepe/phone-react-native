@@ -14,6 +14,7 @@ import { storeAndSetActiveUser} from '../../actions';
 import { getInvitation, postInvitationVerify, postOwners } from '../../fetches';
 import { getToken } from '../../reducers';
 import { showConfirmPurchaseAlert, showCongratulationsAlert } from '../../utilities/alert';
+import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
 class EnterCode extends Component {
@@ -39,6 +40,7 @@ class EnterCode extends Component {
         isGranted: true,
       });
     }
+    analytics.track(EVENTS.VIEWED_SCANNER);
   }
 
   componentDidUpdate(prevProps) {
@@ -51,7 +53,6 @@ class EnterCode extends Component {
   }
 
   async handleBarCodeScanned({ data: invitation }) {
-    console.log(invitation);
     this.setState({
       didScan: true,
     });
@@ -85,7 +86,6 @@ class EnterCode extends Component {
   }
 
   async purchase() {
-    console.log('purchase');
     const { token, phoneNumber, invitation } = this.state;
     try {
       const data = await postOwners({ token, phoneNumber, invitation });

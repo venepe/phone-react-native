@@ -14,7 +14,6 @@ import MemberItem from './MemberItem';
 import Empty from './Empty';
 import { getOwners } from '../../fetches';
 import { getToken, getPhoneNumber } from '../../reducers';
-import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
 class MemberList extends Component {
@@ -38,7 +37,6 @@ class MemberList extends Component {
       const { token, phoneNumber } = this.state;
       const data = await getOwners({ token, phoneNumber });
       let { owners } = data;
-      console.log(owners);
       this.setState({
         owners,
       });

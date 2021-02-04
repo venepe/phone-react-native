@@ -38,5 +38,5 @@ export default {
   LEAVE_LINE_AFFIRMATIVE: 'Yes, remove me',
   LABEL_COPY_NUMBER: 'Copy now',
   LABEL_MAYBE_LATER: 'Maybe later',
-  LABEL_ACTIVATE: 'To activate number, \n have your other half scan code',
+  LABEL_ACTIVATE: 'To begin, invite your other half',
 };

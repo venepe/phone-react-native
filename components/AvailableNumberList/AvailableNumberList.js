@@ -12,6 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import Blank from '../Blank';
 import AvailableNumberItem from './AvailableNumberItem';
+import SearchBar from './SearchBar';
 import Empty from './Empty';
 import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
@@ -29,6 +30,7 @@ class AvailableNumberList extends Component {
     this.startFetching = this.startFetching.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
     this.fetch = this.fetch.bind(this);
+    this.onSearch = this.onSearch.bind(this);
     this.onPress = this.onPress.bind(this);
     this.purchase = this.purchase.bind(this);
     this.state = {
@@ -42,6 +44,7 @@ class AvailableNumberList extends Component {
       },
       phoneNumber: '',
       phoneNumbers: [],
+      query: '',
     };
   }
 
@@ -64,11 +67,18 @@ class AvailableNumberList extends Component {
     }
   }
 
-  async fetch() {
+  async onSearch({ query }) {
+    this.setState({
+      query,
+    });
+    this.fetch(query);
+  }
+
+  async fetch(query = '') {
     this.startFetching();
     try {
       const { latitude, longitude } = await requestLocation();
-      const data = await getAvailableNumbers({ latitude, longitude });
+      const data = await getAvailableNumbers({ latitude, longitude, query });
       let { phoneNumbers } = data;
       this.setState({
         location: { latitude, longitude },
@@ -114,18 +124,19 @@ class AvailableNumberList extends Component {
   }
 
   render() {
-    const { isFetching, location, userId, phoneNumbers, phoneNumber } = this.state;
+    const { isFetching, location = {}, userId, phoneNumbers, phoneNumber, query } = this.state;
     const { latitude, longitude } = location;
     return (
       <View style={styles.root}>
         <View style={styles.container}>
+          <SearchBar onSearch={this.onSearch}/>
           <FlatList
             data={phoneNumbers}
             keyExtractor={(node) => node.nodeId}
             renderItem={this.renderItem}
             refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN}
               progressBackgroundColor={R.colors.BACKGROUND_DARK}  colors={[R.colors.TEXT_MAIN]}
-              refreshing={isFetching} onRefresh={() => this.fetch()} />)}
+              refreshing={isFetching} onRefresh={() => this.fetch(query)} />)}
             ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
             ListFooterComponent={() => {
               return (<View></View>)

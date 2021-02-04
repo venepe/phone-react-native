@@ -30,7 +30,7 @@ const HomeStack = createDrawerNavigator();
 
 function LandingStackScreen() {
   return (
-    <LandingStack.Navigator initialRouteName='Landing'
+    <LandingStack.Navigator initialRouteName='AvailableNumberList'
       screenOptions={{
         headerStyle: {
           backgroundColor: R.colors.HEADER_MAIN,

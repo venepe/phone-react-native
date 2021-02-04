@@ -45,8 +45,8 @@ export const postUser = ({ token }) => {
   .then(handleResponse)
 };
 
-export const getAvailableNumbers = ({ latitude, longitude }) => {
-  return fetch(`${API_URL}/phone-numbers/available?lat=${latitude}&lon=${longitude}`, {
+export const getAvailableNumbers = ({ latitude, longitude, query }) => {
+  return fetch(`${API_URL}/phone-numbers/available?lat=${latitude}&lon=${longitude}&query=${query}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

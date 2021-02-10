@@ -1,4 +1,4 @@
-rootProject.name = 'Promise'
+rootProject.name = 'Tandem'
 
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'
 includeUnimodulesProjects()

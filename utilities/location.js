@@ -15,11 +15,16 @@ const getCurrentPosition = async () => {
 }
 
 export const requestLocation = async () => {
-    let { status } = await Location.requestPermissionsAsync();
-    if (status === PermissionStatus.GRANTED) {
-      const location = await getCurrentPosition();
-      return location;
-    } else {
+    try {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status === PermissionStatus.GRANTED) {
+        const location = await getCurrentPosition();
+        return location;
+      } else {
+        return DEFAULT_LOCATION;
+      }
+    } catch (e) {
+      console.log(e);
       return DEFAULT_LOCATION;
     }
   }

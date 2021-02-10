@@ -1,4 +1,4 @@
-const APP_NAME = 'Promise';
+const APP_NAME = 'Tandem';
 
 export default {
   APP_NAME,

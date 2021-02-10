@@ -30,6 +30,9 @@ export const login = async () => {
   .webAuth
   .authorize({ scope: 'openid profile email offline_access', audience: AUTH0_AUDIENCE })
   .then((credentials) => {
+    if (__DEV__) {
+      console.log(credentials);
+    }
     const { accessToken: token, refreshToken, idToken } = credentials;
     let payload = idToken.split('.')[1];
     let { sub: userId } = JSON.parse(Base64.decode(payload));

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Promise",
-    "slug": "Promise",
+    "name": "Tandem",
+    "slug": "Tandem",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,15 +18,15 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.venepe.promise",
+      "bundleIdentifier": "com.venepe.anumberforus",
       "buildNumber": "1.0.0",
       "infoPlist": {
-        "NSContactsUsageDescription": "Promise needs access to your contacts to display contact information. Otherwise you'll just see the number.",
-        "NSCameraUsageDescription": "Promise needs access to your camera to read the join code.",
-        "NSMicrophoneUsageDescription": "Promise needs access to your camera to read the join code.",
-        "NSLocationUsageDescription": "Promise needs access to your location to find local phone numbers.",
-        "NSLocationWhenInUseUsageDescription": "Promise needs access to your location to find local phone numbers.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Promise needs access to your location to find local phone numbers."
+        "NSContactsUsageDescription": "Tandem needs access to your contacts to display contact information. Otherwise, you'll just see the number.",
+        "NSCameraUsageDescription": "Tandem needs access to your camera to read the invitation.",
+        "NSMicrophoneUsageDescription": "Tandem needs access to your camera to read invitation.",
+        "NSLocationUsageDescription": "Tandem needs access to your location to find local phone numbers.",
+        "NSLocationWhenInUseUsageDescription": "Tandem needs access to your location to find local phone numbers.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Tandem needs access to your location to find local phone numbers."
       }
     },
     "android": {
@@ -34,7 +34,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FAFAFA"
       },
-      "package": "com.venepe.promise",
+      "package": "com.venepe.anumberforus",
       "versionCode": 1,
       "permissions": ["CAMERA", "ACCESS_COARSE_LOCATION", "CONTACTS"]
     },

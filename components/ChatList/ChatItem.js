@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     flex: .3,
     alignItems: 'flex-end',
     marginRight: 5,
+    padding: 5,
   },
   titleContainer: {
     flex: 1,

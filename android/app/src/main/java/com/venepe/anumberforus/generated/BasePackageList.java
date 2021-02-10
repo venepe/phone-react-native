@@ -1,4 +1,4 @@
-package com.venepe.promise.generated;
+package com.venepe.anumberforus.generated;
 
 import java.util.Arrays;
 import java.util.List;

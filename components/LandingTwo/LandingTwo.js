@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { clearSession } from '../../utilities/auth';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -18,6 +19,7 @@ class Landing extends Component {
 
     this.onJoinLine = this.onJoinLine.bind(this);
     this.onCreateLine = this.onCreateLine.bind(this);
+    this.onLogout = this.onLogout.bind(this);
 
     this.state = {
     };
@@ -33,6 +35,11 @@ class Landing extends Component {
 
   onCreateLine() {
     this.props.navigation.navigate('AvailableNumberList');
+  }
+
+  async onLogout() {
+    await clearSession();
+    this.props.navigation.navigate('Landing');
   }
 
   render() {
@@ -61,6 +68,9 @@ class Landing extends Component {
             </TouchableOpacity>
             <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onCreateLine}>
               <Text style={styles.loginText}>{R.strings.LABEL_CREATE_LINE}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onLogout}>
+              <Text style={styles.logoutText}>{R.strings.TITLE_LOGOUT}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -111,6 +121,12 @@ const styles = StyleSheet.create({
     margin: 10,
     alignSelf: 'center',
     color: R.colors.TEXT_DARK,
+  },
+  logoutText: {
+    fontSize: 14,
+    margin: 5,
+    alignSelf: 'center',
+    color: R.colors.TEXT_MAIN,
   },
 });
 

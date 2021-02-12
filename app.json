@@ -5,6 +5,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "facebookScheme": "fb1078041962693536",
+    "facebookAppId": "1078041962693536",
+    "facebookDisplayName": "Tandem: A Number For Us",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

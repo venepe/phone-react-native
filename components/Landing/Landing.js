@@ -15,7 +15,6 @@ import { storeAndSetActiveUser } from '../../actions';
 import { login } from '../../utilities/auth';
 import { postUser, getAccounts } from '../../fetches';
 import R from '../../resources';
-import { AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_AUDIENCE } from '../../config';
 
 class Landing extends Component {
 

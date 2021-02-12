@@ -1,10 +1,12 @@
 import { AsyncStorage } from 'react-native';
+import * as Facebook from 'expo-facebook';
 import Keys from '../constants/Keys';
 import UserTypes from '../constants/UserTypes';
 import { getStore } from '../store';
 import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
 import { deletePrivateKey } from '../utilities/rsa';
+import { FACEBOOK_APP_ID } from '../config';
 import R from '../resources';
 
 export const initializeApplication = () =>
@@ -21,6 +23,8 @@ export const initializeApplication = () =>
     if (token) {
       refreshToken();
     }
+    await Facebook.initializeAsync({ appId: FACEBOOK_APP_ID });
+    await Facebook.setAutoLogAppEventsEnabledAsync(true);
   };
 
 export const logout = () =>

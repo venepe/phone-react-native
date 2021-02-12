@@ -26,7 +26,7 @@ export default {
   LABEL_CHAT_EMPTY_SECONDARY: 'Hold to copy your number',
   LABEL_AVAILABLE_NUMBER_EMPTY_PRIMARY: '',
   CONFIRM_PURCHASE_TITLE: 'Continue?',
-  CONFIRM_PURCHASE_MESSAGE: 'Take the next step in your relationship and get a number?',
+  CONFIRM_PURCHASE_MESSAGE: 'Do you wish to join?',
   CONFIRM_PURCHASE_AFFIRMATIVE: 'Yes',
   CONFIRM_PURCHASE_NEGATIVE: 'No',
   CONGRATULATIONS_TITLE: 'Congratulations! 🎉🎉🎉',
@@ -38,5 +38,6 @@ export default {
   LEAVE_LINE_AFFIRMATIVE: 'Yes, remove me',
   LABEL_COPY_NUMBER: 'Copy now',
   LABEL_MAYBE_LATER: 'Maybe later',
-  LABEL_ACTIVATE: 'To begin, invite your other half',
+  LABEL_ACTIVATE: 'To complete enrollment, invite your other half.',
+  LABEL_JOIN_ME: 'Follow this link to join our number on Tandem',
 };

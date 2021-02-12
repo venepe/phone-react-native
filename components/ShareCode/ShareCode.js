@@ -4,6 +4,7 @@ import {
   Dimensions,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -13,22 +14,20 @@ import { connect } from 'react-redux';
 import { getPhoneNumber, getUserId } from '../../reducers';
 import { init, getSignature } from '../../utilities/rsa';
 import { initSocket } from '../../utilities/socket';
+import { openShare } from '../../utilities/share';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 const SCREEN_WIDTH = Dimensions.get('window').width - 100;
-const SECS_TO_EXPIRE = 300;
-const TIME_BUFFER = 30 * 1000;
+const DAYS_TO_EXPIRE = 1;
 
 class ShareCode extends Component {
 
   constructor(props) {
     super(props);
-    this.intervalID = '';
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
-    this.startTimer = this.startTimer.bind(this);
-    this.stopTimer = this.stopTimer.bind(this);
     this.generateInvitationQRCode = this.generateInvitationQRCode.bind(this);
     this.renderInvitation = this.renderInvitation.bind(this);
+    this.shareCode = this.shareCode.bind(this);
     this.state = {
       phoneNumber: props.phoneNumber,
       userId: props.userId,
@@ -43,44 +42,35 @@ class ShareCode extends Component {
     await init();
     initSocket({ phoneNumber });
     await this.generateInvitationQRCode();
-    this.startTimer();
     analytics.track(EVENTS.VIEWED_INVITATION);
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
-    this.stopTimer();
   }
 
   handleAppStateChange(nextAppState) {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.generateInvitationQRCode();
-      this.startTimer();
-    } else {
-      this.stopTimer();
     }
     this.setState({ appState: nextAppState });
   }
 
-  startTimer() {
-    this.intervalID = setInterval(() => {
-      this.generateInvitationQRCode();
-    }, SECS_TO_EXPIRE * 1000 - TIME_BUFFER);
-  }
-
-  stopTimer() {
-    clearInterval(this.intervalID);
-  }
-
   async generateInvitationQRCode() {
     const { phoneNumber, userId } = this.state;
-    const expires = moment.utc().add(SECS_TO_EXPIRE, 'seconds').toISOString();
+    const expires = moment.utc().add(DAYS_TO_EXPIRE, 'days').toISOString();
     let message = JSON.stringify({ phoneNumber, userId, expires });
     const signature = await getSignature(message);
     const invitation = Base64.encode(message) + '.' + Base64.encode(signature);
     this.setState({
       invitation,
     });
+  }
+
+  async shareCode() {
+    const { invitation: code } = this.state;
+    const invitationId = 'asdf';
+    openShare({ invitationId });
   }
 
   renderInvitation() {
@@ -90,6 +80,9 @@ class ShareCode extends Component {
         <View style={styles.container}>
           <QRCode value={invitation} size={200}/>
           <Text style={styles.text}>{R.strings.LABEL_ACTIVATE}</Text>
+          <TouchableOpacity onPress={this.shareCode}>
+            <Text style={styles.logoutText}>{R.strings.TITLE_LOGOUT}</Text>
+          </TouchableOpacity>
         </View>
       );
     }

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { AppState } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, getStateFromPath } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { connect } from 'react-redux';
 import { initializeApplication } from '../../actions';
 import { getIsLoggedIn, getIsActiveUser } from '../../reducers';
+import { getPathParams } from '../../utilities';
 
 import Blank from '../Blank';
 import Home from '../Home';
@@ -17,12 +18,14 @@ import SimpleDrawer from '../DrawerContent/SimpleDrawer';
 import Landing from '../Landing';
 import LandingTwo from '../LandingTwo';
 import EnterCode from '../EnterCode';
+import JoinCode from '../JoinCode';
 import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
 import Manage from '../Manage';
 import R from '../../resources';
 
 const LandingStack = createStackNavigator();
+const JoinStack = createStackNavigator();
 const ProposeStack = createDrawerNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
@@ -72,6 +75,24 @@ function LandingStackScreen() {
         })}
       />
     </LandingStack.Navigator>
+  );
+};
+
+function JoinStackScreen() {
+  return (
+    <JoinStack.Navigator initialRouteName='JoinCode'
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <JoinStack.Screen
+        name='JoinCode'
+        component={JoinCode}
+        options={() => ({
+          title: R.strings.TITLE_ENTER_CODE,
+        })}
+      />
+    </JoinStack.Navigator>
   );
 };
 
@@ -198,6 +219,25 @@ function HomeStackScreen() {
   );
 }
 
+const linking = {
+  prefixes: ['https://anumberforus.com', 'anumberforus://'],
+  config: {
+    Join: {
+      screens: {
+        JoinCode: 'invitations/:invitation',
+      }
+    },
+  },
+  getStateFromPath: (path, options) => {
+    const { invitations } = getPathParams(path);
+    if (invitations) {
+      const code = invitations;
+      console.log(code);
+    }
+    return getStateFromPath(path, options);
+  },
+};
+
 class App extends Component {
 
   constructor(props) {
@@ -263,6 +303,7 @@ class App extends Component {
     return (
       <>
         <RootStack.Screen name="Welcome" component={LandingStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name="Join" component={JoinStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }
@@ -271,7 +312,9 @@ class App extends Component {
     const { isLoggedIn, isActiveUser } = this.state;
     const screens = isActiveUser ? this.renderAuthenticated() : isLoggedIn ? this.renderProposal() : this.renderUnauthenticated();
     return (
-      <NavigationContainer>
+      <NavigationContainer
+        linking={linking}
+      >
         <RootStack.Navigator useanimationEnabled={false}>
           {screens}
         </RootStack.Navigator>

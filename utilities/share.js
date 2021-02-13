@@ -3,8 +3,7 @@ import { Platform } from 'react-native';
 import Share from 'react-native-share';
 import R from '../resources';
 
-export const openShare =  ({ invitationId }) => {
-  const url = `https://anumberforus.com/invitations/${invitationId}`;
+export const openShare =  ({ url }) => {
   const title = R.strings.APP_NAME;
   const message = R.strings.LABEL_JOIN_ME;
   const icon = `data:image/png;base64,${R.images.APP_ICON_BASE_64}`;

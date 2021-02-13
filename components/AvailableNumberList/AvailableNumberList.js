@@ -5,10 +5,8 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import Blank from '../Blank';
 import AvailableNumberItem from './AvailableNumberItem';
@@ -77,8 +75,9 @@ class AvailableNumberList extends Component {
   async fetch(query = '') {
     this.startFetching();
     try {
+      const { token } = this.state;
       const { latitude, longitude } = await requestLocation();
-      const data = await getAvailableNumbers({ latitude, longitude, query });
+      const data = await getAvailableNumbers({ token, latitude, longitude, query });
       let { phoneNumbers } = data;
       this.setState({
         location: { latitude, longitude },
@@ -104,8 +103,9 @@ class AvailableNumberList extends Component {
       const data = await postAccounts({ token, phoneNumber });
       let { account } = data;
       if (account) {
-        const { phoneNumber, isActive } = account;
-        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive } });
+        console.log(account);
+        const { phoneNumber, isActive, id: accountId } = account;
+        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
       }
     } catch (e) {
       console.log(e);

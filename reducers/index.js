@@ -3,7 +3,8 @@ import UserTypes from '../constants/UserTypes';
 const initialState = {
   token: null,
   userId: null,
-  phoneNumber: '+13128151992',
+  accountId: null,
+  phoneNumber: null,
   isActive: false,
 };
 
@@ -33,6 +34,14 @@ const reducer = (state = initialState, action) => {
         phoneNumber,
       };
     }
+    case UserTypes.SET_ACCOUNT_ID:
+    {
+      const { accountId } = action.payload;
+      return {
+        ...state,
+        accountId,
+      };
+    }
     case UserTypes.SET_IS_ACTIVE:
     {
       const { isActive } = action.payload;
@@ -49,7 +58,8 @@ const reducer = (state = initialState, action) => {
 export const getUserId = state => (state.userId < 1) ? null : state.userId;
 export const getToken = state => state.token;
 export const getPhoneNumber = state => state.phoneNumber;
-export const getIsActiveUser = state => (state.isActive && state.token && state.phoneNumber && state.token.length > 0 && state.phoneNumber.length > 0) ? true : false;
+export const getAccountId = state => state.accountId;
+export const getIsActiveUser = state => (state.isActive && state.token && state.phoneNumber && state.accountId && state.token.length > 0 && state.phoneNumber.length > 0 && state.accountId.length > 0) ? true : false;
 export const getIsLoggedIn = state => (state.token && state.phoneNumber && state.token.length > 0 && state.phoneNumber.length > 0) ? true : false;
 
 export default reducer;

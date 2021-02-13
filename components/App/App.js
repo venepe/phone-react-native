@@ -21,6 +21,7 @@ import EnterCode from '../EnterCode';
 import JoinCode from '../JoinCode';
 import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
+import ShareQRCode from '../ShareQRCode';
 import Manage from '../Manage';
 import R from '../../resources';
 
@@ -30,6 +31,7 @@ const ProposeStack = createDrawerNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
 const HomeStack = createDrawerNavigator();
+const QRCodeStack = createStackNavigator();
 
 function LandingStackScreen() {
   return (
@@ -141,6 +143,30 @@ function ProposeStackScreen() {
         })}
       />
     </ProposeStack.Navigator>
+  );
+};
+
+function QRCodeStackScreen() {
+  return (
+    <QRCodeStack.Navigator initialRouteName='ShareQRCode'
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <QRCodeStack.Screen
+        name='ShareQRCode'
+        component={ShareQRCode}
+        options={() => ({
+          title: R.strings.TITLE_ENTER_CODE,
+        })}
+      />
+    </QRCodeStack.Navigator>
   );
 };
 
@@ -295,6 +321,7 @@ class App extends Component {
     return (
       <>
         <RootStack.Screen name="Propose" component={ProposeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name="QRCode" component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }

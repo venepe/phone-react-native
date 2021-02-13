@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import { getFormattedNumber } from '../../utilities/phone';
 import R from '../../resources';
 
@@ -63,7 +62,7 @@ class AvailableNumberItem extends Component {
             </View>
           </View>
           <View style={styles.dateContainer}>
-            
+
           </View>
         </View>
       </TouchableOpacity>

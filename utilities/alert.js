@@ -1,11 +1,13 @@
 import { Alert } from 'react-native';
 import { copyPhoneNumber } from './copy';
+import { getFormattedNumber } from './phone';
 import R from '../resources';
 
 export const showConfirmPurchaseAlert = ({ phoneNumber }, callback) => {
+  const formattedNumber = getFormattedNumber(phoneNumber);
   Alert.alert(
-    R.strings.CONFIRM_PURCHASE_TITLE,
-    R.strings.CONFIRM_PURCHASE_MESSAGE,
+    `Reserve ${formattedNumber}?`,
+    `Do you want to use ${formattedNumber} as your phone number?`,
     [
       {
         text: R.strings.CONFIRM_PURCHASE_NEGATIVE ,
@@ -14,6 +16,24 @@ export const showConfirmPurchaseAlert = ({ phoneNumber }, callback) => {
       {
         text: R.strings.CONFIRM_PURCHASE_AFFIRMATIVE,
         onPress: () => callback({ phoneNumber }),
+      },
+    ],
+    { cancelable: true }
+  );
+}
+
+export const showConfirmJoinAlert = ({}, callback) => {
+  Alert.alert(
+    `Join Your Partner?`,
+    `Do you want to join your partner on a phone number?`,
+    [
+      {
+        text: R.strings.CONFIRM_PURCHASE_NEGATIVE ,
+        style: 'cancel',
+      },
+      {
+        text: R.strings.CONFIRM_PURCHASE_AFFIRMATIVE,
+        onPress: () => callback({ }),
       },
     ],
     { cancelable: true }

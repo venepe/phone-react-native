@@ -41,7 +41,9 @@ class SearchBar extends Component {
 
   onPress() {
     let { query } = this.state;
-    query = finishAndFormatNumber(query);
+    if (query.length > 0) {
+      query = finishAndFormatNumber(query);
+    }
     this.props.onSearch({ query });
   }
 

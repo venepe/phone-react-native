@@ -17,6 +17,11 @@ PODS:
     - UMCore
   - EXErrorRecovery (1.4.0):
     - UMCore
+  - EXFacebook (10.0.0):
+    - FBSDKCoreKit (~> 5.8.0)
+    - FBSDKLoginKit (~> 5.8.0)
+    - UMConstantsInterface
+    - UMCore
   - EXFileSystem (9.3.0):
     - UMCore
     - UMFileSystemInterface
@@ -57,6 +62,16 @@ PODS:
     - React-Core (= 0.63.4)
     - React-jsi (= 0.63.4)
     - ReactCommon/turbomodule/core (= 0.63.4)
+  - FBSDKCoreKit (5.8.0):
+    - FBSDKCoreKit/Basics (= 5.8.0)
+    - FBSDKCoreKit/Core (= 5.8.0)
+  - FBSDKCoreKit/Basics (5.8.0)
+  - FBSDKCoreKit/Core (5.8.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.8.0):
+    - FBSDKLoginKit/Login (= 5.8.0)
+  - FBSDKLoginKit/Login (5.8.0):
+    - FBSDKCoreKit (~> 5.0)
   - Folly (2020.01.13.00):
     - boost-for-react-native
     - DoubleConversion
@@ -235,8 +250,6 @@ PODS:
   - React-jsinspector (0.63.4)
   - react-native-contacts (6.0.4):
     - React-Core
-  - react-native-rsa-native (2.0.3):
-    - React
   - react-native-safe-area-context (3.1.9):
     - React-Core
   - React-RCTActionSheet (0.63.4):
@@ -309,6 +322,8 @@ PODS:
     - React-Core
   - RNScreens (2.17.1):
     - React-Core
+  - RNShare (5.1.1):
+    - React-Core
   - RNSVG (12.1.0):
     - React
   - UMAppLoader (1.4.0)
@@ -342,6 +357,7 @@ DEPENDENCIES:
   - EXBarCodeScanner (from `../node_modules/expo-barcode-scanner/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
+  - EXFacebook (from `../node_modules/expo-facebook/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
@@ -370,7 +386,6 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
-  - react-native-rsa-native (from `../node_modules/react-native-rsa-native`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -387,6 +402,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
@@ -406,6 +422,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
+    - FBSDKCoreKit
+    - FBSDKLoginKit
     - ZXingObjC
 
 EXTERNAL SOURCES:
@@ -421,6 +439,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-constants/ios"
   EXErrorRecovery:
     :path: "../node_modules/expo-error-recovery/ios"
+  EXFacebook:
+    :path: "../node_modules/expo-facebook/ios"
   EXFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
@@ -473,8 +493,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-contacts:
     :path: "../node_modules/react-native-contacts"
-  react-native-rsa-native:
-    :path: "../node_modules/react-native-rsa-native"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-RCTActionSheet:
@@ -507,6 +525,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   UMAppLoader:
@@ -546,6 +566,7 @@ SPEC CHECKSUMS:
   EXBarCodeScanner: 6bfdcce1733157b1c023053da15f3c5e6e7f4958
   EXConstants: 54d0bf04319d1692c6c7bc03ca151ef7a71705a4
   EXErrorRecovery: b46af4b91e2b4ec598ab1fa51d2cf088aaf5511f
+  EXFacebook: 591900736492e32f78f0690121abcc9721f7b807
   EXFileSystem: 0e4974ab77bff04cda68d2886d070cbe64b93a6b
   EXFont: 30c64ed8735a180e3f20046e4fdac4ea074d71d3
   EXImageLoader: f96ec9992733a4224418bbd9382e5485c8948944
@@ -559,6 +580,8 @@ SPEC CHECKSUMS:
   EXUpdates: 28368049118dbe4ceaf4422ec72e0ad5f770df1f
   FBLazyVector: 3bb422f41b18121b71783a905c10e58606f7dc3e
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
+  FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
+  FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
@@ -572,7 +595,6 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-contacts: f97ea51a576325eade1c1e6a9e3be224ccbd466d
-  react-native-rsa-native: bfe07fdc42e86736098157e1fbde7e020bcdf6f7
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
@@ -589,6 +611,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: b6c9607e6fe47c1b6e2f1910d2acd46dd7ecea3a
+  RNShare: 6779fdd48e6246a8c79276a5b5e74a0f0d61a1ec
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   UMAppLoader: 92d044af52626af3d81a69796ad666fc7a9a7d78
   UMBarCodeScannerInterface: 3f6c1b09ef4b867ce752b8c0b3893bcf9cd85f32

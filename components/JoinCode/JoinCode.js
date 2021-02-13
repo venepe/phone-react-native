@@ -7,6 +7,11 @@ import {
   Text,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { postOwners} from '../../fetches';
+import { storeAndSetActiveUser} from '../../actions';
+import { getToken } from '../../reducers';
+import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
 import { login } from '../../utilities/auth';
 
 import R from '../../resources';
@@ -15,22 +20,51 @@ class JoinCode extends Component {
 
   constructor(props) {
     super(props);
-    const { invitation } = props.route.params;
+    const { invitation: accountId } = props.route.params;
     this.state = {
-      invitation,
+      accountId,
+      token: props.token,
       isLoading: false,
-      didLogin: false,
     };
   }
 
   async componentDidMount() {
+    const { accountId } = this.state;
     this.setState({ isLoading: true });
-    console.log('here');
     try {
       const credentials = await login();
-      console.log(credentials);
+      showConfirmJoinAlert({ }, () => this.purchase());
     } catch (e) {
       this.setState({ isLoading: false, didLogin: false });
+      console.log(e);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.token !== prevProps.token) {
+      this.setState({
+        token: props.token,
+      });
+    }
+  }
+
+  async purchase() {
+    const { token, accountId } = this.state;
+    try {
+      const data = await postOwners({ token, accountId });
+      let { owner } = data;
+      if (owner) {
+        const { phoneNumber } = owner;
+        this.props.storeAndSetActiveUser({ payload: { accountId, phoneNumber, isActive: true } });
+        showCongratulationsAlert();
+      }
+      this.setState({ isLoading: false });
+    } catch (e) {
+      this.setState({ isLoading: false });
+      this.props.navigation.navigate('Welcome', {
+        screen: 'LandingTwo'
+      });
       console.log(e);
     }
   }
@@ -82,4 +116,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default JoinCode;
+const mapStateToProps = state => ({
+  token: getToken(state),
+});
+
+export default connect(
+  mapStateToProps,
+  { storeAndSetActiveUser },
+)(JoinCode);

@@ -15,3 +15,14 @@ export const copyPhoneNumber = async () => {
     duration: 3000,
   });
 }
+
+export const copyText = async (text) => {
+  Clipboard.setString(text);
+  showMessage({
+    message: `Copied!`,
+    type: 'default',
+    backgroundColor: R.colors.SUCCESS,
+    color: R.colors.TEXT_MAIN,
+    duration: 3000,
+  });
+}

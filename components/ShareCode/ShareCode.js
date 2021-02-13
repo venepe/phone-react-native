@@ -1,97 +1,92 @@
 import React, { Component } from 'react';
 import {
-  AppState,
   Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import QRCode from 'react-native-qrcode-svg';
-import moment from 'moment';
+import { MaterialIcons } from '@expo/vector-icons';
+import { List, Colors } from 'react-native-paper';
 import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
-import { getPhoneNumber, getUserId } from '../../reducers';
-import { init, getSignature } from '../../utilities/rsa';
+import { getAccountId } from '../../reducers';
+import { getInvitationUrl } from '../../utilities';
+import { copyText } from '../../utilities/copy';
 import { initSocket } from '../../utilities/socket';
 import { openShare } from '../../utilities/share';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
-const SCREEN_WIDTH = Dimensions.get('window').width - 100;
-const DAYS_TO_EXPIRE = 1;
+const ICON_SIZE = 35;
+const LARGE_ICON_SIZE = 60;
 
 class ShareCode extends Component {
 
   constructor(props) {
     super(props);
-    this.handleAppStateChange = this.handleAppStateChange.bind(this);
-    this.generateInvitationQRCode = this.generateInvitationQRCode.bind(this);
-    this.renderInvitation = this.renderInvitation.bind(this);
-    this.shareCode = this.shareCode.bind(this);
+    this.copyLink = this.copyLink.bind(this);
+    this.shareLink = this.shareLink.bind(this);
+    this.shareQRCode = this.shareQRCode.bind(this);
     this.state = {
-      phoneNumber: props.phoneNumber,
-      userId: props.userId,
-      invitation: '',
-      appState: AppState.currentState
+      accountId: props.accountId,
+      invitationUrl: getInvitationUrl(props.accountId),
     };
   }
 
-  async componentDidMount() {
-    const { phoneNumber } = this.state;
-    AppState.addEventListener('change', this.handleAppStateChange);
-    await init();
-    initSocket({ phoneNumber });
-    await this.generateInvitationQRCode();
+  componentDidMount() {
+    const { accountId } = this.state;
+    initSocket({ accountId });
     analytics.track(EVENTS.VIEWED_INVITATION);
   }
 
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
-  }
-
-  handleAppStateChange(nextAppState) {
-    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      this.generateInvitationQRCode();
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.accountId !== prevProps.accountId) {
+      this.setState({
+        accountId: props.accountId,
+        invitationUrl: getInvitationUrl(props.accountId),
+      });
     }
-    this.setState({ appState: nextAppState });
   }
 
-  async generateInvitationQRCode() {
-    const { phoneNumber, userId } = this.state;
-    const expires = moment.utc().add(DAYS_TO_EXPIRE, 'days').toISOString();
-    let message = JSON.stringify({ phoneNumber, userId, expires });
-    const signature = await getSignature(message);
-    const invitation = Base64.encode(message) + '.' + Base64.encode(signature);
-    this.setState({
-      invitation,
+  copyLink() {
+    const { invitationUrl } = this.state;
+    copyText(invitationUrl);
+  }
+
+  shareLink() {
+    const { invitationUrl: url } = this.state;
+    openShare({ url });
+  }
+
+  shareQRCode() {
+    this.props.navigation.navigate('QRCode', {
+      screen: 'ShareQRCode'
     });
   }
 
-  async shareCode() {
-    const { invitation: code } = this.state;
-    const invitationId = 'asdf';
-    openShare({ invitationId });
-  }
-
-  renderInvitation() {
-    const { invitation } = this.state;
-    if (invitation.length > 0) {
-      return (
-        <View style={styles.container}>
-          <QRCode value={invitation} size={200}/>
-          <Text style={styles.text}>{R.strings.LABEL_ACTIVATE}</Text>
-          <TouchableOpacity onPress={this.shareCode}>
-            <Text style={styles.logoutText}>{R.strings.TITLE_LOGOUT}</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-  }
-
   render() {
+    const { invitationUrl } = this.state;
     return (
       <View style={styles.root}>
-        {this.renderInvitation()}
+          <View style={{flex: .1}}></View>
+          <Text style={styles.titleText}>{R.strings.LABEL_ACTIVATE}</Text>
+          <TouchableOpacity style={styles.rowContainer} onPress={this.shareLink}>
+            <MaterialIcons style={styles.leftIcon} name="link" size={LARGE_ICON_SIZE} color={R.colors.TEXT_MAIN} />
+            <Text style={styles.titleText}>{invitationUrl}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.rowContainer} onPress={this.copyLink}>
+            <MaterialIcons style={styles.leftIcon} name="content-copy" size={ICON_SIZE} color={R.colors.TEXT_MAIN} />
+            <Text style={styles.titleText}>{R.strings.LABEL_COPY_LINK}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.rowContainer} onPress={this.shareLink}>
+            <MaterialIcons style={styles.leftIcon} name="share" size={ICON_SIZE} color={R.colors.TEXT_MAIN} />
+            <Text style={styles.titleText}>{R.strings.LABEL_SHARE_LINK}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.rowContainer} onPress={this.shareQRCode}>
+            <MaterialIcons style={styles.leftIcon} name="qr-code" size={ICON_SIZE} color={R.colors.TEXT_MAIN} />
+            <Text style={styles.titleText}>{R.strings.LABEL_QR_CODE}</Text>
+          </TouchableOpacity>
       </View>
     );
   }
@@ -100,25 +95,37 @@ class ShareCode extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   text: {
-    color: R.colors.TEXT_DARK,
+    color: R.colors.TEXT_MAIN,
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  rowContainer: {
+    flexDirection: 'row',
+    paddingTop: 15,
+    paddingBottom: 15,
+    marginRight: 40,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: R.colors.GREY_BACKGROUND,
+  },
+  leftIcon: {
+    marginRight: 15,
+  },
+  titleText: {
+    color: R.colors.TEXT_MAIN,
+    fontSize: 18,
+    fontWeight: '600',
+    flexWrap:'wrap',
+  },
 });
 
 const mapStateToProps = state => ({
-  phoneNumber: getPhoneNumber(state),
-  userId: getUserId(state),
+  accountId: getAccountId(state),
 });
 
 export default connect(

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteOwner } from '../../fetches';
-import { getToken, getPhoneNumber } from '../../reducers';
+import { getToken, getAccountId } from '../../reducers';
 import { clearSession } from '../../utilities/auth';
 import R from '../../resources';
 
@@ -23,7 +23,7 @@ class Manage extends Component {
     this.state = {
       isLoading: false,
       token: props.token,
-      phoneNumber: props.phoneNumber,
+      accountId: props.accountId,
     };
   }
 
@@ -34,18 +34,18 @@ class Manage extends Component {
         token: props.token,
       });
     }
-    if (props.phoneNumber !== prevProps.phoneNumber) {
+    if (props.accountId !== prevProps.accountId) {
       this.setState({
-        phoneNumber: props.phoneNumber,
+        accountId: props.accountId,
       });
     }
   }
 
   async onConfirmLeave() {
-    const { token, phoneNumber } = this.state;
+    const { token, accountId } = this.state;
     this.setState({ isLoading: true });
     try {
-      const data = await deleteOwner({ token, phoneNumber });
+      const data = await deleteOwner({ token, accountId });
       let { owner } = data;
       if (owner) {
         await clearSession();
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  phoneNumber: getPhoneNumber(state),
+  accountId: getAccountId(state),
   token: getToken(state),
 });
 

@@ -4,10 +4,8 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 const SCREEN_HEIGHT = Dimensions.get('window').height - 70;
 import R from '../../resources';
 

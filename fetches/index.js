@@ -45,12 +45,13 @@ export const postUser = ({ token }) => {
   .then(handleResponse)
 };
 
-export const getAvailableNumbers = ({ latitude, longitude, query }) => {
+export const getAvailableNumbers = ({ token, latitude, longitude, query }) => {
   return fetch(`${API_URL}/phone-numbers/available?lat=${latitude}&lon=${longitude}&query=${query}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   })
   .then(handleResponse)
@@ -85,25 +86,8 @@ export const postAccounts = ({ token, phoneNumber }) => {
   .then(handleResponse)
 };
 
-export const postInvitation = ({ token, code }) => {
-  return fetch(`${API_URL}/invitations`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      invitation: {
-        code,
-      },
-    }),
-  })
-  .then(handleResponse)
-};
-
-export const getInvitation = ({ token, invitationId }) => {
-  return fetch(`${API_URL}/invitations/${invitationId}`, {
+export const getOwners = ({ token, accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/owners`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -114,54 +98,20 @@ export const getInvitation = ({ token, invitationId }) => {
   .then(handleResponse)
 };
 
-export const postInvitationVerify = ({ token, invitation }) => {
-  return fetch(`${API_URL}/invitations/verify`, {
+export const postOwners = ({ token, accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/owners`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      verify: {
-        invitation,
-      },
-    }),
   })
   .then(handleResponse)
 };
 
-export const getOwners = ({ token, phoneNumber }) => {
-  return fetch(`${API_URL}/accounts/${phoneNumber}/owners`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  .then(handleResponse)
-};
-
-export const postOwners = ({ token, phoneNumber, invitation }) => {
-  return fetch(`${API_URL}/accounts/${phoneNumber}/owners`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      owner: {
-        invitation,
-      },
-    }),
-  })
-  .then(handleResponse)
-};
-
-export const deleteOwner = ({ token, phoneNumber }) => {
-  return fetch(`${API_URL}/accounts/${phoneNumber}/owners/me`, {
+export const deleteOwner = ({ token, accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/owners/me`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -172,8 +122,8 @@ export const deleteOwner = ({ token, phoneNumber }) => {
   .then(handleResponse)
 };
 
-export const getMessages = ({ token, phoneNumber }) => {
-  return fetch(`${API_URL}/accounts/${phoneNumber}/messages`, {
+export const getMessages = ({ token, accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/messages`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -182,20 +132,4 @@ export const getMessages = ({ token, phoneNumber }) => {
     },
   })
   .then(handleResponse)
-};
-
-export const postPublicKey = ({ token, publicKey }) => {
-  return fetch(`${API_URL}/users/public-key`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      user: {
-        publicKey,
-      },
-    }),
-  })
 };

@@ -7,13 +7,13 @@ import {
 } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
-import PermissionStatus from '../../constants/PermissionStatus';
+import { postOwners} from '../../fetches';
 import { storeAndSetActiveUser} from '../../actions';
-import { getInvitation, postInvitationVerify, postOwners } from '../../fetches';
 import { getToken } from '../../reducers';
-import { showConfirmPurchaseAlert, showCongratulationsAlert } from '../../utilities/alert';
+import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
+import PermissionStatus from '../../constants/PermissionStatus';
+import { isUUID } from '../../utilities';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -24,11 +24,10 @@ class EnterCode extends Component {
     this.handleBarCodeScanned = this.handleBarCodeScanned.bind(this);
     this.purchase = this.purchase.bind(this);
     this.state = {
-      phoneNumber: '',
-      errorMessage: '',
-      invitation: '',
-      isGranted: false,
       token: props.token,
+      isLoading: false,
+      errorMessage: '',
+      isGranted: false,
       didScan: false,
     };
   }
@@ -43,64 +42,37 @@ class EnterCode extends Component {
     analytics.track(EVENTS.VIEWED_SCANNER);
   }
 
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.token !== prevProps.token) {
+  async handleBarCodeScanned({ data: accountId }) {
+    if (isUUID(accountId)) {
       this.setState({
-        token: props.token,
+        accountId,
       });
-    }
-  }
-
-  async handleBarCodeScanned({ data: invitation }) {
-    this.setState({
-      didScan: true,
-    });
-    try {
-      const { token } = this.state;
-      let data = await postInvitationVerify({ token, invitation });
-      let { verify } = data;
-      if (verify && verify.isValid) {
-        let [ base64Message, base64Signature ] = invitation.split('.');
-        const message = Base64.decode(base64Message);
-        const payload = JSON.parse(message);
-        const { phoneNumber } = payload;
-        console.log(payload);
-        this.setState({
-          invitation,
-          phoneNumber,
-        });
-        showConfirmPurchaseAlert({ phoneNumber }, () => this.purchase());
-      } else {
-        this.setState({
-          didScan: false,
-          errorMessage: 'Invalid code.',
-        });
-      }
-    } catch (e) {
-      console.log(e);
-      this.setState({
-        didScan: false,
-      });
+      showConfirmJoinAlert({ }, () => this.purchase());
     }
   }
 
   async purchase() {
-    const { token, phoneNumber, invitation } = this.state;
+    const { token, accountId } = this.state;
     try {
-      const data = await postOwners({ token, phoneNumber, invitation });
+      const data = await postOwners({ token, accountId });
       let { owner } = data;
       if (owner) {
-        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive: true } });
+        const { phoneNumber } = owner;
+        this.props.storeAndSetActiveUser({ payload: { accountId, phoneNumber, isActive: true } });
         showCongratulationsAlert();
       }
+      this.setState({ isLoading: false });
     } catch (e) {
+      this.setState({ isLoading: false });
+      this.props.navigation.navigate('Welcome', {
+        screen: 'LandingTwo'
+      });
       console.log(e);
     }
   }
 
   render() {
-    const { invitation, phoneNumber, isGranted, errorMessage } = this.state;
+    const { isGranted, errorMessage } = this.state;
     if (!isGranted) {
       return (
         <View style={styles.root}>

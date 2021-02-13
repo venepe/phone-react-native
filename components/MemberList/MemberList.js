@@ -13,7 +13,7 @@ import Blank from '../Blank';
 import MemberItem from './MemberItem';
 import Empty from './Empty';
 import { getOwners } from '../../fetches';
-import { getToken, getPhoneNumber } from '../../reducers';
+import { getToken, getAccountId } from '../../reducers';
 import R from '../../resources';
 
 class MemberList extends Component {
@@ -27,15 +27,15 @@ class MemberList extends Component {
     this.state = {
       isFetching: false,
       token: props.token,
-      phoneNumber: props.phoneNumber,
+      accountId: props.accountId,
       owners: [],
     };
   }
 
   async fetch() {
     try {
-      const { token, phoneNumber } = this.state;
-      const data = await getOwners({ token, phoneNumber });
+      const { token, accountId } = this.state;
+      const data = await getOwners({ token, accountId });
       let { owners } = data;
       this.setState({
         owners,
@@ -56,9 +56,9 @@ class MemberList extends Component {
         token: props.token,
       });
     }
-    if (props.phoneNumber !== prevProps.phoneNumber) {
+    if (props.accountId !== prevProps.accountId) {
       this.setState({
-        phoneNumber: props.phoneNumber,
+        accountId: props.accountId,
       });
     }
   }
@@ -121,7 +121,7 @@ MemberList.propTypes = {}
 
 const mapStateToProps = state => ({
   token: getToken(state),
-  phoneNumber: getPhoneNumber(state),
+  accountId: getAccountId(state),
 });
 
 export default connect(

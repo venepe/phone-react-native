@@ -6,17 +6,15 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import Contacts from 'react-native-contacts';
 import { connect } from 'react-redux';
 import Blank from '../Blank';
 import ChatItem from './ChatItem';
 import Empty from './Empty';
 import { getMessages } from '../../fetches';
-import { getToken, getPhoneNumber } from '../../reducers';
+import { getToken, getAccountId } from '../../reducers';
 import PermissionStatus from '../../constants/PermissionStatus';
 import { getFormattedNumber } from '../../utilities/phone';
 import { requestContactsPermission } from '../../utilities/permissions';
@@ -35,15 +33,15 @@ class ChatList extends Component {
     this.state = {
       isFetching: false,
       token: props.token,
-      phoneNumber: props.phoneNumber,
+      accountId: props.accountId,
       messages: [],
     };
   }
 
   async fetch() {
     try {
-      const { token, phoneNumber } = this.state;
-      const data = await getMessages({ token, phoneNumber });
+      const { token, accountId } = this.state;
+      const data = await getMessages({ token, accountId });
       let { messages } = data;
       messages = await this.formatMessages(messages);
       this.setState({
@@ -68,9 +66,9 @@ class ChatList extends Component {
         token: props.token,
       });
     }
-    if (props.phoneNumber !== prevProps.phoneNumber) {
+    if (props.accountId !== prevProps.accountId) {
       this.setState({
-        phoneNumber: props.phoneNumber,
+        accountId: props.accountId,
       });
     }
   }
@@ -153,7 +151,7 @@ ChatList.propTypes = {}
 
 const mapStateToProps = state => ({
   token: getToken(state),
-  phoneNumber: getPhoneNumber(state),
+  accountId: getAccountId(state),
 });
 
 export default connect(

@@ -38,8 +38,9 @@ class Landing extends Component {
       let { accounts } = data;
       if (accounts && accounts.length > 0) {
         const account = accounts[0];
-        const { phoneNumber, isActive } = account;
-        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive } });
+        const { phoneNumber, isActive, id: accountId } = account;
+        console.log(account);
+        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
       } else {
         this.props.navigation.replace('LandingTwo');
       }

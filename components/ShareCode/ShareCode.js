@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AppState,
   Dimensions,
   StyleSheet,
   Text,
@@ -10,7 +11,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { List, Colors } from 'react-native-paper';
 import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
-import { getAccountId } from '../../reducers';
+import { getAccounts } from '../../fetches';
+import { storeAndSetActiveUser } from '../../actions';
+import { getAccountId, getToken } from '../../reducers';
 import { getInvitationUrl } from '../../utilities';
 import { copyText } from '../../utilities/copy';
 import { initSocket } from '../../utilities/socket';
@@ -27,26 +30,50 @@ class ShareCode extends Component {
     this.copyLink = this.copyLink.bind(this);
     this.shareLink = this.shareLink.bind(this);
     this.shareQRCode = this.shareQRCode.bind(this);
+    this.getAndSetActiveUser = this.getAndSetActiveUser.bind(this);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.state = {
       accountId: props.accountId,
+      token: props.token,
       invitationUrl: getInvitationUrl(props.accountId),
+      appState: AppState.currentState
     };
   }
 
   componentDidMount() {
     const { accountId } = this.state;
     initSocket({ accountId });
+    this.getAndSetActiveUser();
+    AppState.addEventListener('change', this.handleAppStateChange);
     analytics.track(EVENTS.VIEWED_INVITATION);
   }
 
   componentDidUpdate(prevProps) {
     const props = this.props;
     if (props.accountId !== prevProps.accountId) {
+      const { accountId } = props;
+      initSocket({ accountId });
       this.setState({
-        accountId: props.accountId,
-        invitationUrl: getInvitationUrl(props.accountId),
+        accountId: accountId,
+        invitationUrl: getInvitationUrl(accountId),
       });
     }
+    if (props.token !== prevProps.token) {
+      this.setState({
+        token: props.token,
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange(nextAppState) {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.getAndSetActiveUser();
+    }
+    this.setState({ appState: nextAppState });
   }
 
   copyLink() {
@@ -63,6 +90,17 @@ class ShareCode extends Component {
     this.props.navigation.navigate('QRCode', {
       screen: 'ShareQRCode'
     });
+  }
+
+  async getAndSetActiveUser() {
+    const { token } = this.state;
+    const data = await getAccounts({ token });
+    let { accounts } = data;
+    if (accounts && accounts.length > 0) {
+      const account = accounts[0];
+      const { phoneNumber, isActive, id: accountId } = account;
+      this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+    }
   }
 
   render() {
@@ -126,9 +164,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   accountId: getAccountId(state),
+  token: getToken(state),
 });
 
 export default connect(
   mapStateToProps,
-  { },
+  { storeAndSetActiveUser },
 )(ShareCode);

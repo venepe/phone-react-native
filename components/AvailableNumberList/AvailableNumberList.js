@@ -35,7 +35,6 @@ class AvailableNumberList extends Component {
       isFetching: false,
       location: props.location,
       token: props.token,
-      userId: props.userId,
       location: {
         latitude: null,
         longitude: null,
@@ -54,11 +53,6 @@ class AvailableNumberList extends Component {
 
   componentDidUpdate(prevProps) {
     const props = this.props;
-    if (props.userId !== prevProps.userId) {
-      this.setState({
-        userId: props.userId,
-      });
-    }
     if (props.token !== prevProps.token) {
       this.setState({
         token: props.token,
@@ -128,7 +122,7 @@ class AvailableNumberList extends Component {
   }
 
   render() {
-    const { isFetching, location = {}, userId, phoneNumbers, phoneNumber, query } = this.state;
+    const { isFetching, location = {}, phoneNumbers, phoneNumber, query } = this.state;
     const { latitude, longitude } = location;
     return (
       <View style={styles.root}>
@@ -171,7 +165,6 @@ AvailableNumberList.defaultProps = {};
 AvailableNumberList.propTypes = {}
 
 const mapStateToProps = state => ({
-  userId: getUserId(state),
   token: getToken(state),
 });
 

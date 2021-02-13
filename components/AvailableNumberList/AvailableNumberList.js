@@ -43,6 +43,7 @@ class AvailableNumberList extends Component {
       phoneNumber: '',
       phoneNumbers: [],
       query: '',
+      isPurchasing: false,
     };
   }
 
@@ -98,17 +99,20 @@ class AvailableNumberList extends Component {
   }
 
   async purchase({ phoneNumber }) {
-    const { token } = this.state;
-    try {
-      const data = await postAccounts({ token, phoneNumber });
-      let { account } = data;
-      if (account) {
-        console.log(account);
-        const { phoneNumber, isActive, id: accountId } = account;
-        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+    const { token, isPurchasing } = this.state;
+    if (!isPurchasing) {
+      this.setState({ isPurchasing: true });
+      try {
+        const data = await postAccounts({ token, phoneNumber });
+        let { account } = data;
+        if (account) {
+          const { phoneNumber, isActive, id: accountId } = account;
+          this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
+      this.setState({ isPurchasing: false });
     }
   }
 

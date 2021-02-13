@@ -6,7 +6,7 @@ import { showCongratulationsAlert } from './alert';
 
 let socket;
 
-export const initSocket = async ({ phoneNumber }) => {
+export const initSocket = async ({ accountId }) => {
   socket = io(SOCKET_URL, {
     forceNode:false,
     transports: ['websocket'],
@@ -14,8 +14,8 @@ export const initSocket = async ({ phoneNumber }) => {
   });
 
   socket.on('connect', () => {
-    socket.emit('set-phone-number', {
-      phoneNumber,
+    socket.emit('set-account-id', {
+      accountId,
     });
   });
 

@@ -78,6 +78,11 @@
 	<string>Tandem needs access to your location to find local phone numbers.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Tandem needs access to your camera to read the invitation.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

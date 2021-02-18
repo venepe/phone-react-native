@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>484823235592-g8473cu7dejko52cam0irood96tr1spi.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.484823235592-g8473cu7dejko52cam0irood96tr1spi</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>484823235592-k0i19kti3ampu8nslv377vi8elm55k8n.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBkP4oOTkhdvd2O5kBIUpJQHaBBC8IoBoA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>484823235592</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.venepe.anumberforus</string>
+	<key>PROJECT_ID</key>
+	<string>bubblepop</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bubblepop.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:484823235592:ios:bae5d6e4f926f82446a5bd</string>
+	<key>DATABASE_URL</key>
+	<string>https://bubblepop-1ac0f.firebaseio.com</string>
+</dict>
+</plist>

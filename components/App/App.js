@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { initializeApplication } from '../../actions';
 import { getIsLoggedIn, getIsActiveUser } from '../../reducers';
 import { getPathParams } from '../../utilities';
+import { initializeNotifications } from '../../utilities/notification';
 
 import Blank from '../Blank';
 import Home from '../Home';
@@ -310,6 +311,7 @@ class App extends Component {
   }
 
   renderAuthenticated() {
+    initializeNotifications();
     return (
       <>
         <RootStack.Screen name="Bubblepop" component={HomeStackScreen} options={() => ({ headerShown: false })} />

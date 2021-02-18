@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_number": "484823235592",
+    "firebase_url": "https://bubblepop-1ac0f.firebaseio.com",
+    "project_id": "bubblepop",
+    "storage_bucket": "bubblepop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484823235592:android:a00e583d42c9836146a5bd",
+        "android_client_info": {
+          "package_name": "com.venepe.anumberforus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUbdNGSeV4JdeyBn18-ANOsYeibYCF_A0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484823235592-tqbrgdrapjffq45u9ru9d9r0sr369s72.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "484823235592-3gjf4tj3s45be3g0ims86hdo4am5b7iu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.venepe.anumberforus",
+                "app_store_id": "1552132836"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

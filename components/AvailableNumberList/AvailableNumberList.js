@@ -8,10 +8,10 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Blank from '../Blank';
 import AvailableNumberItem from './AvailableNumberItem';
 import SearchBar from './SearchBar';
 import Empty from './Empty';
+import Loading from './Loading';
 import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
 import { storeAndSetActiveUser} from '../../actions';
@@ -122,8 +122,11 @@ class AvailableNumberList extends Component {
   }
 
   render() {
-    const { isFetching, location = {}, phoneNumbers, phoneNumber, query } = this.state;
+    const { isFetching, location = {}, phoneNumbers, phoneNumber, query, isPurchasing } = this.state;
     const { latitude, longitude } = location;
+    if (isPurchasing) {
+      return <Loading/>;
+    }
     return (
       <View style={styles.root}>
         <View style={styles.container}>

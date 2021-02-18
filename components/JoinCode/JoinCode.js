@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -21,6 +22,9 @@ class JoinCode extends Component {
   constructor(props) {
     super(props);
     const { invitation: accountId } = props.route.params;
+    this.purchase = this.purchase.bind(this);
+    this.cancel = this.cancel.bind(this);
+    this.join = this.join.bind(this);
     this.state = {
       accountId,
       token: props.token,
@@ -28,16 +32,20 @@ class JoinCode extends Component {
     };
   }
 
-  async componentDidMount() {
+  async join() {
     const { accountId } = this.state;
     this.setState({ isLoading: true });
     try {
       const credentials = await login();
-      showConfirmJoinAlert({ }, () => this.purchase());
+      showConfirmJoinAlert({ }, () => this.purchase(), () => this.cancel());
     } catch (e) {
       this.setState({ isLoading: false, didLogin: false });
       console.log(e);
     }
+  }
+
+  componentDidMount() {
+    this.join();
   }
 
   componentDidUpdate(prevProps) {
@@ -69,7 +77,12 @@ class JoinCode extends Component {
     }
   }
 
+  cancel() {
+    this.setState({ isLoading: false });
+  }
+
   render() {
+    const { isLoading } = this.state;
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.container}>
@@ -79,7 +92,12 @@ class JoinCode extends Component {
               source={require('../../assets/couple_three.png')}
             />
           </View>
-          <ActivityIndicator style={styles.spinner} size='large' color={R.colors.BACKGROUND_MAIN} />
+          {(isLoading) ?
+            (<ActivityIndicator style={styles.spinner} size='large' color={R.colors.BACKGROUND_MAIN} />) :
+              (<TouchableOpacity onPress={this.join}>
+                <Text style={styles.retryText}>{R.strings.LABEL_RETRY}</Text>
+              </TouchableOpacity>)
+            }
           <View style={styles.imageContainer}>
             <Image
               style={[styles.image, { alignSelf: 'flex-start' }]}
@@ -113,6 +131,12 @@ const styles = StyleSheet.create({
   },
   spinner: {
     height: 35,
+  },
+  retryText: {
+    alignSelf: 'center',
+    color: R.colors.TEXT_MAIN,
+    fontSize: 28,
+    fontWeight: '400',
   },
 });
 

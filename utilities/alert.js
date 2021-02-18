@@ -3,7 +3,7 @@ import { copyPhoneNumber } from './copy';
 import { getFormattedNumber } from './phone';
 import R from '../resources';
 
-export const showConfirmPurchaseAlert = ({ phoneNumber }, callback) => {
+export const showConfirmPurchaseAlert = ({ phoneNumber }, purchase, cancel) => {
   const formattedNumber = getFormattedNumber(phoneNumber);
   Alert.alert(
     `Reserve ${formattedNumber}?`,
@@ -12,17 +12,18 @@ export const showConfirmPurchaseAlert = ({ phoneNumber }, callback) => {
       {
         text: R.strings.CONFIRM_PURCHASE_NEGATIVE ,
         style: 'cancel',
+        onPress: () => cancel(),
       },
       {
         text: R.strings.CONFIRM_PURCHASE_AFFIRMATIVE,
-        onPress: () => callback({ phoneNumber }),
+        onPress: () => purchase({ phoneNumber }),
       },
     ],
     { cancelable: true }
   );
 }
 
-export const showConfirmJoinAlert = ({}, callback) => {
+export const showConfirmJoinAlert = ({}, purchase, cancel) => {
   Alert.alert(
     `Join Your Partner?`,
     `Do you want to join your partner on a phone number?`,
@@ -30,10 +31,11 @@ export const showConfirmJoinAlert = ({}, callback) => {
       {
         text: R.strings.CONFIRM_PURCHASE_NEGATIVE ,
         style: 'cancel',
+        onPress: () => cancel(),
       },
       {
         text: R.strings.CONFIRM_PURCHASE_AFFIRMATIVE,
-        onPress: () => callback({ }),
+        onPress: () => purchase({ }),
       },
     ],
     { cancelable: true }

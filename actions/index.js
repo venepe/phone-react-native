@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import Keys from '../constants/Keys';
+import AppTypes from '../constants/AppTypes';
 import UserTypes from '../constants/UserTypes';
 import { getStore } from '../store';
 import analytics from '../analytics';
@@ -21,6 +22,8 @@ export const initializeApplication = () =>
     dispatch(setPhoneNumber({ payload: { phoneNumber } }));
     dispatch(setAccountId({ payload: { accountId } }));
     dispatch(setIsActive({ payload: { isActive } }));
+    dispatch(setIsInitialized());
+    console.log('here');
     if (token) {
       refreshToken();
     }
@@ -109,6 +112,11 @@ export const setAccountId = payload => ({
 export const setIsActive = payload => ({
   type: UserTypes.SET_IS_ACTIVE,
   ...payload,
+});
+
+export const setIsInitialized = () => ({
+  type: AppTypes.SET_IS_INITIALIZED,
+  payload: { isInitialized: true },
 });
 
 const actions = {

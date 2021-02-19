@@ -11,6 +11,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:anumberforus.com</string>
+		<string>applinks:invite.anumberforus.com</string>
 	</array>
 </dict>
 </plist>

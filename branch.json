@@ -1,0 +1,9 @@
+{
+  "debugMode": false,
+  "branchKey": "key_live_nh4fAtwIn0QzGhNHg3hQ1hmpqubwPdDh",
+  "liveKey": "key_live_nh4fAtwIn0QzGhNHg3hQ1hmpqubwPdDh",
+  "testKey": "key_test_nkZbBvDKk8VqHiNNl3viEjofyskuShyv",
+  "useTestInstance": false,
+  "delayInitToCheckForSearchAds": false,
+  "enableFacebookLinkCheck": false
+}

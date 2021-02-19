@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { AppState } from "react-native";
+import { AppState } from 'react-native';
+import branch from 'react-native-branch';
 import { NavigationContainer, getStateFromPath } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -7,7 +8,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { connect } from 'react-redux';
 import { initializeApplication } from '../../actions';
 import { getIsLoggedIn, getIsActiveUser } from '../../reducers';
-import { getPathParams } from '../../utilities';
 import { initializeNotifications } from '../../utilities/notification';
 
 import Blank from '../Blank';
@@ -102,7 +102,7 @@ function JoinStackScreen() {
 function ProposeStackScreen() {
   return (
     <ProposeStack.Navigator
-      initialRouteName="ProposeStack"
+      initialRouteName='ProposeStack'
       screenOptions={{
         headerShown: true,
         headerStyle: {
@@ -130,14 +130,14 @@ function ProposeStackScreen() {
       drawerContent={(props) => (<SimpleDrawer {...props} />)}
       >
       <ProposeStack.Screen
-        name="ShareCode"
+        name='ShareCode'
         component={ShareCode}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_SHARE_CODE,
         })}
       />
       <ProposeStack.Screen
-        name="Manage"
+        name='Manage'
         component={Manage}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_MANAGE,
@@ -194,7 +194,7 @@ function HomeTabs() {
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator
-      initialRouteName="Home"
+      initialRouteName='Home'
       screenOptions={{
         headerShown: true,
         headerStyle: {
@@ -222,21 +222,21 @@ function HomeStackScreen() {
       drawerContent={(props) => (<DrawerContent {...props} />)}
       >
       <HomeStack.Screen
-        name="Home"
+        name='Home'
         component={HomeTabs}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_APP_NAME,
         })}
       />
       <HomeStack.Screen
-        name="Members"
+        name='Members'
         component={MemberList}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_MEMBERS,
         })}
       />
       <HomeStack.Screen
-        name="Manage"
+        name='Manage'
         component={Manage}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_MANAGE,
@@ -247,21 +247,13 @@ function HomeStackScreen() {
 }
 
 const linking = {
-  prefixes: ['https://anumberforus.com', 'anumberforus://'],
+  prefixes: ['https://anumberforus.com', 'https://invite.anumberforus.com', 'anumberforus://'],
   config: {
     Join: {
       screens: {
         JoinCode: 'invitations/:invitation',
       }
     },
-  },
-  getStateFromPath: (path, options) => {
-    const { invitations } = getPathParams(path);
-    if (invitations) {
-      const code = invitations;
-      console.log(code);
-    }
-    return getStateFromPath(path, options);
   },
 };
 
@@ -314,7 +306,7 @@ class App extends Component {
     initializeNotifications();
     return (
       <>
-        <RootStack.Screen name="Bubblepop" component={HomeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='Bubblepop' component={HomeStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }
@@ -322,8 +314,8 @@ class App extends Component {
   renderProposal() {
     return (
       <>
-        <RootStack.Screen name="Propose" component={ProposeStackScreen} options={() => ({ headerShown: false })} />
-        <RootStack.Screen name="QRCode" component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='Propose' component={ProposeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='QRCode' component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }
@@ -331,8 +323,8 @@ class App extends Component {
   renderUnauthenticated() {
     return (
       <>
-        <RootStack.Screen name="Welcome" component={LandingStackScreen} options={() => ({ headerShown: false })} />
-        <RootStack.Screen name="Join" component={JoinStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='Welcome' component={LandingStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='Join' component={JoinStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }
@@ -351,6 +343,15 @@ class App extends Component {
     );
   }
 }
+
+branch.subscribe(({ error, params }) => {
+  if (error) {
+    console.log('Error from Branch: ' + error)
+    return
+  }
+  console.log('Received link response from Branch')
+  console.log('params: ' + JSON.stringify(params))
+})
 
 const mapStateToProps = state => ({
   isLoggedIn: getIsLoggedIn(state),

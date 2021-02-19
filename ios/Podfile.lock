@@ -2,6 +2,7 @@ PODS:
   - A0Auth0 (2.7.0):
     - React
   - boost-for-react-native (1.63.0)
+  - Branch (0.37.0)
   - DoubleConversion (1.1.6)
   - EXApplication (2.4.1):
     - UMCore
@@ -304,6 +305,9 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
+  - react-native-branch (5.0.1):
+    - Branch (= 0.37.0)
+    - React
   - react-native-contacts (6.0.4):
     - React-Core
   - react-native-safe-area-context (3.1.9):
@@ -448,6 +452,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-branch (from `../node_modules/react-native-branch`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -487,6 +492,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
+    - Branch
     - FBSDKCoreKit
     - FBSDKLoginKit
     - Firebase
@@ -566,6 +572,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-branch:
+    :path: "../node_modules/react-native-branch"
   react-native-contacts:
     :path: "../node_modules/react-native-contacts"
   react-native-safe-area-context:
@@ -640,6 +648,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   A0Auth0: d8dfb271aead73b19cb30910e7dbe77b03c03633
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  Branch: 49c609eb0ac0130b8491d0923a9298714731bd0d
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   EXApplication: e3c201e7b913d081bbd37bd3c5d0e2cdc21733b4
   EXBarCodeScanner: 6bfdcce1733157b1c023053da15f3c5e6e7f4958
@@ -683,6 +692,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
+  react-native-branch: f630e0e399c64230463246469ca0817e4f821b78
   react-native-contacts: f97ea51a576325eade1c1e6a9e3be224ccbd466d
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336

@@ -7225,6 +7225,11 @@ react-native-auth0@^2.7.0:
     jwt-decode "^2.2.0"
     url "^0.11.0"
 
+react-native-branch@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-5.0.1.tgz#fc23e4626a8902436dad5bf20950bdc2da1c307f"
+  integrity sha512-nV4SgkbjtlOLZP/3z86zz2nCWojSwqqtJTz9yDh2tahXmjLoV3xX0F4Q2CzwQGH6bcFSr/ypuRszUa6pLy0Bgg==
+
 react-native-contacts@^6.0.3:
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-6.0.4.tgz#b46a719c425f75144641c6141909069ae7f2e406"

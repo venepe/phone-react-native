@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
+  ActivityIndicator,
   Platform,
   StyleSheet,
   Text,
@@ -8,7 +9,7 @@ import {
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-import { postOwners} from '../../fetches';
+import { getAccountById, postOwners } from '../../fetches';
 import { storeAndSetActiveUser} from '../../actions';
 import { getToken } from '../../reducers';
 import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
@@ -23,12 +24,11 @@ class EnterCode extends Component {
     super(props);
     this.handleBarCodeScanned = this.handleBarCodeScanned.bind(this);
     this.purchase = this.purchase.bind(this);
+    this.cancel = this.cancel.bind(this);
     this.state = {
       token: props.token,
       isLoading: false,
-      errorMessage: '',
       isGranted: false,
-      didScan: false,
     };
   }
 
@@ -43,16 +43,25 @@ class EnterCode extends Component {
   }
 
   async handleBarCodeScanned({ data: accountId }) {
+    const { token } = this.state;
     if (isUUID(accountId)) {
       this.setState({
         accountId,
+        isLoading: true,
       });
-      showConfirmJoinAlert({ }, () => this.purchase());
+      try {
+        const { account: { owners, phoneNumber } }= await getAccountById({ token, accountId });
+        showConfirmJoinAlert({ owners, phoneNumber }, () => this.purchase(), () => this.cancel());
+      } catch (e) {
+        this.setState({ isLoading: false });
+        console.log(e);
+      }
     }
   }
 
   async purchase() {
     const { token, accountId } = this.state;
+    this.setState({ isLoading: true });
     try {
       const data = await postOwners({ token, accountId });
       let { owner } = data;
@@ -64,18 +73,26 @@ class EnterCode extends Component {
       this.setState({ isLoading: false });
     } catch (e) {
       this.setState({ isLoading: false });
-      this.props.navigation.navigate('Welcome', {
-        screen: 'LandingTwo'
-      });
       console.log(e);
     }
   }
 
+  cancel() {
+    this.setState({ isLoading: false });
+  }
+
   render() {
-    const { isGranted, errorMessage } = this.state;
+    const { isGranted, isLoading } = this.state;
     if (!isGranted) {
       return (
         <View style={styles.root}>
+        </View>
+      )
+    }
+    if (isLoading) {
+      return (
+        <View style={styles.root}>
+          <ActivityIndicator style={styles.spinner} size='large' color={R.colors.TEXT_MAIN} />
         </View>
       )
     }
@@ -83,7 +100,7 @@ class EnterCode extends Component {
       <View style={styles.root}>
         <BarCodeScanner
           barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-          onBarCodeScanned={this.state.didScan ? undefined : this.handleBarCodeScanned}
+          onBarCodeScanned={this.state.isLoading ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         >
           <View style={styles.container}>
@@ -116,6 +133,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  spinner: {
+    flex: 1,
+    alignSelf: 'center',
+    height: 35,
   },
 });
 

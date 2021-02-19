@@ -19,14 +19,20 @@ export const showConfirmPurchaseAlert = ({ phoneNumber }, purchase, cancel) => {
         onPress: () => purchase({ phoneNumber }),
       },
     ],
-    { cancelable: true }
+    { cancelable: false }
   );
 }
 
-export const showConfirmJoinAlert = ({}, purchase, cancel) => {
+export const showConfirmJoinAlert = ({ owners, phoneNumber }, purchase, cancel) => {
+  const formattedNumber = getFormattedNumber(phoneNumber);
+  let nameText = 'your partner';
+  if (owners && owners.length > 0) {
+    nameText = owners[0].name;
+  }
+
   Alert.alert(
-    `Join Your Partner?`,
-    `Do you want to join your partner on a phone number?`,
+    `Join ${formattedNumber}?`,
+    `Do you want to join ${nameText} on a phone number?`,
     [
       {
         text: R.strings.CONFIRM_PURCHASE_NEGATIVE ,
@@ -38,7 +44,7 @@ export const showConfirmJoinAlert = ({}, purchase, cancel) => {
         onPress: () => purchase({ }),
       },
     ],
-    { cancelable: true }
+    { cancelable: false }
   );
 }
 

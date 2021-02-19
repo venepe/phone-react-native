@@ -86,6 +86,18 @@ export const postAccounts = ({ token, phoneNumber }) => {
   .then(handleResponse)
 };
 
+export const getAccountById = ({ token, accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
 export const getOwners = ({ token, accountId }) => {
   return fetch(`${API_URL}/accounts/${accountId}/owners`, {
     method: 'GET',

@@ -9,8 +9,8 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { postOwners} from '../../fetches';
-import { storeAndSetActiveUser} from '../../actions';
+import { getAccountById, postOwners } from '../../fetches';
+import { storeAndSetActiveUser } from '../../actions';
 import { getToken } from '../../reducers';
 import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
 import { login } from '../../utilities/auth';
@@ -25,6 +25,7 @@ class JoinCode extends Component {
     this.purchase = this.purchase.bind(this);
     this.cancel = this.cancel.bind(this);
     this.join = this.join.bind(this);
+    this.exitSetup = this.exitSetup.bind(this);
     this.state = {
       accountId,
       token: props.token,
@@ -33,15 +34,22 @@ class JoinCode extends Component {
   }
 
   async join() {
-    const { accountId } = this.state;
+    const { token, accountId } = this.state;
     this.setState({ isLoading: true });
     try {
       const credentials = await login();
-      showConfirmJoinAlert({ }, () => this.purchase(), () => this.cancel());
+      const { account: { owners, phoneNumber } }= await getAccountById({ token, accountId });
+      showConfirmJoinAlert({ owners, phoneNumber }, () => this.purchase(), () => this.cancel());
     } catch (e) {
       this.setState({ isLoading: false, didLogin: false });
       console.log(e);
     }
+  }
+
+  exitSetup() {
+    this.props.navigation.navigate('Welcome', {
+      screen: 'LandingTwo'
+    });
   }
 
   componentDidMount() {
@@ -69,11 +77,8 @@ class JoinCode extends Component {
       }
       this.setState({ isLoading: false });
     } catch (e) {
-      this.setState({ isLoading: false });
-      this.props.navigation.navigate('Welcome', {
-        screen: 'LandingTwo'
-      });
       console.log(e);
+      this.setState({ isLoading: false });
     }
   }
 
@@ -94,9 +99,16 @@ class JoinCode extends Component {
           </View>
           {(isLoading) ?
             (<ActivityIndicator style={styles.spinner} size='large' color={R.colors.BACKGROUND_MAIN} />) :
-              (<TouchableOpacity onPress={this.join}>
-                <Text style={styles.retryText}>{R.strings.LABEL_RETRY}</Text>
-              </TouchableOpacity>)
+              (
+                <View style={styles.retryContainer}>
+                  <TouchableOpacity onPress={this.join}>
+                    <Text style={styles.retryText}>{R.strings.LABEL_RETRY}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={this.exitSetup}>
+                    <Text style={styles.exitSetupText}>{R.strings.LABEL_EXIT_SETUP}</Text>
+                  </TouchableOpacity>
+                </View>
+              )
             }
           <View style={styles.imageContainer}>
             <Image
@@ -137,6 +149,16 @@ const styles = StyleSheet.create({
     color: R.colors.TEXT_MAIN,
     fontSize: 28,
     fontWeight: '400',
+  },
+  exitSetupText: {
+    marginTop: 10,
+    alignSelf: 'center',
+    color: R.colors.TEXT_MAIN,
+    fontSize: 14,
+    fontWeight: '400',
+  },
+  retryContainer: {
+    alignSelf: 'center',
   },
 });
 

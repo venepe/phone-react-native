@@ -11,7 +11,6 @@ import {
 import { connect } from 'react-redux';
 import { getAccountById, postOwners } from '../../fetches';
 import { storeAndSetActiveUser } from '../../actions';
-import { getToken } from '../../reducers';
 import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
 import { login } from '../../utilities/auth';
 
@@ -28,16 +27,17 @@ class JoinCode extends Component {
     this.exitSetup = this.exitSetup.bind(this);
     this.state = {
       accountId,
-      token: props.token,
       isLoading: false,
+      token: '',
     };
   }
 
   async join() {
-    const { token, accountId } = this.state;
+    const { accountId } = this.state;
     this.setState({ isLoading: true });
     try {
-      const credentials = await login();
+      const { accessToken: token } = await login();
+      this.setState({ token });
       const { account: { owners, phoneNumber } }= await getAccountById({ token, accountId });
       showConfirmJoinAlert({ owners, phoneNumber }, () => this.purchase(), () => this.cancel());
     } catch (e) {
@@ -54,15 +54,6 @@ class JoinCode extends Component {
 
   componentDidMount() {
     this.join();
-  }
-
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.token !== prevProps.token) {
-      this.setState({
-        token: props.token,
-      });
-    }
   }
 
   async purchase() {
@@ -162,11 +153,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
-  token: getToken(state),
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { storeAndSetActiveUser },
 )(JoinCode);

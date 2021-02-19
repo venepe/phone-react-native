@@ -10,10 +10,8 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Blank from '../Blank';
 import Loading from './Loading';
 import { storeAndSetActiveUser } from '../../actions';
-import { getIsInitialized } from '../../reducers';
 import { login } from '../../utilities/auth';
 import { postUser, getAccounts } from '../../fetches';
 import R from '../../resources';
@@ -26,17 +24,7 @@ class Landing extends Component {
     this.state = {
       isLoading: false,
       didLogin: false,
-      isInitialized: false,
     };
-  }
-
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.isInitialized !== prevProps.isInitialized) {
-      this.setState({
-        isInitialized: props.isInitialized,
-      });
-    }
   }
 
   async onLogin() {
@@ -62,10 +50,7 @@ class Landing extends Component {
   }
 
   render() {
-    const { isLoading, didLogin, isInitialized } = this.state;
-    if (!isInitialized) {
-      return (<Blank/>);
-    }
+    const { isLoading, didLogin } = this.state;
     if (didLogin) {
       return (<Loading/>);
     }
@@ -151,11 +136,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
-  isInitialized: getIsInitialized(state),
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { storeAndSetActiveUser },
 )(Landing);

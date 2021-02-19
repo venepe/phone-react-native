@@ -3,7 +3,7 @@ import { copyPhoneNumber } from './copy';
 import { getFormattedNumber } from './phone';
 import R from '../resources';
 
-export const showConfirmPurchaseAlert = ({ phoneNumber }, purchase, cancel) => {
+export const showConfirmPurchaseAlert = ({ phoneNumber }, purchase, cancel = () => {}) => {
   const formattedNumber = getFormattedNumber(phoneNumber);
   Alert.alert(
     `Reserve ${formattedNumber}?`,

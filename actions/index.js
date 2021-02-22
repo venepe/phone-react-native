@@ -23,7 +23,6 @@ export const initializeApplication = () =>
     dispatch(setAccountId({ payload: { accountId } }));
     dispatch(setIsActive({ payload: { isActive } }));
     dispatch(setIsInitialized());
-    console.log('here');
     if (token) {
       refreshToken();
     }

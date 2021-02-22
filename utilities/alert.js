@@ -1,7 +1,47 @@
 import { Alert } from 'react-native';
+import { postResendVerificationEmail } from '../fetches';
 import { copyPhoneNumber } from './copy';
 import { getFormattedNumber } from './phone';
 import R from '../resources';
+
+export const showVerifyEmailAddressSuccessAlert = () => {
+  Alert.alert(
+    R.strings.LABEL_RESEND_EMAIL_SUCCESS_TITLE,
+    R.strings.LABEL_RESEND_EMAIL_SUCCESS_MESSAGE,
+    [
+      {
+        text: R.strings.LABEL_OKAY,
+        style: 'cancel',
+      },
+    ],
+    { cancelable: false }
+  );
+}
+
+export const showVerifyEmailAddressAlert = ({ token }) => {
+  Alert.alert(
+    R.strings.LABEL_RESEND_EMAIL_TITLE,
+    R.strings.LABEL_RESEND_EMAIL_MESSAGE,
+    [
+      {
+        text: R.strings.LABEL_CANCEL,
+        style: 'cancel',
+      },
+      {
+        text: R.strings.LABEL_RESEND,
+        onPress: async () => {
+          try {
+            await postResendVerificationEmail({ token });
+            showVerifyEmailAddressSuccessAlert();
+          } catch (e) {
+            console.log(e);
+          }
+        },
+      },
+    ],
+    { cancelable: false }
+  );
+}
 
 export const showConfirmPurchaseAlert = ({ phoneNumber }, purchase, cancel = () => {}) => {
   const formattedNumber = getFormattedNumber(phoneNumber);

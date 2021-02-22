@@ -16,7 +16,7 @@ import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
 import { storeAndSetActiveUser} from '../../actions';
 import { getToken, getUserId } from '../../reducers';
-import { showConfirmPurchaseAlert} from '../../utilities/alert';
+import { showConfirmPurchaseAlert, showVerifyEmailAddressAlert } from '../../utilities/alert';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -102,6 +102,8 @@ class AvailableNumberList extends Component {
         if (account) {
           const { phoneNumber, isActive, id: accountId } = account;
           this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+        } else {
+          showVerifyEmailAddressAlert({ token });
         }
       } catch (e) {
         console.log(e);

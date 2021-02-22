@@ -45,5 +45,10 @@ export default {
   LABEL_COPY_LINK: 'Copy link',
   LABEL_SHARE_LINK: 'Share link',
   LABEL_QR_CODE: 'QR code',
-  LABEL_QR_CODE_SCAN: 'If shared with your partner, they can scan it with Join A Number'
+  LABEL_QR_CODE_SCAN: 'If shared with your partner, they can scan it with Join A Number',
+  LABEL_RESEND_EMAIL_TITLE: 'Verify email',
+  LABEL_RESEND_EMAIL_MESSAGE: 'Please verify email address to reserve a number.',
+  LABEL_RESEND: 'Resend verification email',
+  LABEL_RESEND_EMAIL_SUCCESS_TITLE: 'Success!',
+  LABEL_RESEND_EMAIL_SUCCESS_MESSAGE: 'Look for the verification email in your inbox and click the link in that email.',
 };

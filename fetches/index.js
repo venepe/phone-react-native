@@ -7,7 +7,7 @@ const handleResponse = async (response) => {
   const data = response.json();
   return Promise.all([statusCode, data]).then(([res, data]) => {
       if (res === 200) {
-        return Promise.resolve(data)
+        return Promise.resolve(data);
       } else if (res === 400 && data.message) {
         Alert.alert(
           R.strings.ERROR_REQUEST_TITLE,
@@ -17,6 +17,8 @@ const handleResponse = async (response) => {
           ],
           { cancelable: true }
         );
+      } else if (res === 403 && data.message) {
+        return Promise.resolve(data);
       } else {
         throw new Error(res.status);
       }
@@ -160,5 +162,16 @@ export const postNotification = ({ token, notificationToken, device }) => {
         device,
       },
     }),
+  })
+};
+
+export const postResendVerificationEmail = ({ token }) => {
+  fetch(`${API_URL}/verification-email`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
   })
 };

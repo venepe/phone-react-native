@@ -11,13 +11,11 @@ export const initializeNotifications = async () => {
     .getToken()
     .then((notificationToken) => {
       console.log(notificationToken);
-      postNotification({ notificationToken, token, device })
-      .then(result => console.log(result)).catch(e => console.log(e));
+      postNotification({ notificationToken, token, device });
     });
 
     messaging().onTokenRefresh((notificationToken) => {
-      postNotification({ notificationToken, token, device })
-      .then(result => console.log(result)).catch(e => console.log(e));
+      postNotification({ notificationToken, token, device });
     });
 };
 

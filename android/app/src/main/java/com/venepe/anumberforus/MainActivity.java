@@ -1,5 +1,6 @@
 package com.venepe.anumberforus;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
@@ -7,8 +8,9 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
-import expo.modules.splashscreen.singletons.SplashScreen;
 import expo.modules.splashscreen.SplashScreenImageResizeMode;
+import expo.modules.splashscreen.singletons.SplashScreen;
+import io.branch.rnbranch.RNBranchModule;
 
 public class MainActivity extends ReactActivity {
   @Override
@@ -37,5 +39,18 @@ public class MainActivity extends ReactActivity {
                 return new RNGestureHandlerEnabledRootView(MainActivity.this);
             }
         };
+    }
+
+    // Override onStart, onNewIntent:
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RNBranchModule.initSession(getIntent().getData(), this);
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        RNBranchModule.onNewIntent(intent);
     }
 }

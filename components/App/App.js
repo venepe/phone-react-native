@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { AppState } from 'react-native';
 import branch from 'react-native-branch';
-import { NavigationContainer, getStateFromPath } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -255,6 +255,35 @@ const linking = {
       }
     },
   },
+  subscribe(listener) {
+    branch.subscribe(({ error, params, uri }) => {
+      console.log(params);
+      if (error) {
+        console.error('Error from Branch: ' + error);
+        return;
+      }
+      if (params['+non_branch_link']) {
+        const nonBranchUrl = params['+non_branch_link'];
+        // Route non-Branch URL if appropriate.
+        return;
+      }
+      if (!params['+clicked_branch_link']) {
+        // Indicates initialization success and some other conditions.
+        // No link was opened.
+        return;
+      }
+      // A Branch link was opened
+      const url = params.$canonical_url;
+      setTimeout(() => { listener(url); }, 100);
+    });
+
+    return () => {
+      // Clean up the event listeners
+      // if (branch) {
+      //   branch.unsubscribe();
+      // }
+    };
+  },
 };
 
 class App extends Component {
@@ -343,15 +372,6 @@ class App extends Component {
     );
   }
 }
-
-branch.subscribe(({ error, params }) => {
-  if (error) {
-    console.log('Error from Branch: ' + error)
-    return
-  }
-  console.log('Received link response from Branch')
-  console.log('params: ' + JSON.stringify(params))
-})
 
 const mapStateToProps = state => ({
   isLoggedIn: getIsLoggedIn(state),

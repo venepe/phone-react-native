@@ -47,6 +47,10 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>branch_app_domain</key>
+	<string>invite.anumberforus.com</string>
+	<key>branch_key</key>
+	<string>key_live_nh4fAtwIn0QzGhNHg3hQ1hmpqubwPdDh</string>
 	<key>FacebookAppID</key>
 	<string>1078041962693536</string>
 	<key>FacebookDisplayName</key>

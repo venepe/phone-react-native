@@ -35,27 +35,32 @@ class ShareCode extends Component {
     this.state = {
       accountId: props.accountId,
       token: props.token,
-      invitationUrl: getInvitationUrl(props.accountId),
+      invitationUrl: '',
       appState: AppState.currentState
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { accountId } = this.state;
+    if (accountId && accountId.length > 0) {
+      let invitationUrl = await getInvitationUrl(accountId);
+      this.setState({ invitationUrl });
+    }
     initSocket({ accountId });
     this.getAndSetActiveUser();
     AppState.addEventListener('change', this.handleAppStateChange);
     analytics.track(EVENTS.VIEWED_INVITATION);
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     const props = this.props;
     if (props.accountId !== prevProps.accountId) {
       const { accountId } = props;
       initSocket({ accountId });
+      let invitationUrl = await getInvitationUrl(accountId);
       this.setState({
-        accountId: accountId,
-        invitationUrl: getInvitationUrl(accountId),
+        accountId,
+        invitationUrl,
       });
     }
     if (props.token !== prevProps.token) {

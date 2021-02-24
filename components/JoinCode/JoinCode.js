@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getAccountById, postOwners } from '../../fetches';
+import { getAccountById, postOwners, postUser } from '../../fetches';
 import { storeAndSetActiveUser } from '../../actions';
 import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
 import { login } from '../../utilities/auth';
@@ -37,6 +37,7 @@ class JoinCode extends Component {
     this.setState({ isLoading: true });
     try {
       const { accessToken: token } = await login();
+      await postUser({ token });
       this.setState({ token });
       const { account: { owners, phoneNumber } }= await getAccountById({ token, accountId });
       showConfirmJoinAlert({ owners, phoneNumber }, () => this.purchase(), () => this.cancel());

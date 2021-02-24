@@ -67,13 +67,13 @@ class SearchBar extends Component {
          autoCapitalize='none'
          autoCorrect={false}
          spellCheck={false}
-         returnKeyType='search'
+         returnKeyType='done'
          onChangeText={value => this.onChangeText(value)}
          onSubmitEditing={this.onPress}
          onCancel={this.onClear}
          onClear={this.onClear}
          cancelButtonProps={{ color: R.colors.TEXT_MAIN }}
-         keyboardType={'phone-pad'}
+         keyboardType={'number-pad'}
          maxLength={16}
        />
     );

@@ -49,7 +49,7 @@ class ShareCode extends Component {
     initSocket({ accountId });
     this.getAndSetActiveUser();
     AppState.addEventListener('change', this.handleAppStateChange);
-    analytics.track(EVENTS.VIEWED_INVITATION);
+    analytics.track(EVENTS.VIEWED_SHARE);
   }
 
   async componentDidUpdate(prevProps) {

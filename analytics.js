@@ -25,8 +25,10 @@ export const EVENTS = {
   ERROR: 'Error',
   VIEWED_LANDING_TWO: 'View Landing Two',
   VIEWED_AVAILABLE_NUMBERS: 'View Available Numbers',
-  VIEWED_INVITATION: 'View Invitation',
+  VIEWED_SHARE: 'View Share',
+  VIEWED_SHARE_QR_CODE: 'View Share Qr Code',
   VIEWED_SCANNER: 'View Scanner',
+  VIEWED_JOIN_CODE: 'View Join Code',
   VIEWED_MESSAGES: 'View Messages',
 }
 

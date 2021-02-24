@@ -25,7 +25,7 @@ class ShareCode extends Component {
   async componentDidMount() {
     const { accountId } = this.state;
     initSocket({ accountId });
-    analytics.track(EVENTS.VIEWED_INVITATION);
+    analytics.track(EVENTS.VIEWED_SHARE_QR_CODE);
   }
 
   render() {

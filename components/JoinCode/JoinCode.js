@@ -13,7 +13,7 @@ import { getAccountById, postOwners, postUser } from '../../fetches';
 import { storeAndSetActiveUser } from '../../actions';
 import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
 import { login } from '../../utilities/auth';
-
+import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
 class JoinCode extends Component {
@@ -55,6 +55,7 @@ class JoinCode extends Component {
 
   componentDidMount() {
     this.join();
+    analytics.track(EVENTS.VIEWED_JOIN_CODE);
   }
 
   async purchase() {

@@ -50,7 +50,7 @@ class EnterCode extends Component {
         isLoading: true,
       });
       try {
-        const { account: { owners, phoneNumber } }= await getAccountById({ token, accountId });
+        const { account: { owners, phoneNumber } }= await getAccountById({ accountId });
         showConfirmJoinAlert({ owners, phoneNumber }, () => this.purchase(), () => this.cancel());
       } catch (e) {
         this.setState({ isLoading: false });

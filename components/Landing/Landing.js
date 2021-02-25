@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import Loading from './Loading';
 import { storeAndSetActiveUser } from '../../actions';
 import { login } from '../../utilities/auth';
-import { postUser, getAccounts } from '../../fetches';
+import { getAccounts } from '../../fetches';
 import R from '../../resources';
 
 class Landing extends Component {
@@ -33,7 +33,6 @@ class Landing extends Component {
       const credentials = await login();
       this.setState({ didLogin: true });
       const { accessToken: token } = credentials;
-      await postUser({ token });
       const data = await getAccounts({ token });
       let { accounts } = data;
       if (accounts && accounts.length > 0) {

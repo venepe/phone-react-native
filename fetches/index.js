@@ -88,13 +88,12 @@ export const postAccounts = ({ token, phoneNumber }) => {
   .then(handleResponse)
 };
 
-export const getAccountById = ({ token, accountId }) => {
+export const getAccountById = ({ accountId }) => {
   return fetch(`${API_URL}/accounts/${accountId}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
   })
   .then(handleResponse)

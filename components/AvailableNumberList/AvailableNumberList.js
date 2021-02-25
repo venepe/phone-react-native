@@ -15,8 +15,8 @@ import Loading from './Loading';
 import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
 import { storeAndSetActiveUser} from '../../actions';
-import { getToken, getUserId } from '../../reducers';
 import { showConfirmPurchaseAlert, showVerifyEmailAddressAlert } from '../../utilities/alert';
+import { login } from '../../utilities/auth';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -34,7 +34,6 @@ class AvailableNumberList extends Component {
     this.state = {
       isFetching: false,
       location: props.location,
-      token: props.token,
       location: {
         latitude: null,
         longitude: null,
@@ -51,15 +50,6 @@ class AvailableNumberList extends Component {
     analytics.track(EVENTS.VIEWED_AVAILABLE_NUMBERS);
   }
 
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.token !== prevProps.token) {
-      this.setState({
-        token: props.token,
-      });
-    }
-  }
-
   async onSearch({ query }) {
     this.setState({
       query,
@@ -70,9 +60,8 @@ class AvailableNumberList extends Component {
   async fetch(query = '') {
     this.startFetching();
     try {
-      const { token } = this.state;
       const { latitude, longitude } = await requestLocation();
-      const data = await getAvailableNumbers({ token, latitude, longitude, query });
+      const data = await getAvailableNumbers({ latitude, longitude, query });
       let { phoneNumbers } = data;
       this.setState({
         location: { latitude, longitude },
@@ -93,10 +82,11 @@ class AvailableNumberList extends Component {
   }
 
   async purchase({ phoneNumber }) {
-    const { token, isPurchasing } = this.state;
+    const { isPurchasing } = this.state;
     if (!isPurchasing) {
       this.setState({ isPurchasing: true });
       try {
+        const { accessToken: token } = await login();
         const data = await postAccounts({ token, phoneNumber });
         let { account } = data;
         if (account) {
@@ -169,11 +159,7 @@ AvailableNumberList.defaultProps = {};
 
 AvailableNumberList.propTypes = {}
 
-const mapStateToProps = state => ({
-  token: getToken(state),
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { storeAndSetActiveUser },
 )(AvailableNumberList);

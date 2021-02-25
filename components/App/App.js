@@ -17,7 +17,6 @@ import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
 import SimpleDrawer from '../DrawerContent/SimpleDrawer';
 import Landing from '../Landing';
-import LandingTwo from '../LandingTwo';
 import EnterCode from '../EnterCode';
 import JoinCode from '../JoinCode';
 import MemberList from '../MemberList';
@@ -59,14 +58,6 @@ function LandingStackScreen() {
         component={Landing}
         options={() => ({
           title: R.strings.TITLE_LANDING,
-          headerShown: false,
-        })}
-      />
-      <LandingStack.Screen
-        name='LandingTwo'
-        component={LandingTwo}
-        options={() => ({
-          title: R.strings.TITLE_LANDING_TWO,
           headerShown: false,
         })}
       />

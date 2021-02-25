@@ -11,8 +11,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { getAccountById, postOwners } from '../../fetches';
 import { storeAndSetActiveUser} from '../../actions';
-import { getToken } from '../../reducers';
 import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
+import { login } from '../../utilities/auth';
 import PermissionStatus from '../../constants/PermissionStatus';
 import { isUUID } from '../../utilities';
 import analytics, { EVENTS } from '../../analytics';
@@ -26,7 +26,6 @@ class EnterCode extends Component {
     this.purchase = this.purchase.bind(this);
     this.cancel = this.cancel.bind(this);
     this.state = {
-      token: props.token,
       isLoading: false,
       isGranted: false,
     };
@@ -43,7 +42,6 @@ class EnterCode extends Component {
   }
 
   async handleBarCodeScanned({ data: accountId }) {
-    const { token } = this.state;
     if (isUUID(accountId)) {
       this.setState({
         accountId,
@@ -60,9 +58,10 @@ class EnterCode extends Component {
   }
 
   async purchase() {
-    const { token, accountId } = this.state;
+    const { accountId } = this.state;
     this.setState({ isLoading: true });
     try {
+      const { accessToken: token } = await login();
       const data = await postOwners({ token, accountId });
       let { owner } = data;
       if (owner) {
@@ -141,11 +140,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
-  token: getToken(state),
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { storeAndSetActiveUser },
 )(EnterCode);

@@ -4,6 +4,20 @@ import { copyPhoneNumber } from './copy';
 import { getFormattedNumber } from './phone';
 import R from '../resources';
 
+export const showNoAccountAlert = () => {
+  Alert.alert(
+    R.strings.ERROR_REQUEST_TITLE,
+    R.strings.LABEL_DONT_HAVE_LINE,
+    [
+      {
+        text: R.strings.LABEL_OKAY,
+        style: 'cancel',
+      },
+    ],
+    { cancelable: false }
+  );
+}
+
 export const showVerifyEmailAddressSuccessAlert = () => {
   Alert.alert(
     R.strings.LABEL_RESEND_EMAIL_SUCCESS_TITLE,

@@ -23,7 +23,7 @@ const analytics = () => {
 
 export const EVENTS = {
   ERROR: 'Error',
-  VIEWED_LANDING_TWO: 'View Landing Two',
+  VIEWED_LANDING: 'View Landing',
   VIEWED_AVAILABLE_NUMBERS: 'View Available Numbers',
   VIEWED_SHARE: 'View Share',
   VIEWED_SHARE_QR_CODE: 'View Share Qr Code',

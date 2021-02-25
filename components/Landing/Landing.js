@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  ActivityIndicator,
   Image,
   SafeAreaView,
   StyleSheet,
@@ -11,27 +10,54 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Loading from './Loading';
-import { storeAndSetActiveUser } from '../../actions';
-import { login } from '../../utilities/auth';
+import { showNoAccountAlert } from '../../utilities/alert';
+import { clearSession, login } from '../../utilities/auth';
 import { getAccounts } from '../../fetches';
+import { storeAndSetActiveUser } from '../../actions';
+import { getToken } from '../../reducers';
+import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
+const MARGIN_WIDTH = 5;
 
 class Landing extends Component {
 
   constructor(props) {
     super(props);
+
+    this.onJoinLine = this.onJoinLine.bind(this);
+    this.onCreateLine = this.onCreateLine.bind(this);
     this.onLogin = this.onLogin.bind(this);
+    this.onLogout = this.onLogout.bind(this);
+    this.getDidLogin = this.getDidLogin.bind(this);
+    const didLogin = this.getDidLogin(props.token);
     this.state = {
+      didLogin,
       isLoading: false,
-      didLogin: false,
     };
+  }
+
+  getDidLogin(token) {
+    return (token && token.length > 0) ? true : false;
+  }
+
+  componentDidMount() {
+    analytics.track(EVENTS.VIEWED_LANDING);
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.token !== prevProps.token) {
+      const didLogin = this.getDidLogin(props.token);
+      this.setState({
+        didLogin,
+      });
+    }
   }
 
   async onLogin() {
     this.setState({ isLoading: true });
     try {
       const credentials = await login();
-      this.setState({ didLogin: true });
       const { accessToken: token } = credentials;
       const data = await getAccounts({ token });
       let { accounts } = data;
@@ -40,7 +66,8 @@ class Landing extends Component {
         const { phoneNumber, isActive, id: accountId } = account;
         this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
       } else {
-        this.props.navigation.replace('LandingTwo');
+        this.setState({ isLoading: false, didLogin: false });
+        showNoAccountAlert();
       }
     } catch (e) {
       this.setState({ isLoading: false, didLogin: false });
@@ -48,9 +75,22 @@ class Landing extends Component {
     }
   }
 
+  onJoinLine() {
+    this.props.navigation.navigate('EnterCode');
+  }
+
+  onCreateLine() {
+    this.props.navigation.navigate('AvailableNumberList');
+  }
+
+  async onLogout() {
+    await clearSession();
+    this.props.navigation.navigate('Landing');
+  }
+
   render() {
     const { isLoading, didLogin } = this.state;
-    if (didLogin) {
+    if (isLoading && didLogin) {
       return (<Loading/>);
     }
     return (
@@ -59,29 +99,28 @@ class Landing extends Component {
           <View style={styles.imageContainer}>
             <Image
               style={[styles.image, { alignSelf: 'flex-end' }]}
-              source={require('../../assets/couple_two.png')}
+              source={require('../../assets/together.png')}
             />
           </View>
-          <Text style={styles.primaryText}>{R.strings.LABEL_APP_SLOGAN}</Text>
+          <Text style={styles.primaryText}>{R.strings.APP_NAME}</Text>
           <View style={styles.imageContainer}>
             <Image
               style={[styles.image, { alignSelf: 'flex-start' }]}
-              source={require('../../assets/couple_one.png')}
+              source={require('../../assets/running.png')}
             />
           </View>
         </View>
-        <View>
-          <View style={styles.actionContainer}>
-            <TouchableOpacity style={styles.loginButtonContainer} disabled={isLoading} onPress={this.onLogin} isd>
-              {
-                isLoading ? (
-                  <ActivityIndicator style={styles.spinner} size='large' color={R.colors.BACKGROUND_MAIN} />
-                ) : (
-                  <Text style={styles.loginText}>{R.strings.LABEL_GETTING_STARTED}</Text>
-                )
-              }
-            </TouchableOpacity>
-          </View>
+        <View style={styles.actionContainer}>
+          <TouchableOpacity style={[styles.loginButtonContainer, { marginTop: MARGIN_WIDTH }]} onPress={this.onJoinLine}>
+            <Text style={styles.loginText}>{R.strings.LABEL_JOIN_LINE}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onCreateLine}>
+            <Text style={styles.loginText}>{R.strings.LABEL_CREATE_LINE}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onLogin}>
+            <Text style={styles.loginText}>{R.strings.LABEL_HAVE_LINE}</Text>
+          </TouchableOpacity>
+          {(didLogin) ? (<TouchableOpacity onPress={this.onLogout}><Text style={styles.logoutText}>{R.strings.TITLE_LOGOUT}</Text></TouchableOpacity>) : null}
         </View>
       </SafeAreaView>
     );
@@ -91,7 +130,7 @@ class Landing extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#40C4FF',
+    backgroundColor: R.colors.LOGO,
   },
   topContainer: {
     flex: 1,
@@ -109,33 +148,44 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     fontSize: 24,
-    color: R.colors.TEXT_DARK,
+    color: R.colors.TEXT_MAIN,
     fontWeight: 'bold',
     flexWrap:'wrap',
     alignSelf: 'center',
   },
   actionContainer: {
-    height: 100,
+    backgroundColor: R.colors.TEXT_MAIN,
   },
   loginButtonContainer: {
-    height: 100,
-    backgroundColor: '#FFF59D',
+    flexDirection: 'row',
+    backgroundColor: R.colors.LOGO,
+    padding: 10,
+    marginBottom: MARGIN_WIDTH,
+    marginLeft: MARGIN_WIDTH,
+    marginRight: MARGIN_WIDTH,
     alignItems: 'center',
     justifyContent: 'center',
   },
   loginText: {
-    height: 36,
     fontSize: 25,
+    fontWeight: 'bold',
     margin: 10,
     alignSelf: 'center',
-    color: R.colors.TEXT_DARK,
+    color: R.colors.TEXT_MAIN,
   },
-  spinner: {
-    height: 35,
+  logoutText: {
+    fontSize: 14,
+    margin: 5,
+    alignSelf: 'center',
+    color: R.colors.LOGO,
   },
 });
 
+const mapStateToProps = state => ({
+  token: getToken(state),
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { storeAndSetActiveUser },
 )(Landing);

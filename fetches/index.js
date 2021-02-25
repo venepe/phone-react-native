@@ -47,13 +47,12 @@ export const postUser = ({ token }) => {
   .then(handleResponse)
 };
 
-export const getAvailableNumbers = ({ token, latitude, longitude, query }) => {
+export const getAvailableNumbers = ({ latitude, longitude, query }) => {
   return fetch(`${API_URL}/phone-numbers/available?lat=${latitude}&lon=${longitude}&query=${query}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
   })
   .then(handleResponse)

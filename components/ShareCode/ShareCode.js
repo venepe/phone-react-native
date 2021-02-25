@@ -98,13 +98,17 @@ class ShareCode extends Component {
   }
 
   async getAndSetActiveUser() {
-    const { token } = this.state;
-    const data = await getAccounts({ token });
-    let { accounts } = data;
-    if (accounts && accounts.length > 0) {
-      const account = accounts[0];
-      const { phoneNumber, isActive, id: accountId } = account;
-      this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+    try {
+      const { token } = this.state;
+      const data = await getAccounts({ token });
+      let { accounts } = data;
+      if (accounts && accounts.length > 0) {
+        const account = accounts[0];
+        const { phoneNumber, isActive, id: accountId } = account;
+        this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 

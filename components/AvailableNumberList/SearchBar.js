@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import { SearchBar as ElementsSearchBar } from 'react-native-elements';
 import parsePhoneNumber, { AsYouType } from 'libphonenumber-js';
-import { finishAndFormatNumber } from '../../utilities/phone';
 import R from '../../resources';
 
 class SearchBar extends Component {
@@ -26,6 +25,7 @@ class SearchBar extends Component {
       query = query.substring(0, query.length - 2);
       query = new AsYouType('US').input(query);
     }
+    console.log(query);
     this.setState({
       query,
     });
@@ -36,14 +36,11 @@ class SearchBar extends Component {
     this.setState({
       query,
     });
-    this.props.onSearch({ query });
+    setTimeout(() => { this.props.onSearch({ query }); }, 100);
   }
 
   onPress() {
     let { query } = this.state;
-    if (query.length > 0) {
-      query = finishAndFormatNumber(query);
-    }
     this.props.onSearch({ query });
   }
 
@@ -70,7 +67,7 @@ class SearchBar extends Component {
          returnKeyType='done'
          onChangeText={value => this.onChangeText(value)}
          onSubmitEditing={this.onPress}
-         onCancel={this.onClear}
+         onCancel={this.onPress}
          onClear={this.onClear}
          cancelButtonProps={{ color: R.colors.TEXT_MAIN }}
          keyboardType={'number-pad'}

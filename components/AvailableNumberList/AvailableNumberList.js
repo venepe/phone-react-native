@@ -54,11 +54,12 @@ class AvailableNumberList extends Component {
     this.setState({
       query,
     });
-    this.fetch(query);
+    this.fetch();
   }
 
-  async fetch(query = '') {
+  async fetch() {
     this.startFetching();
+    const { query } = this.state;
     try {
       const { latitude, longitude } = await requestLocation();
       const data = await getAvailableNumbers({ latitude, longitude, query });
@@ -107,9 +108,8 @@ class AvailableNumberList extends Component {
   }
 
   renderItem({ item }) {
-    const { navigation } = this.props;
     return (
-      <AvailableNumberItem availableNumberItem={item} navigation={navigation} onPress={this.onPress}/>
+      <AvailableNumberItem availableNumberItem={item} onPress={this.onPress}/>
     )
   }
 
@@ -125,7 +125,7 @@ class AvailableNumberList extends Component {
           <SearchBar onSearch={this.onSearch}/>
           <FlatList
             data={phoneNumbers}
-            keyExtractor={(node) => node.nodeId}
+            keyExtractor={(item) => item.phoneNumber}
             renderItem={this.renderItem}
             refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN}
               progressBackgroundColor={R.colors.BACKGROUND_DARK}  colors={[R.colors.TEXT_MAIN]}

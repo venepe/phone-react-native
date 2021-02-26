@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { capitalCase } from 'capital-case';
 import { getFormattedNumber } from '../../utilities/phone';
 import R from '../../resources';
 
@@ -30,22 +31,19 @@ class AvailableNumberItem extends Component {
 
   getPlaceText({ locality, region }) {
     if (locality && locality.length > 0) {
-      return `${locality}, ${region}`;
+      return `${capitalCase(locality)}, ${region}`;
     } else {
       return `${region}`;
     }
   }
 
   onPressPhoneNumber() {
-    const { navigation } = this.props;
     const { availableNumberItem } = this.state;
     this.props.onPress(availableNumberItem);
   }
 
   render() {
-    const { navigation } = this.props;
     const availableNumberItem = this.state.availableNumberItem || {};
-    const opacity = 1.0;
     const { phoneNumber, locality, region } = availableNumberItem;
 
     return (

@@ -59,7 +59,7 @@ class Landing extends Component {
     try {
       const credentials = await login();
       const { accessToken: token } = credentials;
-      const data = await getAccounts({ token });
+      const data = await getAccounts({ token }) || {};
       let { accounts } = data;
       if (accounts && accounts.length > 0) {
         const account = accounts[0];

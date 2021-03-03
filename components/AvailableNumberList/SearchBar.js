@@ -25,7 +25,6 @@ class SearchBar extends Component {
       query = query.substring(0, query.length - 2);
       query = new AsYouType('US').input(query);
     }
-    console.log(query);
     this.setState({
       query,
     });
@@ -41,7 +40,7 @@ class SearchBar extends Component {
 
   onPress() {
     let { query } = this.state;
-    this.props.onSearch({ query });
+    setTimeout(() => { this.props.onSearch({ query }); }, 100);
   }
 
   render() {

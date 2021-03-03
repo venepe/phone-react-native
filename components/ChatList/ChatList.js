@@ -41,7 +41,7 @@ class ChatList extends Component {
   async fetch() {
     try {
       const { token, accountId } = this.state;
-      const data = await getMessages({ token, accountId });
+      const data = await getMessages({ token, accountId }) || {};
       let { messages } = data;
       messages = await this.formatMessages(messages);
       this.setState({

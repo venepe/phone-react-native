@@ -16,6 +16,7 @@ import { storeAndSetActiveUser } from '../../actions';
 import { getAccountId, getToken } from '../../reducers';
 import { getInvitationUrl } from '../../utilities';
 import { copyText } from '../../utilities/copy';
+import { initializeNotifications } from '../../utilities/notification';
 import { initSocket } from '../../utilities/socket';
 import { openShare } from '../../utilities/share';
 import analytics, { EVENTS } from '../../analytics';
@@ -47,6 +48,7 @@ class ShareCode extends Component {
       this.setState({ invitationUrl });
     }
     initSocket({ accountId });
+    initializeNotifications();
     this.getAndSetActiveUser();
     AppState.addEventListener('change', this.handleAppStateChange);
     analytics.track(EVENTS.VIEWED_SHARE);
@@ -100,7 +102,7 @@ class ShareCode extends Component {
   async getAndSetActiveUser() {
     try {
       const { token } = this.state;
-      const data = await getAccounts({ token });
+      const data = await getAccounts({ token }) || {};
       let { accounts } = data;
       if (accounts && accounts.length > 0) {
         const account = accounts[0];

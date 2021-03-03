@@ -35,7 +35,7 @@ const handleResponse = async (response) => {
     });
 }
 
-export const postUser = ({ token }) => {
+export const postUser = ({ token = '' }) => {
   return fetch(`${API_URL}/users`, {
     method: 'POST',
     headers: {
@@ -58,7 +58,7 @@ export const getAvailableNumbers = ({ latitude, longitude, query }) => {
   .then(handleResponse)
 };
 
-export const getAccounts = ({ token }) => {
+export const getAccounts = ({ token = '' }) => {
   return fetch(`${API_URL}/accounts`, {
     method: 'GET',
     headers: {
@@ -134,7 +134,7 @@ export const deleteOwner = ({ token, accountId }) => {
   .then(handleResponse)
 };
 
-export const getMessages = ({ token, accountId }) => {
+export const getMessages = ({ token = '', accountId }) => {
   return fetch(`${API_URL}/accounts/${accountId}/messages`, {
     method: 'GET',
     headers: {
@@ -146,7 +146,7 @@ export const getMessages = ({ token, accountId }) => {
   .then(handleResponse)
 };
 
-export const postNotification = ({ token, notificationToken, device }) => {
+export const postNotification = ({ token = '', notificationToken, device }) => {
   fetch(`${API_URL}/notifications`, {
     method: 'POST',
     headers: {
@@ -165,6 +165,17 @@ export const postNotification = ({ token, notificationToken, device }) => {
 
 export const postResendVerificationEmail = ({ token }) => {
   fetch(`${API_URL}/verification-email`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+};
+
+export const postUserLogout = ({ token }) => {
+  return fetch(`${API_URL}/users/logout`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

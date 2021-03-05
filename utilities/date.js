@@ -28,3 +28,20 @@ export const getDateDiffText = (date) => {
   const years = moment.utc().diff(moment(date, moment.ISO_8601), 'years');
   return `${years}y`;
 }
+
+export const getReservationExpiration = (date) => {
+  if (date) {
+    const EXPIRATION_DAYS = 30;
+    const days = moment.utc().diff(moment(date, moment.ISO_8601), 'days');
+    const daysUntilExpiration = EXPIRATION_DAYS - days;
+    if (daysUntilExpiration > 0) {
+      const expiresInDays = daysUntilExpiration - days;
+      const dayString = (expiresInDays === 1) ? 'day' : 'days';
+      return `Expires in ${expiresInDays} ${dayString}`;
+    } else {
+      return '';
+    }
+  } else {
+    return '';
+  }
+}

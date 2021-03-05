@@ -34,7 +34,9 @@ export default {
   LABEL_LEAVE_LINE: 'Leave Number',
   LEAVE_LINE_TITLE: 'Leave Number?',
   LEAVE_LINE_MESSAGE: 'You are about to leave the number and will no longer have access. ' +
-  'If you are the last person on the number, the number will be scheduled for removal.  Do you wish to continue?',
+  'Your partner will be notified of your decision to leave. ' +
+  'If you are the last person on the number, the number will be scheduled for removal. ' +
+  'Do you wish to continue?',
   LEAVE_LINE_AFFIRMATIVE: 'Yes, remove me',
   LABEL_COPY_NUMBER: 'Copy now',
   LABEL_MAYBE_LATER: 'Maybe later',

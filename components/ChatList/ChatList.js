@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import _ from 'lodash';
 import Contacts from 'react-native-contacts';
 import { connect } from 'react-redux';
 import Blank from '../Blank';
@@ -34,6 +35,7 @@ class ChatList extends Component {
       isFetching: false,
       token: props.token,
       accountId: props.accountId,
+      phoneNumber: props.phoneNumber,
       messages: [],
     };
   }
@@ -43,6 +45,9 @@ class ChatList extends Component {
       const { token, accountId } = this.state;
       const data = await getMessages({ token, accountId }) || {};
       let { messages } = data;
+      messages = _.uniqWith(messages, (a, b) => {
+        return (a.to === b.to && a.from === b.from) || (a.to === b.from && a.from === b.to);
+      });
       messages = await this.formatMessages(messages);
       this.setState({
         messages,

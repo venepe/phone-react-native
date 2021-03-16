@@ -17,7 +17,7 @@ import Empty from './Empty';
 import { getMessages } from '../../fetches';
 import { getToken, getAccountId } from '../../reducers';
 import PermissionStatus from '../../constants/PermissionStatus';
-import { getFormattedNumber } from '../../utilities/phone';
+import { getFormattedNumber, getReadableNumber } from '../../utilities/phone';
 import { requestContactsPermission } from '../../utilities/permissions';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
@@ -31,6 +31,7 @@ class ChatList extends Component {
     this.fetch = this.fetch.bind(this);
     this.formatMessages = this.formatMessages.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
+    this.onPressRow = this.onPressRow.bind(this);
     this.state = {
       isFetching: false,
       token: props.token,
@@ -62,8 +63,6 @@ class ChatList extends Component {
     analytics.track(EVENTS.VIEWED_MESSAGES);
   }
 
-
-
   componentDidUpdate(prevProps) {
     const props = this.props;
     if (props.token !== prevProps.token) {
@@ -92,10 +91,18 @@ class ChatList extends Component {
     }
   }
 
+  async onPressRow(phoneNumber) {
+    const title = await getReadableNumber(phoneNumber);
+    this.props.navigation.push('Messages', {
+      screen: 'ChatDetail',
+      params: { title },
+    });
+  }
+
   renderItem({ item }) {
     const { navigation } = this.props;
     return (
-      <ChatItem chatItem={item} navigation={navigation}/>
+      <ChatItem chatItem={item} navigation={navigation} onPressRow={this.onPressRow}/>
     )
   }
 
@@ -103,14 +110,7 @@ class ChatList extends Component {
     try {
       await requestContactsPermission();
       await Promise.all(messages.map(async ({ from }, index) => {
-        let contacts = await Contacts.getContactsByPhoneNumber(from);
-        if (contacts && contacts.length > 0) {
-          let { givenName, familyName } = contacts[0];
-          let name = `${givenName} ${familyName}`;
-          messages[index].fromText = name;
-        } else {
-          messages[index].fromText = getFormattedNumber(from);
-        }
+        messages[index].fromText = await getReadableNumber(from);
       }));
     } catch (e) {
       console.log(e);

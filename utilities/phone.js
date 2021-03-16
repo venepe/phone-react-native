@@ -1,3 +1,4 @@
+import Contacts from 'react-native-contacts';
 import parsePhoneNumber from 'libphonenumber-js';
 
 export const getFormattedNumber = (phoneNumber) => {
@@ -9,4 +10,15 @@ export const getFormattedNumber = (phoneNumber) => {
     }
   }
   return formattedPhoneNumber;
+}
+
+export const getReadableNumber = async (from) => {
+  let contacts = await Contacts.getContactsByPhoneNumber(from);
+  if (contacts && contacts.length > 0) {
+    let { givenName, familyName } = contacts[0];
+    let name = `${givenName} ${familyName}`;
+    return name;
+  } else {
+    return getFormattedNumber(from);
+  }
 }

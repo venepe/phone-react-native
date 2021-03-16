@@ -14,6 +14,7 @@ import R from '../../resources';
 class ChatItem extends Component {
   constructor(props) {
     super(props);
+    this.onPressRow = this.onPressRow.bind(this);
     this.onPress = this.onPress.bind(this);
 
     this.state = {
@@ -31,6 +32,10 @@ class ChatItem extends Component {
     }
   }
 
+  onPressRow(phoneNumber) {
+    this.props.onPressRow(phoneNumber);
+  }
+
   onPress(phoneNumber) {
     Linking.openURL(`sms:${phoneNumber}`);
   }
@@ -42,7 +47,7 @@ class ChatItem extends Component {
     const { from, fromText, body, dateCreated } = chatItem;
 
     return (
-      <View style={styles.card}>
+      <TouchableOpacity style={styles.card} onPress={() => this.onPressRow(from)}>
         <View style={styles.headerContainer}>
           <View style={styles.topContainer}>
             <View style={styles.topSubContainer}>
@@ -64,7 +69,7 @@ class ChatItem extends Component {
             <MaterialIcons name='message' size={30} color={R.colors.TEXT_MAIN} />
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -138,5 +143,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+ChatItem.defaultProps = {
+  onPressRow: () => {},
+};
 
 export default ChatItem;

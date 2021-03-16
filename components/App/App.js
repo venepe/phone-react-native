@@ -9,10 +9,12 @@ import { connect } from 'react-redux';
 import { initializeApplication } from '../../actions';
 import { getIsLoggedIn, getIsActiveUser } from '../../reducers';
 import { initializeNotifications } from '../../utilities/notification';
+import { getReadableNumber } from '../../utilities/phone';
 
 import Blank from '../Blank';
 import Home from '../Home';
 import ChatList from '../ChatList';
+import ChatDetail from '../ChatDetail';
 import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
 import SimpleDrawer from '../DrawerContent/SimpleDrawer';
@@ -31,6 +33,7 @@ const ProposeStack = createDrawerNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
 const HomeStack = createDrawerNavigator();
+const ChatDetailStack = createStackNavigator();
 const QRCodeStack = createStackNavigator();
 
 function LandingStackScreen() {
@@ -237,6 +240,30 @@ function HomeStackScreen() {
   );
 }
 
+function ChatDetailStackScreen() {
+  return (
+    <ChatDetailStack.Navigator initialRouteName='ChatDetail'
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <ChatDetailStack.Screen
+        name='ChatDetail'
+        component={ChatDetail}
+        options={({ route, navigation }) => ({
+          title: route.params.title,
+        })}
+      />
+    </ChatDetailStack.Navigator>
+  );
+};
+
 const linking = {
   prefixes: ['https://anumberforus.com', 'https://invite.anumberforus.com', 'anumberforus://'],
   config: {
@@ -326,7 +353,8 @@ class App extends Component {
     initializeNotifications();
     return (
       <>
-        <RootStack.Screen name='Bubblepop' component={HomeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='Tandem' component={HomeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name="Messages" component={ChatDetailStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }

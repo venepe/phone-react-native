@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { GiftedChat } from 'react-native-gifted-chat';
 import R from '../../resources';
 
 class ChatDetail extends Component {

@@ -146,6 +146,24 @@ export const getMessages = ({ token = '', accountId }) => {
   .then(handleResponse)
 };
 
+export const postMessages = ({ token, to, text, accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/messages`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      message: {
+        to,
+        text,
+      },
+    }),
+  })
+  .then(handleResponse)
+};
+
 export const postNotification = ({ token = '', notificationToken, device }) => {
   fetch(`${API_URL}/notifications`, {
     method: 'POST',

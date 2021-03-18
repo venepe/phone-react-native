@@ -4,10 +4,19 @@ import Keys from '../constants/Keys';
 import AppTypes from '../constants/AppTypes';
 import UserTypes from '../constants/UserTypes';
 import { getStore } from '../store';
+import { getMessages } from '../fetches';
 import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
 import { FACEBOOK_APP_ID } from '../config';
 import R from '../resources';
+
+export const requestMessages = () =>
+  async (dispatch, getState) => {
+    const { token, accountId } = getState();
+    const data = await getMessages({ token, accountId }) || {};
+    let { messages } = data;
+    dispatch(setMessages({ payload: { messages } }));
+  }
 
 export const initializeApplication = () =>
   async (dispatch) => {
@@ -110,6 +119,11 @@ export const setAccountId = payload => ({
 
 export const setIsActive = payload => ({
   type: UserTypes.SET_IS_ACTIVE,
+  ...payload,
+});
+
+export const setMessages = payload => ({
+  type: UserTypes.SET_MESSAGES,
   ...payload,
 });
 

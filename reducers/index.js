@@ -8,6 +8,7 @@ const initialState = {
   phoneNumber: null,
   isActive: false,
   isInitialized: false,
+  messages: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -52,6 +53,14 @@ const reducer = (state = initialState, action) => {
         isActive,
       };
     }
+    case UserTypes.SET_MESSAGES:
+    {
+      const { messages } = action.payload;
+      return {
+        ...state,
+        messages,
+      };
+    }
     case AppTypes.SET_IS_INITIALIZED:
     {
       const { isInitialized } = action.payload;
@@ -69,6 +78,7 @@ export const getUserId = state => (state.userId < 1) ? null : state.userId;
 export const getToken = state => state.token;
 export const getPhoneNumber = state => state.phoneNumber;
 export const getAccountId = state => state.accountId;
+export const getMessages = state => state.messages;
 export const getIsInitialized = state => state.isInitialized;
 export const getIsActiveUser = state => (state.isActive && state.token && state.phoneNumber && state.accountId && state.token.length > 0 && state.phoneNumber.length > 0 && state.accountId.length > 0) ? true : false;
 export const getIsLoggedIn = state => (state.token && state.phoneNumber && state.token.length > 0 && state.phoneNumber.length > 0) ? true : false;

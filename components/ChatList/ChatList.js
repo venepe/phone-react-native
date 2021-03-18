@@ -14,11 +14,12 @@ import { connect } from 'react-redux';
 import Blank from '../Blank';
 import ChatItem from './ChatItem';
 import Empty from './Empty';
-import { getMessages } from '../../fetches';
-import { getToken, getAccountId } from '../../reducers';
+import { requestMessages } from '../../actions';
+import { getToken, getAccountId, getMessages } from '../../reducers';
 import PermissionStatus from '../../constants/PermissionStatus';
 import { getFormattedNumber, getReadableNumber } from '../../utilities/phone';
 import { requestContactsPermission } from '../../utilities/permissions';
+import { initSocket } from '../../utilities/socket';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
@@ -36,34 +37,26 @@ class ChatList extends Component {
       isFetching: false,
       token: props.token,
       accountId: props.accountId,
-      phoneNumber: props.phoneNumber,
       messages: [],
     };
   }
 
   async fetch() {
     try {
-      const { token, accountId } = this.state;
-      const data = await getMessages({ token, accountId }) || {};
-      let { messages } = data;
-      messages = _.uniqWith(messages, (a, b) => {
-        return (a.to === b.to && a.from === b.from) || (a.to === b.from && a.from === b.to);
-      });
-      messages = await this.formatMessages(messages);
-      this.setState({
-        messages,
-      });
+      this.props.requestMessages();
     } catch (e) {
       console.log(e);
     }
   }
 
   componentDidMount() {
+    const { accountId } = this.state;
+    initSocket({ accountId });
     this.fetch();
     analytics.track(EVENTS.VIEWED_MESSAGES);
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     const props = this.props;
     if (props.token !== prevProps.token) {
       this.setState({
@@ -73,6 +66,15 @@ class ChatList extends Component {
     if (props.accountId !== prevProps.accountId) {
       this.setState({
         accountId: props.accountId,
+      });
+    }
+    if (props.messages !== prevProps.messages) {
+      let messages = _.uniqWith(props.messages, (a, b) => {
+        return (a.to === b.to && a.from === b.from) || (a.to === b.from && a.from === b.to);
+      });
+      messages = await this.formatMessages(messages);
+      this.setState({
+        messages,
       });
     }
   }
@@ -95,7 +97,7 @@ class ChatList extends Component {
     const title = await getReadableNumber(phoneNumber);
     this.props.navigation.push('Messages', {
       screen: 'ChatDetail',
-      params: { title },
+      params: { title, targetNumber: phoneNumber },
     });
   }
 
@@ -157,9 +159,10 @@ ChatList.propTypes = {}
 const mapStateToProps = state => ({
   token: getToken(state),
   accountId: getAccountId(state),
+  messages: getMessages(state),
 });
 
 export default connect(
   mapStateToProps,
-  { },
+  { requestMessages },
 )(ChatList);

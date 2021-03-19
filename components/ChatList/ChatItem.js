@@ -15,8 +15,6 @@ class ChatItem extends Component {
   constructor(props) {
     super(props);
     this.onPressRow = this.onPressRow.bind(this);
-    this.onPress = this.onPress.bind(this);
-
     this.state = {
       rowID: props.rowID,
       chatItem: props.chatItem,
@@ -34,10 +32,6 @@ class ChatItem extends Component {
 
   onPressRow(phoneNumber) {
     this.props.onPressRow(phoneNumber);
-  }
-
-  onPress(phoneNumber) {
-    Linking.openURL(`sms:${phoneNumber}`);
   }
 
   render() {
@@ -65,9 +59,8 @@ class ChatItem extends Component {
               </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.rightContainer} onPress={() => this.onPress(from)}>
-            <MaterialIcons name='message' size={30} color={R.colors.TEXT_MAIN} />
-          </TouchableOpacity>
+          <View style={styles.rightContainer}>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -124,7 +117,7 @@ const styles = StyleSheet.create({
     fontWeight: '200',
   },
   rightContainer: {
-    flex: .3,
+    flex: .1,
     alignItems: 'flex-end',
     marginRight: 5,
     padding: 5,

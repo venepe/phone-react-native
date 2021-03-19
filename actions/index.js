@@ -127,6 +127,11 @@ export const setMessages = payload => ({
   ...payload,
 });
 
+export const addMessage = payload => ({
+  type: UserTypes.ADD_MESSAGE,
+  ...payload,
+});
+
 export const setIsInitialized = () => ({
   type: AppTypes.SET_IS_INITIALIZED,
   payload: { isInitialized: true },

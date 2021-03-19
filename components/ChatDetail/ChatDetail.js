@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { postMessages } from '../../fetches';
+import { addMessage } from '../../actions';
 import { getToken, getAccountId, getPhoneNumber, getMessages } from '../../reducers';
 import { initSocket } from '../../utilities/socket';
 import R from '../../resources';
@@ -31,17 +32,38 @@ class ChatDetail extends Component {
 
   componentDidMount() {
     const { accountId } = this.state;
-    initSocket({ accountId });
+    // initSocket({ accountId });
+  }
+
+  async componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.token !== prevProps.token) {
+      this.setState({
+        token: props.token,
+      });
+    }
+    if (props.accountId !== prevProps.accountId) {
+      this.setState({
+        accountId: props.accountId,
+      });
+    }
+    if (props.phoneNumber !== prevProps.phoneNumber) {
+      this.setState({
+        phoneNumber: props.phoneNumber,
+      });
+    }
+    if (props.messages !== prevProps.messages) {
+      this.setState({
+        messages: props.messages,
+      });
+    }
   }
 
   async onSend() {
     let { token, targetNumber: to, messages, accountId, text } = this.state;
     this.setState({ text: '' });
     try {
-      const data = await postMessages({ token, to, text, accountId }) || {};
-      let { message } = data;
-      messages.unshift(message);
-      this.setState({ messages });
+      await postMessages({ token, to, text, accountId });
     } catch (e) {
       this.setState({ text });
     }
@@ -53,9 +75,10 @@ class ChatDetail extends Component {
       return message.from === targetNumber || message.to === targetNumber;
     })
     .map((message) => {
-      const { from, body, dateCreated } = message;
+      const { from, body, dateCreated, sid } = message;
       message.createdAt = dateCreated;
       message.text = body;
+      message._id = sid;
       message.user = {
         _id: from,
       };
@@ -99,5 +122,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { },
+  { addMessage },
 )(ChatDetail);

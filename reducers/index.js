@@ -61,6 +61,17 @@ const reducer = (state = initialState, action) => {
         messages,
       };
     }
+    case UserTypes.ADD_MESSAGE:
+    {
+      const { message } = action.payload;
+      return {
+        ...state,
+        messages: [
+          message,
+          ...state.messages,
+        ],
+      };
+    }
     case AppTypes.SET_IS_INITIALIZED:
     {
       const { isInitialized } = action.payload;

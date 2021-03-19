@@ -5,6 +5,7 @@ export default {
   TITLE_APP_NAME: APP_NAME,
   TITLE_LANDING: APP_NAME,
   TITLE_CHATS: 'Messages',
+  TITLE_CREATE_CHAT: 'New Message',
   TITLE_LOGOUT: 'Logout',
   TITLE_AVAILABLE_NUMBER: 'Reserve Your Number',
   TITLE_ENTER_CODE: 'Scan Invitation',

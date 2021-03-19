@@ -4,7 +4,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { SearchBar as ElementsSearchBar } from 'react-native-elements';
-import parsePhoneNumber, { AsYouType } from 'libphonenumber-js';
+import { AsYouType } from 'libphonenumber-js';
 import R from '../../resources';
 
 class SearchBar extends Component {

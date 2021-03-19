@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import _ from 'lodash';
 import Contacts from 'react-native-contacts';
+import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux';
 import Blank from '../Blank';
 import ChatItem from './ChatItem';
@@ -32,6 +33,7 @@ class ChatList extends Component {
     this.fetch = this.fetch.bind(this);
     this.formatMessages = this.formatMessages.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
+    this.onCreateChat = this.onCreateChat.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.state = {
       isFetching: false,
@@ -93,6 +95,12 @@ class ChatList extends Component {
     }
   }
 
+  onCreateChat() {
+    this.props.navigation.push('Messages', {
+      screen: 'CreateChat',
+    });
+  }
+
   async onPressRow(phoneNumber) {
     const title = await getReadableNumber(phoneNumber);
     this.props.navigation.push('Messages', {
@@ -137,6 +145,13 @@ class ChatList extends Component {
           }
         }
         />
+        <FAB
+          color={R.colors.TEXT_MAIN}
+          style={styles.fab}
+          large
+          icon='plus'
+          onPress={() => this.onCreateChat()}
+        />
       </View>
     )
   }
@@ -149,6 +164,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 15,
+    bottom: 30,
   },
 });
 

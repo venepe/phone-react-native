@@ -22,3 +22,16 @@ export const getReadableNumber = async (from) => {
     return getFormattedNumber(from);
   }
 }
+
+export function compareFullname(a, b) {
+  const fullNameA = a.fullName.toUpperCase();
+  const fullNameB = b.fullName.toUpperCase();
+
+  let comparison = 0;
+  if (fullNameA > fullNameB) {
+    comparison = 1;
+  } else if (fullNameA < fullNameB) {
+    comparison = -1;
+  }
+  return comparison;
+}

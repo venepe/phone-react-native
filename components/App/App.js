@@ -15,6 +15,7 @@ import Blank from '../Blank';
 import Home from '../Home';
 import ChatList from '../ChatList';
 import ChatDetail from '../ChatDetail';
+import CreateChat from '../CreateChat';
 import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
 import SimpleDrawer from '../DrawerContent/SimpleDrawer';
@@ -258,6 +259,13 @@ function ChatDetailStackScreen() {
         component={ChatDetail}
         options={({ route, navigation }) => ({
           title: route.params.title,
+        })}
+      />
+      <ChatDetailStack.Screen
+        name='CreateChat'
+        component={CreateChat}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_CREATE_CHAT,
         })}
       />
     </ChatDetailStack.Navigator>

@@ -16,7 +16,7 @@ import Blank from '../Blank';
 import ChatItem from './ChatItem';
 import Empty from './Empty';
 import { requestMessages } from '../../actions';
-import { getToken, getAccountId, getMessages } from '../../reducers';
+import { getToken, getAccountId, getMessages, getPhoneNumber } from '../../reducers';
 import PermissionStatus from '../../constants/PermissionStatus';
 import { getFormattedNumber, getReadableNumber } from '../../utilities/phone';
 import { requestContactsPermission } from '../../utilities/permissions';
@@ -39,6 +39,7 @@ class ChatList extends Component {
       isFetching: false,
       token: props.token,
       accountId: props.accountId,
+      phoneNumber: props.phoneNumber,
       messages: [],
     };
   }
@@ -68,6 +69,11 @@ class ChatList extends Component {
     if (props.accountId !== prevProps.accountId) {
       this.setState({
         accountId: props.accountId,
+      });
+    }
+    if (props.phoneNumber !== prevProps.phoneNumber) {
+      this.setState({
+        phoneNumber: props.phoneNumber,
       });
     }
     if (props.messages !== prevProps.messages) {
@@ -101,11 +107,13 @@ class ChatList extends Component {
     });
   }
 
-  async onPressRow(phoneNumber) {
-    const title = await getReadableNumber(phoneNumber);
+  async onPressRow({ from, to }) {
+    const { phoneNumber } = this.state;
+    let number = (phoneNumber === from) ? to : from;
+    const title = await getReadableNumber(number);
     this.props.navigation.push('Messages', {
       screen: 'ChatDetail',
-      params: { title, targetNumber: phoneNumber },
+      params: { title, targetNumber: number },
     });
   }
 
@@ -117,10 +125,12 @@ class ChatList extends Component {
   }
 
   async formatMessages(messages) {
+    const { phoneNumber } = this.state;
     try {
       await requestContactsPermission();
-      await Promise.all(messages.map(async ({ from }, index) => {
-        messages[index].fromText = await getReadableNumber(from);
+      await Promise.all(messages.map(async ({ from, to }, index) => {
+        let number = (phoneNumber === from) ? to : from;
+        messages[index].fromText = await getReadableNumber(number);
       }));
     } catch (e) {
       console.log(e);
@@ -181,6 +191,7 @@ const mapStateToProps = state => ({
   token: getToken(state),
   accountId: getAccountId(state),
   messages: getMessages(state),
+  phoneNumber: getPhoneNumber(state),
 });
 
 export default connect(

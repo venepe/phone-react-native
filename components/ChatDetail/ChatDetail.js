@@ -90,7 +90,7 @@ class ChatDetail extends Component {
         <GiftedChat
           messages={_messages}
           user={{
-            _id: '+13128151992',
+            _id: phoneNumber,
           }}
           renderAvatar={null}
           text={text}

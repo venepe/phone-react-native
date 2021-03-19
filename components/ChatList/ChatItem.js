@@ -6,7 +6,8 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import * as Linking from 'expo-linking';
+import { connect } from 'react-redux';
+import { getPhoneNumber } from '../../reducers';
 import { getFormattedNumber } from '../../utilities/phone';
 import { getDateDiffText } from '../../utilities/date';
 import R from '../../resources';
@@ -18,6 +19,7 @@ class ChatItem extends Component {
     this.state = {
       rowID: props.rowID,
       chatItem: props.chatItem,
+      phoneNumber: props.phoneNumber,
     };
   }
 
@@ -28,20 +30,28 @@ class ChatItem extends Component {
         chatItem: props.chatItem,
       });
     }
+    if (props.phoneNumber !== prevProps.phoneNumber) {
+      this.setState({
+        phoneNumber: props.phoneNumber,
+      });
+    }
   }
 
-  onPressRow(phoneNumber) {
-    this.props.onPressRow(phoneNumber);
+  onPressRow({ from, to }) {
+    this.props.onPressRow({ from, to });
   }
 
   render() {
     const { navigation } = this.props;
     const chatItem = this.state.chatItem || {};
+    const { phoneNumber } = this.state;
     const opacity = 1.0;
-    const { from, fromText, body, dateCreated } = chatItem;
-
+    let { from, fromText, body, dateCreated, to } = chatItem;
+    if (from === phoneNumber) {
+      body = `Us: ${body}`;
+    }
     return (
-      <TouchableOpacity style={styles.card} onPress={() => this.onPressRow(from)}>
+      <TouchableOpacity style={styles.card} onPress={() => this.onPressRow({ from, to })}>
         <View style={styles.headerContainer}>
           <View style={styles.topContainer}>
             <View style={styles.topSubContainer}>
@@ -141,4 +151,11 @@ ChatItem.defaultProps = {
   onPressRow: () => {},
 };
 
-export default ChatItem;
+const mapStateToProps = state => ({
+  phoneNumber: getPhoneNumber(state),
+});
+
+export default connect(
+  mapStateToProps,
+  { },
+)(ChatItem);

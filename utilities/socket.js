@@ -31,3 +31,7 @@ export const initSocket = async ({ accountId }) => {
     getStore().dispatch(addMessage({ payload: { message } }));
   });
 }
+
+export const closeSocket = () => {
+  socket.disconnect();
+}

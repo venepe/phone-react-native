@@ -7,6 +7,7 @@ import { getStore } from '../store';
 import { getMessages } from '../fetches';
 import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
+import { closeSocket } from '../utilities/socket';
 import { FACEBOOK_APP_ID } from '../config';
 import R from '../resources';
 
@@ -44,6 +45,7 @@ export const logout = () =>
     dispatch(storeAndSetUserId({ payload: { userId: '' } }));
     dispatch(storeAndSetToken({ payload: { token: '' } }));
     dispatch(storeAndSetActiveUser({ payload: { phoneNumber: '', accountId: '', isActive: false } }));
+    closeSocket();
     analytics.reset();
   };
 

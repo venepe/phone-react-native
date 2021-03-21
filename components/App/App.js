@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { connect } from 'react-redux';
-import { initializeApplication } from '../../actions';
+import { initializeApplication, requestMessages } from '../../actions';
 import { getIsLoggedIn, getIsActiveUser } from '../../reducers';
 import { initializeNotifications } from '../../utilities/notification';
 import { getReadableNumber } from '../../utilities/phone';
@@ -351,8 +351,11 @@ class App extends Component {
   }
 
   handleAppStateChange(nextAppState) {
-    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-
+    const { appState, isActiveUser  } = this.state;
+    if (appState.match(/inactive|background/) && nextAppState === 'active') {
+      if (isActiveUser) {
+        this.props.requestMessages();
+      }
     }
     this.setState({ appState: nextAppState });
   }
@@ -407,5 +410,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { initializeApplication },
+  { initializeApplication, requestMessages },
 )(App);

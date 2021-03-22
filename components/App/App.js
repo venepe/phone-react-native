@@ -7,7 +7,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { connect } from 'react-redux';
 import { initializeApplication, requestMessages } from '../../actions';
-import { getIsLoggedIn, getIsActiveUser } from '../../reducers';
+import { getIsLoggedIn, getIsActiveUser, getIsInitialized } from '../../reducers';
 import { initializeNotifications } from '../../utilities/notification';
 import { getReadableNumber } from '../../utilities/phone';
 
@@ -320,7 +320,9 @@ class App extends Component {
     this.renderAuthenticated = this.renderAuthenticated.bind(this);
     this.renderUnauthenticated = this.renderUnauthenticated.bind(this);
     this.renderProposal = this.renderProposal.bind(this);
+    this.renderInitializing = this.renderInitializing.bind(this);
     this.state = {
+      isInitialized: props.isInitialized,
       isLoggedIn: props.isLoggedIn,
       isActiveUser: props.isActiveUser,
       appState: AppState.currentState
@@ -342,6 +344,11 @@ class App extends Component {
     if (props.isActiveUser !== prevProps.isActiveUser) {
       this.setState({
         isActiveUser: props.isActiveUser,
+      });
+    }
+    if (props.isInitialized !== prevProps.isInitialized) {
+      this.setState({
+        isInitialized: props.isInitialized,
       });
     }
   }
@@ -388,9 +395,17 @@ class App extends Component {
     );
   }
 
+  renderInitializing() {
+    return (
+      <>
+        <RootStack.Screen name='Initialize' component={Blank} options={() => ({ headerShown: false })} />
+      </>
+    );
+  }
+
   render() {
-    const { isLoggedIn, isActiveUser } = this.state;
-    const screens = isActiveUser ? this.renderAuthenticated() : isLoggedIn ? this.renderProposal() : this.renderUnauthenticated();
+    const { isLoggedIn, isActiveUser, isInitialized } = this.state;
+    const screens = !isInitialized ? this.renderInitializing() : isActiveUser ? this.renderAuthenticated() : isLoggedIn ? this.renderProposal() : this.renderUnauthenticated();
     return (
       <NavigationContainer
         linking={linking}
@@ -406,6 +421,7 @@ class App extends Component {
 const mapStateToProps = state => ({
   isLoggedIn: getIsLoggedIn(state),
   isActiveUser: getIsActiveUser(state),
+  isInitialized: getIsInitialized(state),
 });
 
 export default connect(

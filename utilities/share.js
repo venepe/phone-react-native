@@ -4,7 +4,7 @@ import Share from 'react-native-share';
 import R from '../resources';
 
 export const openShare =  ({ url }) => {
-  const title = R.strings.APP_NAME;
+  const title = R.strings.LABEL_ACTIVITY_SHARE_TITLE;
   const message = R.strings.LABEL_JOIN_ME;
   const icon = `data:image/png;base64,${R.images.APP_ICON_BASE_64}`;
   const options = Platform.select({
@@ -20,21 +20,15 @@ export const openShare =  ({ url }) => {
           },
           linkMetadata: { originalUrl: url, url, title },
         },
-        { // For using custom icon instead of default text icon at share preview when sharing with message.
-          placeholderItem: {
-            type: 'url',
-            content: icon
-          },
+        { // For sharing text.
+          placeholderItem: { type: 'text', content: message },
           item: {
-            default: {
-              type: 'text',
-              content: `${url}`
-            },
+            default: { type: 'text', content: message },
+            message: null, // Specify no text to share via Messages app.
           },
-          linkMetadata: {
-             title: message,
-             icon: icon
-          }
+          linkMetadata: { // For showing app icon on share preview.
+             title: message
+          },
         },
       ],
     },

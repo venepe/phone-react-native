@@ -52,4 +52,5 @@ export default {
   LABEL_RESEND: 'Resend verification email',
   LABEL_RESEND_EMAIL_SUCCESS_TITLE: 'Success!',
   LABEL_RESEND_EMAIL_SUCCESS_MESSAGE: 'Look for the verification email in your inbox and click the link in that email.',
+  LABEL_ACTIVITY_SHARE_TITLE: `Will you join me on ${APP_NAME}?`,
 };

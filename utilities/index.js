@@ -5,6 +5,7 @@ export const getInvitationUrl = async (accountId) => {
   let canonicalUrl = `https://invite.anumberforus.com/invitations/${accountId}`;
   let controlParams = {
     $canonical_url: canonicalUrl,
+    $og_image_url: 'https://storage.googleapis.com/bubblepop_media/Icon-76.png',
   };
   let { url } = await branchUniversalObject.generateShortUrl({}, controlParams);
   return url;

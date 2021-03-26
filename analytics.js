@@ -30,6 +30,8 @@ export const EVENTS = {
   VIEWED_SCANNER: 'View Scanner',
   VIEWED_JOIN_CODE: 'View Join Code',
   VIEWED_MESSAGES: 'View Messages',
+  VIEWED_DETAIL_MESSAGES: 'View Detail',
+  CLICKED_COMPOSE: 'Click Compose',
 }
 
 export default analytics();

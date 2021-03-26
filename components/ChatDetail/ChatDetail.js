@@ -11,6 +11,7 @@ import { postMessages } from '../../fetches';
 import { addMessage } from '../../actions';
 import { getToken, getAccountId, getPhoneNumber, getMessages } from '../../reducers';
 import { initSocket } from '../../utilities/socket';
+import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
 
 class ChatDetail extends Component {
@@ -33,6 +34,7 @@ class ChatDetail extends Component {
   componentDidMount() {
     const { accountId } = this.state;
     // initSocket({ accountId });
+    analytics.track(EVENTS.VIEWED_DETAIL_MESSAGES);
   }
 
   async componentDidUpdate(prevProps) {

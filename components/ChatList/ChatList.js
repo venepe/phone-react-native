@@ -105,6 +105,7 @@ class ChatList extends Component {
     this.props.navigation.push('Messages', {
       screen: 'CreateChat',
     });
+    analytics.track(EVENTS.CLICKED_COMPOSE);
   }
 
   async onPressRow({ from, to }) {

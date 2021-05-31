@@ -164,6 +164,30 @@ export const postMessages = ({ token, to, text, accountId }) => {
   .then(handleResponse)
 };
 
+export const getCalls = ({ token = '', accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/calls`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
+export const getActivationToken = ({ token = '', accountId }) => {
+  return fetch(`${API_URL}/activation-token`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
 export const postNotification = ({ token = '', notificationToken, device }) => {
   fetch(`${API_URL}/notifications`, {
     method: 'POST',

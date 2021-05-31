@@ -4,6 +4,7 @@ export default {
   APP_NAME,
   TITLE_APP_NAME: APP_NAME,
   TITLE_LANDING: APP_NAME,
+  TITLE_CALLS: 'Calls',
   TITLE_CHATS: 'Messages',
   TITLE_CREATE_CHAT: 'New Message',
   TITLE_LOGOUT: 'Logout',

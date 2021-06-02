@@ -53,7 +53,6 @@ class CallList extends Component {
   }
 
   componentDidMount() {
-    const { accountId } = this.state;
     this.fetch();
     analytics.track(EVENTS.VIEWED_CALLS);
   }
@@ -108,7 +107,7 @@ class CallList extends Component {
   }
 
   async onPressRow({ from, to }) {
-    let { token, phoneNumber } = this.state;
+    let { token, accountId } = this.state;
   }
 
   renderItem({ item }) {

@@ -177,7 +177,7 @@ export const getCalls = ({ token = '', accountId }) => {
 };
 
 export const getActivationToken = ({ token = '', accountId }) => {
-  return fetch(`${API_URL}/activation-token`, {
+  return fetch(`${API_URL}/accounts/${accountId}/activation-token`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

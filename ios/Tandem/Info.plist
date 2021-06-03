@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Tandem</string>
+	<string>Pairmeum</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -50,7 +50,7 @@
 	<key>FacebookAppID</key>
 	<string>1078041962693536</string>
 	<key>FacebookDisplayName</key>
-	<string>Tandem: A Number For Us</string>
+	<string>Pairmeum</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -67,17 +67,17 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Tandem needs access to your camera to read the invitation.</string>
+	<string>Pairmeum needs access to your camera to read the invitation.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Tandem needs access to your contacts to display contact information. Otherwise, you'll just see the number.</string>
+	<string>Pairmeum needs access to your contacts to display contact information. Otherwise, you'll just see the number.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Tandem needs access to your location to find local phone numbers.</string>
+	<string>Pairmeum needs access to your location to find local phone numbers.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Tandem needs access to your location to find local phone numbers.</string>
+	<string>Pairmeum needs access to your location to find local phone numbers.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Tandem needs access to your location to find local phone numbers.</string>
+	<string>Pairmeum needs access to your location to find local phone numbers.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Tandem needs access to your camera to read the invitation.</string>
+	<string>Pairmeum needs access to your camera to read the invitation.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -99,7 +99,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>branch_app_domain</key>
-	<string>invite.anumberforus.com</string>
+	<string>invite.pairmeum.com</string>
 	<key>branch_key</key>
 	<string>key_live_nh4fAtwIn0QzGhNHg3hQ1hmpqubwPdDh</string>
 </dict>

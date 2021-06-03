@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "facebookScheme": "fb1078041962693536",
     "facebookAppId": "1078041962693536",
-    "facebookDisplayName": "Tandem: A Number For Us",
+    "facebookDisplayName": "Pairmeum",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,12 +24,12 @@
       "bundleIdentifier": "com.venepe.anumberforus",
       "buildNumber": "1.0.0",
       "infoPlist": {
-        "NSContactsUsageDescription": "Tandem needs access to your contacts to display contact information. Otherwise, you'll just see the number.",
-        "NSCameraUsageDescription": "Tandem needs access to your camera to read the invitation.",
-        "NSMicrophoneUsageDescription": "Tandem needs access to your camera to read invitation.",
-        "NSLocationUsageDescription": "Tandem needs access to your location to find local phone numbers.",
-        "NSLocationWhenInUseUsageDescription": "Tandem needs access to your location to find local phone numbers.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Tandem needs access to your location to find local phone numbers."
+        "NSContactsUsageDescription": "Pairmeum needs access to your contacts to display contact information. Otherwise, you'll just see the number.",
+        "NSCameraUsageDescription": "Pairmeum needs access to your camera to read the invitation.",
+        "NSMicrophoneUsageDescription": "Pairmeum needs access to your camera to read invitation.",
+        "NSLocationUsageDescription": "Pairmeum needs access to your location to find local phone numbers.",
+        "NSLocationWhenInUseUsageDescription": "Pairmeum needs access to your location to find local phone numbers.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Pairmeum needs access to your location to find local phone numbers."
       }
     },
     "android": {

@@ -2,7 +2,7 @@ import branch from 'react-native-branch';
 
 export const getInvitationUrl = async (accountId) => {
   let branchUniversalObject = await branch.createBranchUniversalObject(accountId);
-  let canonicalUrl = `https://invite.anumberforus.com/invitations/${accountId}`;
+  let canonicalUrl = `https://invite.pairmeum.com/invitations/${accountId}`;
   let controlParams = {
     $canonical_url: canonicalUrl,
     $og_image_url: 'https://storage.googleapis.com/bubblepop_media/Icon-76.png',

@@ -10,8 +10,8 @@
 	</array>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:anumberforus.com</string>
-		<string>applinks:invite.anumberforus.com</string>
+		<string>applinks:pairmeum.com</string>
+		<string>applinks:invite.pairmeum.com</string>
 		<string>applinks:h0tyt-alternate.app.link</string>
 	</array>
 </dict>

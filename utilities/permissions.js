@@ -6,7 +6,7 @@ export const requestContactsPermission = async () => {
       PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
       {
         title: 'Contacts',
-        message: 'Tandem needs access to access your contacts to display contact information.  Otherwise you\'ll just see a number.',
+        message: 'Pairmeum needs access to access your contacts to display contact information.  Otherwise you\'ll just see a number.',
         buttonPositive: 'Okay'
       }
     )

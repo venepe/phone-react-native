@@ -1,4 +1,4 @@
-const APP_NAME = 'Tandem';
+const APP_NAME = 'Pairmeum';
 
 export default {
   APP_NAME,
@@ -42,7 +42,7 @@ export default {
   LABEL_COPY_NUMBER: 'Copy now',
   LABEL_MAYBE_LATER: 'Maybe later',
   LABEL_ACTIVATE: 'To complete enrollment, share this link with your partner:',
-  LABEL_JOIN_ME: 'Follow this link to join our number on Tandem',
+  LABEL_JOIN_ME: `Follow this link to join our number on ${APP_NAME}`,
   LABEL_COPY_LINK: 'Copy link',
   LABEL_SHARE_LINK: 'Share link',
   LABEL_QR_CODE: 'QR code',

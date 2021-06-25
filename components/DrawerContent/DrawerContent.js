@@ -11,7 +11,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import LogoutButton from './LogoutButton';
 import { getFormattedNumber } from '../../utilities/phone';
 import { copyPhoneNumber } from '../../utilities/copy';
@@ -61,6 +61,14 @@ class DrawerContent extends Component {
                 )}
                 label={R.strings.TITLE_MEMBERS}
                 onPress={() => navigation.navigate('Members')}
+                />
+              <DrawerItem
+                {...this.props}
+                icon={({ color, size }) => (
+                  <MaterialIcons name="share" color={R.colors.TEXT_MAIN} size={size} />
+                )}
+                label={R.strings.TITLE_INVITE}
+                onPress={() => navigation.navigate('ShareInvite')}
                 />
               <DrawerItem
                 {...this.props}

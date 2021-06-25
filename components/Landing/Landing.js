@@ -96,19 +96,7 @@ class Landing extends Component {
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.topContainer}>
-          <View style={styles.imageContainer}>
-            <Image
-              style={[styles.image, { alignSelf: 'flex-end' }]}
-              source={require('../../assets/together.png')}
-            />
-          </View>
           <Text style={styles.primaryText}>{R.strings.APP_NAME}</Text>
-          <View style={styles.imageContainer}>
-            <Image
-              style={[styles.image, { alignSelf: 'flex-start' }]}
-              source={require('../../assets/running.png')}
-            />
-          </View>
         </View>
         <View style={styles.actionContainer}>
           <TouchableOpacity style={[styles.loginButtonContainer, { marginTop: MARGIN_WIDTH }]} onPress={this.onJoinLine}>
@@ -135,8 +123,7 @@ const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    fontWeight: 'bold',
+    justifyContent: 'center',
   },
   imageContainer: {
     flex: 1,
@@ -147,7 +134,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   primaryText: {
-    fontSize: 24,
+    fontSize: 36,
     color: R.colors.TEXT_MAIN,
     fontWeight: 'bold',
     flexWrap:'wrap',

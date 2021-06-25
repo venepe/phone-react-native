@@ -24,6 +24,7 @@ import EnterCode from '../EnterCode';
 import JoinCode from '../JoinCode';
 import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
+import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
 import Manage from '../Manage';
 import R from '../../resources';
@@ -235,6 +236,13 @@ function HomeStackScreen() {
         component={Manage}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_MANAGE,
+        })}
+      />
+      <HomeStack.Screen
+        name='ShareInvite'
+        component={ShareInvite}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_INVITE,
         })}
       />
     </HomeStack.Navigator>

@@ -1,4 +1,4 @@
-const APP_NAME = 'Pairmeum';
+const APP_NAME = 'A Number For Us';
 
 export default {
   APP_NAME,
@@ -12,8 +12,9 @@ export default {
   TITLE_MEMBERS: 'Us',
   TITLE_SHARE_CODE: 'Complete Enrollment',
   TITLE_MANAGE: 'Manage',
+  TITLE_INVITE: 'Invite',
   LABEL_LOGIN: 'Login',
-  ERROR_REQUEST_TITLE: ':(',
+  ERROR_REQUEST_TITLE: '🙄',
   ERROR_REQUEST_MESSAGE: `Please verify you are connected to the internet and try again`,
   LABEL_OKAY: 'Okay',
   LABEL_JOIN_LINE: 'Join A Number',
@@ -23,7 +24,7 @@ export default {
   LABEL_CANCEL: 'Cancel',
   LABEL_RETRY: 'Retry',
   LABEL_EXIT_SETUP: 'Exit',
-  LABEL_CHAT_EMPTY_PRIMARY: 'Looks quiet',
+  LABEL_CHAT_EMPTY_PRIMARY: 'Welcome',
   LABEL_CHAT_EMPTY_SECONDARY: 'Hold to copy your number',
   LABEL_AVAILABLE_NUMBER_EMPTY_PRIMARY: '',
   CONFIRM_PURCHASE_TITLE: 'Continue?',
@@ -41,12 +42,13 @@ export default {
   LEAVE_LINE_AFFIRMATIVE: 'Yes, remove me',
   LABEL_COPY_NUMBER: 'Copy now',
   LABEL_MAYBE_LATER: 'Maybe later',
-  LABEL_ACTIVATE: 'To complete enrollment, share this link with your partner:',
+  LABEL_ACTIVATE: 'To complete enrollment, invite others to your number',
+  LABEL_INVITE: 'Invite others to your number',
   LABEL_JOIN_ME: `Follow this link to join our number on ${APP_NAME}`,
   LABEL_COPY_LINK: 'Copy link',
   LABEL_SHARE_LINK: 'Share link',
   LABEL_QR_CODE: 'QR code',
-  LABEL_QR_CODE_SCAN: 'If shared with your partner, they can scan it with Join A Number',
+  LABEL_QR_CODE_SCAN: 'If shared with another, they can scan it with Join A Number',
   LABEL_RESEND_EMAIL_TITLE: 'Verify email',
   LABEL_RESEND_EMAIL_MESSAGE: 'Please verify email address to reserve a number.',
   LABEL_RESEND: 'Resend verification email',

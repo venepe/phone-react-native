@@ -79,9 +79,22 @@ export const showConfirmPurchaseAlert = ({ phoneNumber }, purchase, cancel = () 
 
 export const showConfirmJoinAlert = ({ owners, phoneNumber }, purchase, cancel) => {
   const formattedNumber = getFormattedNumber(phoneNumber);
-  let nameText = 'your partner';
-  if (owners && owners.length > 0) {
-    nameText = owners[0].name;
+  let nameText = '';
+  let length = owners.length;
+  if (owners && length > 0) {
+    if (length === 1) {
+      nameText = owners[0].name;
+    } else if (length === 2) {
+      nameText = `${owners.map(({ name }) => name).join(' and ')}`;
+    } else {
+      const maxLength = 3;
+      if (length > maxLength) {
+        owners.splice(maxLength, length - maxLength);
+        owners.push({ name: 'others' });
+      }
+      const last = owners.pop();
+      nameText = `${owners.map(({ name }) => name).join(', ')}, and ${last.name}`;
+    }
   }
 
   Alert.alert(

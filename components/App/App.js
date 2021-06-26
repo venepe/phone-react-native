@@ -381,6 +381,7 @@ class App extends Component {
       <>
         <RootStack.Screen name='A Number For Us' component={HomeStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name="Messages" component={ChatDetailStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='QRCode' component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }

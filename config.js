@@ -7,6 +7,6 @@ export const AUTH0_AUDIENCE = 'https://bubblepop.io/api/v1/';
 export const MIXPANEL_TOKEN = 'd7bee97a17f30d313384067850adb35c';
 export const FACEBOOK_APP_ID = '1078041962693536';
 
-// https://api.pairmeum.com
+// https://api.anumberforus.com
 // http://localhost:8002
 // http://192.168.0.24:8002

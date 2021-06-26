@@ -49,14 +49,14 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="pairmeum" />
+        <data android:scheme="anumberforus" />
       </intent-filter>
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="https"
-          android:host="pairmeum.com"
+          android:host="anumberforus.com"
           android:pathPrefix="/invitations"
         />
       </intent-filter>
@@ -64,7 +64,7 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="https" android:host="invite.pairmeum.com" />
+        <data android:scheme="https" android:host="invite.anumberforus.com" />
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>

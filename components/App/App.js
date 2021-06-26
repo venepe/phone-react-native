@@ -281,7 +281,7 @@ function ChatDetailStackScreen() {
 };
 
 const linking = {
-  prefixes: ['https://pairmeum.com', 'https://invite.pairmeum.com', 'pairmeum://'],
+  prefixes: ['https://anumberforus.com', 'https://invite.anumberforus.com', 'anumberforus://'],
   config: {
     Join: {
       screens: {
@@ -379,7 +379,7 @@ class App extends Component {
     initializeNotifications();
     return (
       <>
-        <RootStack.Screen name='Pairmeum' component={HomeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='A Number For Us' component={HomeStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name="Messages" component={ChatDetailStackScreen} options={() => ({ headerShown: false })} />
       </>
     );

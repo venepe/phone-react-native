@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Pairmeum</string>
+	<string>A Number For Us</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -99,7 +99,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>branch_app_domain</key>
-	<string>invite.pairmeum.com</string>
+	<string>invite.anumberforus.com</string>
 	<key>branch_key</key>
 	<string>key_live_nh4fAtwIn0QzGhNHg3hQ1hmpqubwPdDh</string>
 </dict>

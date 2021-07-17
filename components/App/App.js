@@ -13,6 +13,7 @@ import { getReadableNumber } from '../../utilities/phone';
 
 import Blank from '../Blank';
 import Home from '../Home';
+import CallList from '../CallList';
 import ChatList from '../ChatList';
 import ChatDetail from '../ChatDetail';
 import CreateChat from '../CreateChat';
@@ -183,6 +184,7 @@ function HomeTabs() {
       }}
     >
       <HomeTab.Screen name={R.strings.TITLE_CHATS} component={ChatList} />
+      <HomeTab.Screen name={R.strings.TITLE_CALLS} component={CallList} />
     </HomeTab.Navigator>
   );
 }

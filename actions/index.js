@@ -4,7 +4,7 @@ import Keys from '../constants/Keys';
 import AppTypes from '../constants/AppTypes';
 import UserTypes from '../constants/UserTypes';
 import { getStore } from '../store';
-import { getMessages } from '../fetches';
+import { getActivationToken, getCalls, getMessages } from '../fetches';
 import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
 import { closeSocket } from '../utilities/socket';
@@ -17,6 +17,22 @@ export const requestMessages = () =>
     const data = await getMessages({ token, accountId }) || {};
     let { messages } = data;
     dispatch(setMessages({ payload: { messages } }));
+  }
+
+export const requestCalls = () =>
+  async (dispatch, getState) => {
+    const { token, accountId } = getState();
+    const data = await getCalls({ token, accountId }) || {};
+    let { calls } = data;
+    dispatch(setCalls({ payload: { calls } }));
+  }
+
+export const requestActivationToken = () =>
+  async (dispatch, getState) => {
+    const { token } = getState();
+    const data = await getActivationToken({ token }) || {};
+    let { activationToken } = data;
+    dispatch(setActivationToken({ payload: { activationToken } }));
   }
 
 export const initializeApplication = () =>
@@ -131,6 +147,16 @@ export const setMessages = payload => ({
 
 export const addMessage = payload => ({
   type: UserTypes.ADD_MESSAGE,
+  ...payload,
+});
+
+export const setCalls = payload => ({
+  type: UserTypes.SET_CALLS,
+  ...payload,
+});
+
+export const setActivationToken = payload => ({
+  type: UserTypes.SET_ACTIVATION_TOKEN,
   ...payload,
 });
 

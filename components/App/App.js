@@ -16,6 +16,7 @@ import Home from '../Home';
 import CallList from '../CallList';
 import ChatList from '../ChatList';
 import ChatDetail from '../ChatDetail';
+import CreateCall from '../CreateCall';
 import CreateChat from '../CreateChat';
 import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
@@ -36,6 +37,7 @@ const ProposeStack = createDrawerNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
 const HomeStack = createDrawerNavigator();
+const CallDetailStack = createStackNavigator();
 const ChatDetailStack = createStackNavigator();
 const QRCodeStack = createStackNavigator();
 
@@ -282,6 +284,30 @@ function ChatDetailStackScreen() {
   );
 };
 
+function CallDetailStackScreen() {
+  return (
+    <CallDetailStack.Navigator initialRouteName='CreateCall'
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <CallDetailStack.Screen
+        name='CreateCall'
+        component={CreateCall}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_CREATE_CALL,
+        })}
+      />
+    </CallDetailStack.Navigator>
+  );
+};
+
 const linking = {
   prefixes: ['https://anumberforus.com', 'https://invite.anumberforus.com', 'anumberforus://'],
   config: {
@@ -382,6 +408,7 @@ class App extends Component {
     return (
       <>
         <RootStack.Screen name='A Number For Us' component={HomeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name="Calls" component={CallDetailStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name="Messages" component={ChatDetailStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='QRCode' component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
       </>

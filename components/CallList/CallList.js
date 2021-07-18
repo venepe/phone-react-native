@@ -100,8 +100,8 @@ class CallList extends Component {
   }
 
   onCreateCall() {
-    this.props.navigation.push('Messages', {
-      screen: 'CreateChat',
+    this.props.navigation.push('Calls', {
+      screen: 'CreateCall',
     });
     analytics.track(EVENTS.CLICKED_COMPOSE);
   }

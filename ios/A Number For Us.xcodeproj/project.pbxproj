@@ -13,7 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		184CF73525DE002800A3AA3A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 184CF73425DE002800A3AA3A /* GoogleService-Info.plist */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		96905EF65AED1B983A6B3ABC /* libPods-Pairmeum.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Pairmeum.a */; };
+		4341475C21FC38F98866C1EB /* libPods-A Number For Us.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C6780834D01A0F7000421F5 /* libPods-A Number For Us.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 /* End PBXBuildFile section */
 
@@ -27,10 +27,12 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Pairmeum/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Pairmeum/main.m; sourceTree = "<group>"; };
 		184CF73425DE002800A3AA3A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Pairmeum/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Pairmeum.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pairmeum.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C6780834D01A0F7000421F5 /* libPods-A Number For Us.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-A Number For Us.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-Pairmeum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pairmeum.debug.xcconfig"; path = "Target Support Files/Pods-Pairmeum/Pods-Pairmeum.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-Pairmeum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pairmeum.release.xcconfig"; path = "Target Support Files/Pods-Pairmeum/Pods-Pairmeum.release.xcconfig"; sourceTree = "<group>"; };
+		985A4894AC12768A8E324224 /* Pods-A Number For Us.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A Number For Us.release.xcconfig"; path = "Target Support Files/Pods-A Number For Us/Pods-A Number For Us.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Pairmeum/SplashScreen.storyboard; sourceTree = "<group>"; };
+		B9BC6987B39AA511B68CA06D /* Pods-A Number For Us.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A Number For Us.debug.xcconfig"; path = "Target Support Files/Pods-A Number For Us/Pods-A Number For Us.debug.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -41,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96905EF65AED1B983A6B3ABC /* libPods-Pairmeum.a in Frameworks */,
+				4341475C21FC38F98866C1EB /* libPods-A Number For Us.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +72,7 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Pairmeum.a */,
+				5C6780834D01A0F7000421F5 /* libPods-A Number For Us.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -118,6 +120,8 @@
 			children = (
 				6C2E3173556A471DD304B334 /* Pods-Pairmeum.debug.xcconfig */,
 				7A4D352CD337FB3A3BF06240 /* Pods-Pairmeum.release.xcconfig */,
+				B9BC6987B39AA511B68CA06D /* Pods-A Number For Us.debug.xcconfig */,
+				985A4894AC12768A8E324224 /* Pods-A Number For Us.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -137,6 +141,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
 				5A5EC5BAEA27288916440944 /* [CP-User] [RNFB] Core Configuration */,
+				89A3CD5D02065211EF4BE2B3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -224,7 +229,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pairmeum-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-A Number For Us-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -247,7 +252,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Pairmeum/Pods-Pairmeum-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-A Number For Us/Pods-A Number For Us-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
@@ -258,7 +263,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pairmeum/Pods-Pairmeum-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-A Number For Us/Pods-A Number For Us-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89A3CD5D02065211EF4BE2B3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-A Number For Us/Pods-A Number For Us-frameworks.sh",
+				"${PODS_ROOT}/TwilioVoice/Build/iOS/TwilioVoice.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwilioVoice.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-A Number For Us/Pods-A Number For Us-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -309,7 +332,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C2E3173556A471DD304B334 /* Pods-Pairmeum.debug.xcconfig */;
+			baseConfigurationReference = B9BC6987B39AA511B68CA06D /* Pods-A Number For Us.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -342,7 +365,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A4D352CD337FB3A3BF06240 /* Pods-Pairmeum.release.xcconfig */;
+			baseConfigurationReference = 985A4894AC12768A8E324224 /* Pods-A Number For Us.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

@@ -6,7 +6,20 @@ export const requestContactsPermission = async () => {
       PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
       {
         title: 'Contacts',
-        message: 'Pairmeum needs access to access your contacts to display contact information.  Otherwise you\'ll just see a number.',
+        message: 'A Number For Us needs access to access your contacts to display contact information.  Otherwise you\'ll just see a number.',
+        buttonPositive: 'Okay'
+      }
+    )
+  }
+}
+
+export const requestMicrophonePermission = async () => {
+  if (Platform.OS === 'android') {
+    await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      {
+        title: 'Microphone',
+        message: 'A Number For Us needs access to access your microphone in order to make calls.',
         buttonPositive: 'Okay'
       }
     )

@@ -7419,6 +7419,11 @@ react-native-tab-view@^2.15.2:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.15.2.tgz#4bc7832d33a119306614efee667509672a7ee64e"
   integrity sha512-2hxLkBnZtEKFDyfvNO5EUywhy3f/EiLOBO8SWqKj4BMBTO0QwnybaPE5MVF00Fhz+VA4+h/iI40Dkrrtq70dGg==
 
+react-native-twilio-programmable-voice@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-twilio-programmable-voice/-/react-native-twilio-programmable-voice-4.4.0.tgz#3073844d1afe6b01f14d95b033cb18b4cf3c9f60"
+  integrity sha512-b8bqkw8Wh8VM45lwS5uFpTpWV2Z4CTFilNRU2//8Rg++hGBbg+HXjvQ2ewvWbNxAJgGu0yQxIGnBuDc0fdOsvw==
+
 react-native-typing-animation@^0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/react-native-typing-animation/-/react-native-typing-animation-0.1.7.tgz#8f2cf08d9400ae543a110292eb7d71523dda5528"

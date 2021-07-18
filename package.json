@@ -47,6 +47,7 @@
     "react-native-share": "^5.1.1",
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.15.2",
+    "react-native-twilio-programmable-voice": "^4.4.0",
     "react-native-unimodules": "~0.12.0",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.2",

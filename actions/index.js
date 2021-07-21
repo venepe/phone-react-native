@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Platform } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import TwilioVoice from 'react-native-twilio-programmable-voice';
 import Keys from '../constants/Keys';
@@ -10,6 +10,7 @@ import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
 import { requestMicrophonePermission } from '../utilities/permissions';
 import { closeSocket } from '../utilities/socket';
+import { registerTwilioVoiceEvents } from '../utilities/twilio-voice';
 import { FACEBOOK_APP_ID } from '../config';
 import R from '../resources';
 
@@ -31,11 +32,13 @@ export const requestCalls = () =>
 
 export const requestActivationToken = () =>
   async (dispatch, getState) => {
-    const { token } = getState();
-    const data = await getActivationToken({ token }) || {};
+    const { token, accountId } = getState();
+    const platform = Platform.OS;
+    const data = await getActivationToken({ token, accountId, platform }) || {};
     let { activationToken } = data;
     dispatch(setActivationToken({ payload: { activationToken } }));
     await requestMicrophonePermission();
+    registerTwilioVoiceEvents();
     const success = await TwilioVoice.initWithToken(activationToken);
     console.log(success);
     TwilioVoice.configureCallKit({

@@ -7,6 +7,8 @@ export default {
   TITLE_CALLS: 'Calls',
   TITLE_CHATS: 'Messages',
   TITLE_CREATE_CHAT: 'New Message',
+  TITLE_CREATE_CALL: 'New Call',
+  TITLE_CONTACTS: 'Contacts',
   TITLE_LOGOUT: 'Logout',
   TITLE_AVAILABLE_NUMBER: 'Reserve Your Number',
   TITLE_ENTER_CODE: 'Scan Invitation',

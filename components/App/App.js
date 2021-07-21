@@ -18,6 +18,7 @@ import ChatList from '../ChatList';
 import ChatDetail from '../ChatDetail';
 import CreateCall from '../CreateCall';
 import CreateChat from '../CreateChat';
+import DialPad from '../DialPad';
 import AvailableNumberList from '../AvailableNumberList';
 import DrawerContent from '../DrawerContent';
 import SimpleDrawer from '../DrawerContent/SimpleDrawer';
@@ -286,7 +287,7 @@ function ChatDetailStackScreen() {
 
 function CallDetailStackScreen() {
   return (
-    <CallDetailStack.Navigator initialRouteName='CreateCall'
+    <CallDetailStack.Navigator initialRouteName='DialPad'
       screenOptions={{
         headerStyle: {
           backgroundColor: R.colors.HEADER_MAIN,
@@ -300,6 +301,13 @@ function CallDetailStackScreen() {
       <CallDetailStack.Screen
         name='CreateCall'
         component={CreateCall}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_CONTACTS,
+        })}
+      />
+      <CallDetailStack.Screen
+        name='DialPad'
+        component={DialPad}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_CREATE_CALL,
         })}

@@ -50,7 +50,7 @@
 	<key>FacebookAppID</key>
 	<string>1078041962693536</string>
 	<key>FacebookDisplayName</key>
-	<string>Pairmeum</string>
+	<string>A Number For Us</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -67,19 +67,20 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Pairmeum needs access to your camera to read the invitation.</string>
+	<string>A Number For Us needs access to your camera to read the invitation.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Pairmeum needs access to your contacts to display contact information. Otherwise, you'll just see the number.</string>
+	<string>A Number For Us needs access to your contacts to display contact information. Otherwise, you'll just see the number.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Pairmeum needs access to your location to find local phone numbers.</string>
+	<string>A Number For Us needs access to your location to find local phone numbers.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Pairmeum needs access to your location to find local phone numbers.</string>
+	<string>A Number For Us needs access to your location to find local phone numbers.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Pairmeum needs access to your location to find local phone numbers.</string>
+	<string>A Number For Us needs access to your location to find local phone numbers.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Pairmeum needs access to your camera to read the invitation.</string>
+	<string>A Number For Us needs access to your camera to read the invitation.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 		<string>voip</string>

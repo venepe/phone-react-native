@@ -68,14 +68,24 @@ class ContactList extends Component {
   }
 
   async onPressRow(item) {
-    const { phoneNumber: query } = item;
-    const phoneNumber = parsePhoneNumber(query, 'US');
-    if (phoneNumber && phoneNumber.isValid()) {
-      const targetNumber = phoneNumber.number;
-      const title = await getReadableNumber(targetNumber);
-      console.log(targetNumber);
-      TwilioVoice.connect({ To: targetNumber, From: 'asdf' });
-    }
+    const { phoneNumber: targetNumber } = item;
+    const { navigation, route } = this.props;
+    // console.log(this.props.navigation);
+    // this.props.navigation.setParams({ targetNumber });
+    // this.props.navigation.state.params.targetNumber = targetNumber;
+    // this.props.navigation.goBack();
+    this.props.navigation.navigate('DialPad', {
+      targetNumber,
+    });
+    // const { navigation, route } = this.props;
+    // navigation.goBack();
+    // console.log(route);
+    // route.params = { targetNumber };
+    // this.props.route.params.updateTargetNumber(targetNumber);
+    // this.props.navigation.goBack();
+    // navigation.goBack();
+    // console.log(route);
+    // route.params.updateTargetNumber(targetNumber);
   }
 
   renderItem({ item, index }) {

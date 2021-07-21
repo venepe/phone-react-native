@@ -30,12 +30,12 @@ class CreateCall extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, route } = this.props;
     const { query } = this.state;
     return (
       <View style={styles.root}>
         <SearchBar onSearch={this.onSearch} onUpdateQuery={this.onUpdateQuery} navigation={navigation}/>
-        <ContactList query={query} navigation={navigation}/>
+        <ContactList query={query} navigation={navigation} route={route}/>
       </View>
     );
   }

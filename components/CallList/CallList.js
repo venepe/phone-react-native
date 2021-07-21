@@ -101,7 +101,7 @@ class CallList extends Component {
 
   onCreateCall() {
     this.props.navigation.push('Calls', {
-      screen: 'CreateCall',
+      screen: 'DialPad',
     });
     analytics.track(EVENTS.CLICKED_COMPOSE);
   }
@@ -152,7 +152,7 @@ class CallList extends Component {
           color={R.colors.TEXT_MAIN}
           style={styles.fab}
           large
-          icon='plus'
+          icon='dialpad'
           onPress={() => this.onCreateCall()}
         />
       </View>

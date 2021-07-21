@@ -5,7 +5,6 @@ import {
   View,
   Platform,
 } from 'react-native';
-import TwilioVoice from 'react-native-twilio-programmable-voice';
 import _ from 'lodash';
 import Contacts from 'react-native-contacts';
 import parsePhoneNumber from 'libphonenumber-js';

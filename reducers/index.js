@@ -1,4 +1,5 @@
 import AppTypes from '../constants/AppTypes';
+import CallTypes from '../constants/CallTypes';
 import UserTypes from '../constants/UserTypes';
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   messages: [],
   calls: [],
   activationToken: '',
+  activePhoneNumber: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -90,6 +92,14 @@ const reducer = (state = initialState, action) => {
         activationToken,
       };
     }
+    case CallTypes.SET_ACTIVE_PHONE_NUMBER:
+    {
+      const { activePhoneNumber } = action.payload;
+      return {
+        ...state,
+        activePhoneNumber,
+      };
+    }
     case AppTypes.SET_IS_INITIALIZED:
     {
       const { isInitialized } = action.payload;
@@ -109,6 +119,7 @@ export const getPhoneNumber = state => state.phoneNumber;
 export const getAccountId = state => state.accountId;
 export const getMessages = state => state.messages;
 export const getCalls = state => state.calls;
+export const getActivePhoneNumber = state => state.activePhoneNumber;
 export const getActivationToken = state => state.activationToken;
 export const getIsInitialized = state => state.isInitialized;
 export const getIsActiveUser = state => (state.isActive && state.token && state.phoneNumber && state.accountId && state.token.length > 0 && state.phoneNumber.length > 0 && state.accountId.length > 0) ? true : false;

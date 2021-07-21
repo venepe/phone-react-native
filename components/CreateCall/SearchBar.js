@@ -3,7 +3,6 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import TwilioVoice from 'react-native-twilio-programmable-voice';
 import { Input } from 'react-native-elements';
 import parsePhoneNumber from 'libphonenumber-js';
 import { getReadableNumber } from '../../utilities/phone';
@@ -31,9 +30,9 @@ class SearchBar extends Component {
     const phoneNumber = parsePhoneNumber(query, 'US');
     if (phoneNumber && phoneNumber.isValid()) {
       const targetNumber = phoneNumber.number;
-      const title = await getReadableNumber(targetNumber);
-      console.log(targetNumber);
-      TwilioVoice.connect({ To: targetNumber, From: 'asdf' });
+      this.props.navigation.navigate('DialPad', {
+        targetNumber,
+      });
     }
   }
 

@@ -30,6 +30,12 @@ export const requestCalls = () =>
     dispatch(setCalls({ payload: { calls } }));
   }
 
+export const connectCall = (targetNumber) =>
+  async (dispatch, getState) => {
+    const { accountId } = getState();
+    TwilioVoice.connect({ To: targetNumber, From: accountId });
+  }
+
 export const requestActivationToken = () =>
   async (dispatch, getState) => {
     const { token, accountId } = getState();

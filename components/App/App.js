@@ -29,7 +29,9 @@ import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
 import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
-import Manage from '../Manage';
+import Manage from '../Manage';IncomingCall
+import ActiveCall from '../CallScreens/ActiveCall';
+import IncomingCall from '../CallScreens/IncomingCall';
 import R from '../../resources';
 
 const LandingStack = createStackNavigator();
@@ -224,7 +226,7 @@ function HomeStackScreen() {
       >
       <HomeStack.Screen
         name='Home'
-        component={HomeTabs}
+        component={IncomingCall}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_APP_NAME,
         })}

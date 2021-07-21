@@ -1,4 +1,5 @@
 import RNCallKeep from 'react-native-callkeep';
+import * as Notifications from 'expo-notifications';
 import R from '../resources';
 
 export const initCallkeep = async () => {
@@ -7,8 +8,7 @@ export const initCallkeep = async () => {
       appName: R.strings.TITLE_APP_NAME,
     },
     android: {
-      alertTitle: 'Permissions required',
-      alertDescription: 'This application needs to access your phone accounts',
+      selfManaged: true,
       cancelButton: R.strings.LABEL_CANCEL,
       okButton: R.strings.LABEL_OKAY,
       imageName: 'ic_notification',
@@ -20,5 +20,19 @@ export const initCallkeep = async () => {
       },
     }
   };
+
+  RNCallKeep.addEventListener('showIncomingCallUi', ({ handle, callUUID, name }) => {
+    console.log(handle);
+    console.log(callUUID);
+    console.log(name);
+    console.log('showIncomingCallUi');
+    Notifications.localNotification({
+      title: 'Cold Weather Alert',
+      message: `It's degrees outside.`,
+      playSound: true,
+      soundName: 'default',
+    });
+  });
+
   await RNCallKeep.setup(options);
 }

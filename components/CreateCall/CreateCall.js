@@ -35,7 +35,7 @@ class CreateCall extends Component {
     return (
       <View style={styles.root}>
         <SearchBar onSearch={this.onSearch} onUpdateQuery={this.onUpdateQuery} navigation={navigation}/>
-        <ContactList query={query} navigation={navigation} route={route}/>
+        <ContactList query={query} navigation={navigation}/>
       </View>
     );
   }

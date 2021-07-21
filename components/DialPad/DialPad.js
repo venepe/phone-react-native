@@ -9,7 +9,8 @@ import {
 import { FAB } from 'react-native-paper';
 import { AsYouType } from 'libphonenumber-js';
 import { connect } from 'react-redux';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { connectCall } from '../../actions';
 import R from '../../resources';
 
 class DialPad extends Component {
@@ -18,10 +19,10 @@ class DialPad extends Component {
     super(props);
     let { targetNumber } = props.route.params || {};
     targetNumber = targetNumber ? targetNumber : '';
+    this.onCreateCall = this.onCreateCall.bind(this);
     this.onPressBackspace = this.onPressBackspace.bind(this);
     this.onPressContact = this.onPressContact.bind(this);
     this.onPressNumber = this.onPressNumber.bind(this);
-    this.updateTargetNumber = this.updateTargetNumber.bind(this);
     this.state = {
       targetNumber,
     };
@@ -29,7 +30,7 @@ class DialPad extends Component {
 
   componentDidUpdate(prevProps) {
     const props = this.props;
-    if (props.route.params.targetNumber) {
+    if (props.route.params && props.route.params.targetNumber) {
       if (!prevProps.route.params || props.route.params.targetNumber !== prevProps.route.params.targetNumber) {
         let { targetNumber } = props.route.params;
         targetNumber = new AsYouType('US').input(targetNumber);
@@ -66,10 +67,9 @@ class DialPad extends Component {
     this.props.navigation.navigate('CreateCall');
   }
 
-  updateTargetNumber(targetNumber) {
-    this.setState({
-      targetNumber,
-    });
+  onCreateCall() {
+    const { targetNumber } = this.state;
+    this.props.connectCall(targetNumber);
   }
 
   render() {
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
     marginTop: 30,
   },
   contactText: {
@@ -220,5 +220,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   null,
-  { },
+  { connectCall },
 )(DialPad);

@@ -6,10 +6,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { FAB } from 'react-native-paper';
 import { AsYouType } from 'libphonenumber-js';
 import { connect } from 'react-redux';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connectCall } from '../../actions';
 import R from '../../resources';
 
@@ -70,6 +69,10 @@ class DialPad extends Component {
   onCreateCall() {
     const { targetNumber } = this.state;
     this.props.connectCall(targetNumber);
+    this.props.navigation.navigate('CallStates', {
+      screen: 'ActiveCall',
+      params: { },
+    });
   }
 
   render() {
@@ -133,15 +136,9 @@ class DialPad extends Component {
         <View style={styles.actionRow}>
           <View style={styles.contactButton}>
           </View>
-          <View style={styles.contactButton}>
-            <FAB
-              color={R.colors.TEXT_MAIN}
-              style={styles.fab}
-              large
-              icon='phone'
-              onPress={() => this.onCreateCall()}
-            />
-          </View>
+          <TouchableOpacity style={styles.phoneButton} onPress={() => this.onCreateCall()}>
+            <MaterialCommunityIcons name='phone' size={40} color={R.colors.TEXT_MAIN} />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.contactButton} onPress={() => this.onPressContact()}>
             <MaterialIcons name='account-circle' size={40} color={R.colors.TEXT_MAIN} />
           </TouchableOpacity>
@@ -190,6 +187,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 10,
+  },
+  phoneButton: {
+    flexDirection: 'column',
+    backgroundColor: R.colors.YES,
+    padding: 20,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    marginTop: 30,
   },
   contactButton: {
     flex: 1,

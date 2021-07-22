@@ -23,6 +23,21 @@ class ActiveCall extends Component {
     };
   }
 
+  componentDidMount() {
+    this.unsubscribe = this.props.navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.activePhoneNumber !== prevProps.activePhoneNumber) {
+      this.setState({
+        activePhoneNumber: props.activePhoneNumber,
+      });
+    }
+  }
+
   onPressMute() {
     let { isMuted } = this.state;
     isMuted = !isMuted;
@@ -32,11 +47,14 @@ class ActiveCall extends Component {
   }
 
   onPressHangup() {
-
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+    this.props.navigation.goBack();
   }
 
   render() {
-    const { isMuted } = this.state;
+    const { activePhoneNumber, isMuted } = this.state;
     let micStyles = {
       backgroundColor: 'transparent',
       iconColor: R.colors.TEXT_MAIN,
@@ -51,7 +69,7 @@ class ActiveCall extends Component {
       <SafeAreaView style={styles.root}>
         <View style={styles.row}>
           <View style={styles.textContainer}>
-            <Text style={styles.primaryText}>{'targetNumber'}</Text>
+            <Text style={styles.primaryText}>{activePhoneNumber}</Text>
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.secondaryText}>{'Connected'}</Text>

@@ -8,7 +8,7 @@ export const registerTwilioVoiceEvents = () => {
   });
 
   TwilioVoice.addEventListener('deviceNotReady', (data) => {
-      console.log('Twilio erroe', data);
+      console.log('Twilio error', data);
   });
 
   TwilioVoice.addEventListener('connectionDidConnect', (data) => {

@@ -29,7 +29,7 @@ import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
 import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
-import Manage from '../Manage';IncomingCall
+import Manage from '../Manage';
 import ActiveCall from '../CallScreens/ActiveCall';
 import IncomingCall from '../CallScreens/IncomingCall';
 import R from '../../resources';
@@ -43,6 +43,7 @@ const HomeStack = createDrawerNavigator();
 const CallDetailStack = createStackNavigator();
 const ChatDetailStack = createStackNavigator();
 const QRCodeStack = createStackNavigator();
+const CallStateStack = createStackNavigator();
 
 function LandingStackScreen() {
   return (
@@ -226,7 +227,7 @@ function HomeStackScreen() {
       >
       <HomeStack.Screen
         name='Home'
-        component={IncomingCall}
+        component={HomeTabs}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_APP_NAME,
         })}
@@ -315,6 +316,25 @@ function CallDetailStackScreen() {
         })}
       />
     </CallDetailStack.Navigator>
+  );
+};
+
+function CallStateStackScreen() {
+  return (
+    <CallStateStack.Navigator initialRouteName='ActiveCall'
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <CallStateStack.Screen
+        name='ActiveCall'
+        component={ActiveCall}
+      />
+      <CallStateStack.Screen
+        name='IncomingCall'
+        component={IncomingCall}
+      />
+    </CallStateStack.Navigator>
   );
 };
 
@@ -417,10 +437,11 @@ class App extends Component {
     initializeNotifications();
     return (
       <>
-        <RootStack.Screen name='A Number For Us' component={HomeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='ANumberForUs' component={HomeStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name="Calls" component={CallDetailStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name="Messages" component={ChatDetailStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='QRCode' component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='CallStates' component={CallStateStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }

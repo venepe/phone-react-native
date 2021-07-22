@@ -3,6 +3,7 @@ import * as Facebook from 'expo-facebook';
 import TwilioVoice from 'react-native-twilio-programmable-voice';
 import Keys from '../constants/Keys';
 import AppTypes from '../constants/AppTypes';
+import CallTypes from '../constants/CallTypes';
 import UserTypes from '../constants/UserTypes';
 import { getStore } from '../store';
 import { getActivationToken, getCalls, getMessages } from '../fetches';
@@ -170,6 +171,16 @@ export const addMessage = payload => ({
 
 export const setCalls = payload => ({
   type: UserTypes.SET_CALLS,
+  ...payload,
+});
+
+export const setActivePhoneNumber = payload => ({
+  type: CallTypes.SET_ACTIVE_PHONE_NUMBER,
+  ...payload,
+});
+
+export const setCallState = payload => ({
+  type: CallTypes.SET_CALL_STATE,
   ...payload,
 });
 

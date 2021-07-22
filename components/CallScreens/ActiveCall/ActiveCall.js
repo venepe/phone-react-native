@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { disconnectCall } from '../../../actions';
 import { getActivePhoneNumber } from '../../../reducers';
 import R from '../../../resources';
 
@@ -50,6 +51,7 @@ class ActiveCall extends Component {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
+    this.props.disconnectCall();
     this.props.navigation.goBack();
   }
 
@@ -144,5 +146,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { },
+  { disconnectCall },
 )(ActiveCall);

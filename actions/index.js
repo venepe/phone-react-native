@@ -35,7 +35,14 @@ export const connectCall = (targetNumber) =>
   async (dispatch, getState) => {
     const { accountId } = getState();
     dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: targetNumber } }));
-    // TwilioVoice.connect({ To: targetNumber, From: accountId });
+    TwilioVoice.connect({ To: targetNumber, From: accountId });
+  }
+
+export const disconnectCall = () =>
+  async (dispatch, getState) => {
+    const { accountId } = getState();
+    dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: '' } }));
+    TwilioVoice.disconnect();
   }
 
 export const requestActivationToken = () =>

@@ -9,7 +9,8 @@ import {
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { disconnectCall } from '../../../actions';
-import { getActivePhoneNumber } from '../../../reducers';
+import { getActivePhoneNumber, getCallState } from '../../../reducers';
+import { getReadableNumber } from '../../../utilities/phone';
 import R from '../../../resources';
 
 class ActiveCall extends Component {
@@ -20,21 +21,36 @@ class ActiveCall extends Component {
     this.onPressMute = this.onPressMute.bind(this);
     this.state = {
       activePhoneNumber: props.activePhoneNumber,
+      activePhoneNumberFormatted: props.activePhoneNumber,
+      callState: props.callState,
       isMuted: false,
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.unsubscribe = this.props.navigation.addListener('beforeRemove', (e) => {
       e.preventDefault();
     });
+    let { activePhoneNumber } = this.state;
+    let activePhoneNumberFormatted = await getReadableNumber(activePhoneNumber);
+    this.setState({
+      activePhoneNumberFormatted,
+    });
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     const props = this.props;
     if (props.activePhoneNumber !== prevProps.activePhoneNumber) {
+      let { activePhoneNumber } = props;
+      let activePhoneNumberFormatted = await getReadableNumber(activePhoneNumber);
       this.setState({
-        activePhoneNumber: props.activePhoneNumber,
+        activePhoneNumber,
+        activePhoneNumberFormatted,
+      });
+    }
+    if (props.callState !== prevProps.callState) {
+      this.setState({
+        callState: props.callState,
       });
     }
   }
@@ -56,7 +72,7 @@ class ActiveCall extends Component {
   }
 
   render() {
-    const { activePhoneNumber, isMuted } = this.state;
+    const { activePhoneNumber, isMuted, activePhoneNumberFormatted } = this.state;
     let micStyles = {
       backgroundColor: 'transparent',
       iconColor: R.colors.TEXT_MAIN,
@@ -71,7 +87,7 @@ class ActiveCall extends Component {
       <SafeAreaView style={styles.root}>
         <View style={styles.row}>
           <View style={styles.textContainer}>
-            <Text style={styles.primaryText}>{activePhoneNumber}</Text>
+            <Text style={styles.primaryText}>{activePhoneNumberFormatted}</Text>
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.secondaryText}>{'Connected'}</Text>
@@ -142,6 +158,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   activePhoneNumber: getActivePhoneNumber(state),
+  callState: getCallState(state),
 });
 
 export default connect(

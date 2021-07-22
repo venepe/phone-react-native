@@ -13,6 +13,7 @@ const initialState = {
   calls: [],
   activationToken: '',
   activePhoneNumber: '',
+  callState: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -100,6 +101,14 @@ const reducer = (state = initialState, action) => {
         activePhoneNumber,
       };
     }
+    case CallTypes.SET_CALL:
+    {
+      const { callState } = action.payload;
+      return {
+        ...state,
+        callState,
+      };
+    }
     case AppTypes.SET_IS_INITIALIZED:
     {
       const { isInitialized } = action.payload;
@@ -120,6 +129,7 @@ export const getAccountId = state => state.accountId;
 export const getMessages = state => state.messages;
 export const getCalls = state => state.calls;
 export const getActivePhoneNumber = state => state.activePhoneNumber;
+export const getCallState = state => state.callState;
 export const getActivationToken = state => state.activationToken;
 export const getIsInitialized = state => state.isInitialized;
 export const getIsActiveUser = state => (state.isActive && state.token && state.phoneNumber && state.accountId && state.token.length > 0 && state.phoneNumber.length > 0 && state.accountId.length > 0) ? true : false;

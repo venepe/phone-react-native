@@ -13,6 +13,10 @@ export const getFormattedNumber = (phoneNumber) => {
 }
 
 export const getReadableNumber = async (from) => {
+  const phoneNumber = parsePhoneNumber(from, 'US');
+  if (phoneNumber && phoneNumber.isValid()) {
+    from = phoneNumber.number;
+  }
   let contacts = await Contacts.getContactsByPhoneNumber(from);
   if (contacts && contacts.length > 0) {
     let { givenName, familyName } = contacts[0];

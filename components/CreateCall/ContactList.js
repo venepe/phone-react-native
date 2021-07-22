@@ -9,7 +9,7 @@ import _ from 'lodash';
 import Contacts from 'react-native-contacts';
 import parsePhoneNumber from 'libphonenumber-js';
 import { requestContactsPermission } from '../../utilities/permissions';
-import { compareFullname, getReadableNumber } from '../../utilities/phone';
+import { compareFullname } from '../../utilities/phone';
 import ContactItem from './ContactItem';
 import R from '../../resources';
 

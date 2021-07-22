@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import TwilioVoice from 'react-native-twilio-programmable-voice';
 import { getStore } from '../store';
+import { setCallState } from '../actions';
 
 export const registerTwilioVoiceEvents = () => {
   TwilioVoice.addEventListener('deviceReady', () => {
@@ -19,6 +20,8 @@ export const registerTwilioVoiceEvents = () => {
       //     call_to: string,   // "client:bob"
       // }
       console.log('connectionDidConnect', data);
+      const { call_sid, call_from, call_to, call_state } = data;
+      getStore().dispatch(setCallState({ payload: { callState: call_state } }));
   });
 
   TwilioVoice.addEventListener('connectionIsReconnecting', (data) => {
@@ -52,7 +55,8 @@ export const registerTwilioVoiceEvents = () => {
       //         err?: string,
       //     }
       console.log('connectionDidDisconnect', data);
-      const { call_sid, call_from, call_to } = data;
+      const { call_sid, call_from, call_to, call_state } = data;
+      getStore().dispatch(setCallState({ payload: { callState: call_state } }));
 
   });
 
@@ -63,8 +67,9 @@ export const registerTwilioVoiceEvents = () => {
       //       call_from: string, // "+441234567890"
       //       call_to: string,   // "client:bob"
       //   }
-      const { call_sid, call_from, call_to } = data;
+      const { call_sid, call_from, call_to, call_state } = data;
       console.log('callStateRinging', data);
+      getStore().dispatch(setCallState({ payload: { callState: call_state } }));
   });
 
   TwilioVoice.addEventListener('callInviteCancelled', (data) => {

@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-import { getActivePhoneNumber } from '../../../reducers';
+import { acceptCall, rejectCall } from '../../../actions';
+import { getActivePhoneNumber, getCallState } from '../../../reducers';
 import R from '../../../resources';
 
 class IncomingCall extends Component {
@@ -19,15 +20,50 @@ class IncomingCall extends Component {
     this.onPressPickup = this.onPressPickup.bind(this);
     this.state = {
       activePhoneNumber: props.activePhoneNumber,
+      activePhoneNumberFormatted: props.activePhoneNumber,
+      callState: props.callState,
     };
   }
 
-  onPressPickup() {
+  async componentDidMount() {
+    this.unsubscribe = this.props.navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+    });
+    let { activePhoneNumber } = this.state;
+    let activePhoneNumberFormatted = await getReadableNumber(activePhoneNumber);
+    this.setState({
+      activePhoneNumberFormatted,
+    });
+  }
 
+  async componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.activePhoneNumber !== prevProps.activePhoneNumber) {
+      let { activePhoneNumber } = props;
+      let activePhoneNumberFormatted = await getReadableNumber(activePhoneNumber);
+      this.setState({
+        activePhoneNumber,
+        activePhoneNumberFormatted,
+      });
+    }
+    if (props.callState !== prevProps.callState) {
+      this.setState({
+        callState: props.callState,
+      });
+    }
+  }
+
+  onPressPickup() {
+    this.props.acceptCall();
+    this.props.navigation.replace('CallStates', {
+      screen: 'ActiveCall',
+      params: { },
+    });
   }
 
   onPressHangup() {
-
+    this.props.rejectCall();
+    this.props.navigation.goBack();
   }
 
   render() {

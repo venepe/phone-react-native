@@ -31,6 +31,16 @@ export const requestCalls = () =>
     dispatch(setCalls({ payload: { calls } }));
   }
 
+export const acceptCall = () =>
+  async (dispatch, getState) => {
+    TwilioVoice.accept();
+  }
+
+export const rejectCall = () =>
+  async (dispatch, getState) => {
+    TwilioVoice.reject()
+  }
+
 export const connectCall = (targetNumber) =>
   async (dispatch, getState) => {
     const { accountId } = getState();

@@ -3,4 +3,8 @@
   <color name="splashscreen_background">#FAFAFA</color>
   <color name="iconBackground">#FAFAFA</color>
   <color name="colorPrimary">#023c69</color>
+  <color name="windowBackground">#757575</color>
+  <color name="white">#E0E0E0</color>
+  <color name="notificationColor">#424242</color>
+  <color name="black">#000000</color>
 </resources>

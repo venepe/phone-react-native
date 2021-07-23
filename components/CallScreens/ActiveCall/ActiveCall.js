@@ -68,7 +68,6 @@ class ActiveCall extends Component {
       this.unsubscribe();
     }
     this.props.disconnectCall();
-    this.props.navigation.goBack();
   }
 
   render() {

@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { connect } from 'react-redux';
+import { navigationRef } from './RootNavigation';
 import { initializeApplication, requestMessages } from '../../actions';
 import { getIsLoggedIn, getIsActiveUser, getIsInitialized } from '../../reducers';
 import { initializeNotifications } from '../../utilities/notification';
@@ -477,6 +478,7 @@ class App extends Component {
     const screens = !isInitialized ? this.renderInitializing() : isActiveUser ? this.renderAuthenticated() : isLoggedIn ? this.renderProposal() : this.renderUnauthenticated();
     return (
       <NavigationContainer
+        ref={navigationRef}
         linking={linking}
       >
         <RootStack.Navigator useanimationEnabled={false}>

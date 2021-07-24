@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AppState,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -17,6 +18,7 @@ class ActiveCall extends Component {
 
   constructor(props) {
     super(props);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.onPressHangup = this.onPressHangup.bind(this);
     this.onPressMute = this.onPressMute.bind(this);
     this.state = {
@@ -24,10 +26,12 @@ class ActiveCall extends Component {
       activePhoneNumberFormatted: props.activePhoneNumber,
       callState: props.callState,
       isMuted: false,
+      appState: AppState.currentState
     };
   }
 
   async componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
     this.unsubscribe = this.props.navigation.addListener('beforeRemove', (e) => {
       e.preventDefault();
     });
@@ -55,6 +59,10 @@ class ActiveCall extends Component {
     }
   }
 
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
   onPressMute() {
     let { isMuted } = this.state;
     isMuted = !isMuted;
@@ -62,6 +70,17 @@ class ActiveCall extends Component {
       isMuted,
     });
   }
+
+  handleAppStateChange(nextAppState) {
+    const { appState, activePhoneNumber  } = this.state;
+    if (appState.match(/inactive|background/) && nextAppState === 'active') {
+      if (!activePhoneNumber || activePhoneNumber.length < 1) {
+        this.onPressHangup();
+      }
+    }
+    this.setState({ appState: nextAppState });
+  }
+
 
   onPressHangup() {
     if (this.unsubscribe) {
@@ -72,7 +91,7 @@ class ActiveCall extends Component {
   }
 
   render() {
-    const { activePhoneNumber, isMuted, activePhoneNumberFormatted } = this.state;
+    const { isMuted, activePhoneNumberFormatted } = this.state;
     let micStyles = {
       backgroundColor: 'transparent',
       iconColor: R.colors.TEXT_MAIN,

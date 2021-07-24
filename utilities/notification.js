@@ -2,6 +2,11 @@ import { AsyncStorage, Platform } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import Keys from '../constants/Keys';
 import { postNotification } from '../fetches';
+import * as RootNavigation from '../components/App/RootNavigation';
+import { getStore } from '../store';
+import { setActivePhoneNumber } from '../actions';
+
+const TWILIO_CALL = 'twilio.voice.call';
 
 export const initializeNotifications = async () => {
   const token = await AsyncStorage.getItem(Keys.TOKEN_KEY);
@@ -27,6 +32,17 @@ export const initializeNotifications = async () => {
 
     messaging().setBackgroundMessageHandler(async (remoteMessage) => {
       console.log('Message handled in the background!', remoteMessage);
+      const { data } = remoteMessage;
+      if (data.twi_account_sid) {
+        const { twi_from: activePhoneNumber, twi_message_type } = data;
+        if (twi_message_type === TWILIO_CALL) {
+          getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
+          RootNavigation.navigate('CallStates', {
+            screen: 'IncomingCall',
+            params: { },
+          });
+        }
+      }
     });
 };
 

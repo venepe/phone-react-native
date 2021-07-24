@@ -1,7 +1,8 @@
 import { Platform } from 'react-native';
 import TwilioVoice from 'react-native-twilio-programmable-voice';
+import * as RootNavigation from '../components/App/RootNavigation';
 import { getStore } from '../store';
-import { setCallState } from '../actions';
+import { setActivePhoneNumber, setCallState } from '../actions';
 
 export const registerTwilioVoiceEvents = () => {
   TwilioVoice.addEventListener('deviceReady', () => {
@@ -79,5 +80,15 @@ export const registerTwilioVoiceEvents = () => {
       //       call_to: string,   // "client:bob"
       //   }
       console.log('callInviteCancelled', data);
+      getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: '' } }));
+      if (RootNavigation.canGoBack()) {
+        console.log('here');
+        RootNavigation.canGoBack();
+      } else {
+        RootNavigation.navigate('ANumberForUs', {
+          screen: 'Home',
+          params: { },
+        });
+      }
   });
 };

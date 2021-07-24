@@ -10,6 +10,7 @@ import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { acceptCall, rejectCall } from '../../../actions';
 import { getActivePhoneNumber, getCallState } from '../../../reducers';
+import { getReadableNumber } from '../../../utilities/phone';
 import R from '../../../resources';
 
 class IncomingCall extends Component {
@@ -55,26 +56,37 @@ class IncomingCall extends Component {
 
   onPressPickup() {
     this.props.acceptCall();
-    this.props.navigation.replace('CallStates', {
-      screen: 'ActiveCall',
-      params: { },
-    });
+    this.props.navigation.replace('ActiveCall');
   }
 
   onPressHangup() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
     this.props.rejectCall();
-    this.props.navigation.goBack();
+    if (this.props.navigation.canGoBack()) {
+      this.props.navigation.goBack();
+    } else {
+      this.props.navigation.navigate('ANumberForUs', {
+        screen: 'Home',
+        params: { },
+      });
+    }
   }
 
   render() {
+    const { activePhoneNumberFormatted } = this.state;
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.row}>
           <View style={styles.textContainer}>
-            <Text style={styles.primaryText}>{'targetNumber'}</Text>
+            <Text style={styles.primaryText}>{activePhoneNumberFormatted}</Text>
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.secondaryText}>{'Connected'}</Text>
+          </View>
+          <View style={styles.person}>
+            <MaterialIcons name='person' size={100} color={R.colors.TEXT_MAIN} />
           </View>
         </View>
         <View style={styles.bottomRow}>
@@ -144,5 +156,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { },
+  { acceptCall, rejectCall },
 )(IncomingCall);

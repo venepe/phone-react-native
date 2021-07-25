@@ -29,6 +29,15 @@ export const getDateDiffText = (date) => {
   return `${years}y`;
 }
 
+export const getDateTimeText = (date) => {
+  const hours = moment.utc().diff(moment(date), 'hours');
+  if (hours < 24) {
+    return moment(date).format('h:mm A');
+  } else {
+    return moment(date).format('MMM D, h:mm A');
+  }
+}
+
 export const getReservationExpiration = (date) => {
   if (date) {
     const EXPIRATION_DAYS = 7;

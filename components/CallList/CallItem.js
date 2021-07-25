@@ -7,14 +7,16 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { connectCall } from '../../actions';
 import { getPhoneNumber } from '../../reducers';
 import { getFormattedNumber } from '../../utilities/phone';
-import { getDateDiffText } from '../../utilities/date';
+import { getDateTimeText } from '../../utilities/date';
 import R from '../../resources';
 
 class CallItem extends Component {
   constructor(props) {
     super(props);
+    this.onCreateCall = this.onCreateCall.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.state = {
       rowID: props.rowID,
@@ -41,12 +43,20 @@ class CallItem extends Component {
     this.props.onPressRow({ from, to });
   }
 
+  onCreateCall({ conversation }) {
+    this.props.connectCall(conversation);
+    this.props.navigation.navigate('CallStates', {
+      screen: 'ActiveCall',
+      params: { },
+    });
+  }
+
   render() {
     const { navigation } = this.props;
     const callItem = this.state.callItem || {};
     const { phoneNumber } = this.state;
     const opacity = 1.0;
-    let { from, fromText, createdAt, direction, to, status } = callItem;
+    let { from, fromText, createdAt, direction, to, status, conversation } = callItem;
     let callIcon;
     let callIconColor = R.colors.TEXT_MAIN;
     if (direction === 'inbound') {
@@ -70,13 +80,14 @@ class CallItem extends Component {
                 </View>
                   <View style={styles.bodyTextContainer}>
                     <MaterialIcons style={styles.callIcon} name={callIcon} color={callIconColor} />
-                    <Text style={styles.bodyTitle}>{getDateDiffText(createdAt)}</Text>
+                    <Text style={styles.bodyTitle}>{getDateTimeText(createdAt)}</Text>
                   </View>
               </View>
             </View>
           </View>
-          <View style={styles.rightContainer}>
-          </View>
+          <TouchableOpacity style={styles.rightContainer} onPress={() => this.onCreateCall({ conversation })}>
+            <MaterialIcons name='phone' size={25} color={R.colors.TEXT_MAIN} />
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );
@@ -135,7 +146,7 @@ const styles = StyleSheet.create({
   rightContainer: {
     flex: .1,
     alignItems: 'flex-end',
-    marginRight: 5,
+    marginRight: 20,
     padding: 5,
   },
   titleContainer: {
@@ -171,5 +182,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { },
+  { connectCall },
 )(CallItem);

@@ -34,6 +34,7 @@ import ShareQRCode from '../ShareQRCode';
 import Manage from '../Manage';
 import ActiveCall from '../CallScreens/ActiveCall';
 import IncomingCall from '../CallScreens/IncomingCall';
+import CreateCallButton from '../NavigationElements/CreateCallButton';
 import R from '../../resources';
 
 const LandingStack = createStackNavigator();
@@ -277,6 +278,7 @@ function ChatDetailStackScreen() {
         component={ChatDetail}
         options={({ route, navigation }) => ({
           title: route.params.title,
+          headerRight: () => (<CreateCallButton navigation={navigation} targetNumber={route.params.targetNumber}/>),
         })}
       />
       <ChatDetailStack.Screen

@@ -17,7 +17,7 @@ export default {
   TITLE_MANAGE: 'Manage',
   TITLE_INVITE: 'Invite',
   LABEL_LOGIN: 'Login',
-  ERROR_REQUEST_TITLE: '🙄',
+  ERROR_REQUEST_TITLE: '🤖',
   ERROR_REQUEST_MESSAGE: `Please verify you are connected to the internet and try again`,
   LABEL_OKAY: 'Okay',
   LABEL_JOIN_LINE: 'Join A Number',

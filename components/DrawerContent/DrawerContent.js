@@ -57,6 +57,14 @@ class DrawerContent extends Component {
               <DrawerItem
                 {...this.props}
                 icon={({ color, size }) => (
+                  <MaterialIcons name="person" color={R.colors.TEXT_MAIN} size={size} />
+                )}
+                label={R.strings.TITLE_ME}
+                onPress={() => navigation.navigate('Me')}
+                />
+              <DrawerItem
+                {...this.props}
+                icon={({ color, size }) => (
                   <MaterialIcons name="people" color={R.colors.TEXT_MAIN} size={size} />
                 )}
                 label={R.strings.TITLE_MEMBERS}

@@ -12,6 +12,7 @@ export default {
   TITLE_LOGOUT: 'Logout',
   TITLE_AVAILABLE_NUMBER: 'Reserve Your Number',
   TITLE_ENTER_CODE: 'Scan Invitation',
+  TITLE_ME: 'Me',
   TITLE_MEMBERS: 'Us',
   TITLE_SHARE_CODE: 'Complete Enrollment',
   TITLE_MANAGE: 'Manage',
@@ -58,4 +59,9 @@ export default {
   LABEL_RESEND_EMAIL_SUCCESS_TITLE: 'Success!',
   LABEL_RESEND_EMAIL_SUCCESS_MESSAGE: 'Look for the verification email in your inbox and click the link in that email.',
   LABEL_ACTIVITY_SHARE_TITLE: `Will you join me on ${APP_NAME}?`,
+  LABEL_NEXT: 'Next',
+  HINT_NAME: 'Full Name',
+  WARNING_MIN_LENGTH: 'A little more, please',
+  WARNING_MAX_LENGTH: 'Hold on!',
+  WARNING_FIELD_REQUIRED: 'Required',
 };

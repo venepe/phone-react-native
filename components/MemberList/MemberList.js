@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-import Blank from '../Blank';
 import MemberItem from './MemberItem';
 import Empty from './Empty';
 import { getOwners } from '../../fetches';

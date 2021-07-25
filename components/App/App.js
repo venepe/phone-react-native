@@ -31,6 +31,7 @@ import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
 import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
+import UpdateName from '../UpdateName';
 import Manage from '../Manage';
 import ActiveCall from '../CallScreens/ActiveCall';
 import IncomingCall from '../CallScreens/IncomingCall';
@@ -233,6 +234,13 @@ function HomeStackScreen() {
         component={HomeTabs}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_APP_NAME,
+        })}
+      />
+      <HomeStack.Screen
+        name='Me'
+        component={UpdateName}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_ME,
         })}
       />
       <HomeStack.Screen

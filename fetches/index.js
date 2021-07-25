@@ -216,6 +216,34 @@ export const postResendVerificationEmail = ({ token }) => {
   })
 };
 
+export const getMe = ({ token }) => {
+  return fetch(`${API_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
+export const putUser = ({ token, name }) => {
+  return fetch(`${API_URL}/users/me`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      user: {
+        name,
+      },
+    }),
+  });
+};
+
 export const postUserLogout = ({ token }) => {
   return fetch(`${API_URL}/users/logout`, {
     method: 'POST',

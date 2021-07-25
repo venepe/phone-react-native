@@ -66,9 +66,13 @@ export const requestActivationToken = () =>
     registerTwilioVoiceEvents();
     const success = await TwilioVoice.initWithToken(activationToken);
     console.log(success);
-    TwilioVoice.configureCallKit({
-      appName: R.strings.TITLE_APP_NAME,
-    });
+    try {
+      TwilioVoice.configureCallKit({
+        appName: R.strings.TITLE_APP_NAME,
+      });
+    } catch (err) {
+        console.err(err)
+    }
   }
 
 export const initializeApplication = () =>
@@ -101,6 +105,7 @@ export const logout = () =>
     dispatch(storeAndSetUserId({ payload: { userId: '' } }));
     dispatch(storeAndSetToken({ payload: { token: '' } }));
     dispatch(storeAndSetActiveUser({ payload: { phoneNumber: '', accountId: '', isActive: false } }));
+    TwilioVoice.unregister();
     closeSocket();
     analytics.reset();
   };

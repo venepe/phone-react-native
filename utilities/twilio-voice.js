@@ -46,10 +46,12 @@ export const registerTwilioVoiceEvents = () => {
   TwilioVoice.addEventListener('deviceDidReceiveIncoming', (data) => {
     const { call_from: activePhoneNumber } = data;
     getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
-    RootNavigation.navigate('CallStates', {
-      screen: 'IncomingCall',
-      params: { },
-    });
+    if (Platform.OS === 'android') {
+      RootNavigation.navigate('CallStates', {
+        screen: 'IncomingCall',
+        params: { },
+      });
+    }
   });
 
   TwilioVoice.addEventListener('callInviteCancelled', (data) => {
@@ -59,22 +61,16 @@ export const registerTwilioVoiceEvents = () => {
       //       call_to: string,   // "client:bob"
       //   }
       console.log('callInviteCancelled', data);
-      // getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: '' } }));
-      // if (RootNavigation.canGoBack()) {
-      //   console.log('here');
-      //   RootNavigation.canGoBack();
-      // } else {
-      //   RootNavigation.navigate('ANumberForUs', {
-      //     screen: 'Home',
-      //     params: { },
-      //   });
-      // }
+      RootNavigation.navigate('ANumberForUs', {
+        screen: 'Home',
+        params: { },
+      });
   });
 };
 
 export const checkActiveOrIncomingCalls = async () => {
   const activeCall = await TwilioVoice.getActiveCall();
-  if (activeCall) {
+  if (activeCall && activeCall.call_from) {
     console.log('activeCall', activeCall);
     const { call_from: activePhoneNumber } = activeCall;
     getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
@@ -85,7 +81,7 @@ export const checkActiveOrIncomingCalls = async () => {
   } else {
     const callInvite = await TwilioVoice.getCallInvite();
     console.log('callInvite', callInvite);
-    if (callInvite) {
+    if (callInvite && callInvite.call_from && Platform.OS === 'android') {
       const { call_from: activePhoneNumber } = callInvite;
       getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
       RootNavigation.navigate('CallStates', {

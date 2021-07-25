@@ -33,16 +33,16 @@ export const initializeNotifications = async () => {
     messaging().setBackgroundMessageHandler(async (remoteMessage) => {
       console.log('Message handled in the background!', remoteMessage);
       const { data } = remoteMessage;
-      if (data.twi_account_sid) {
-        const { twi_from: activePhoneNumber, twi_message_type } = data;
-        if (twi_message_type === TWILIO_CALL) {
-          getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
-          RootNavigation.navigate('CallStates', {
-            screen: 'IncomingCall',
-            params: { },
-          });
-        }
-      }
+      // if (data.twi_account_sid) {
+      //   const { twi_from: activePhoneNumber, twi_message_type } = data;
+      //   if (twi_message_type === TWILIO_CALL) {
+      //     getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
+      //     RootNavigation.navigate('CallStates', {
+      //       screen: 'IncomingCall',
+      //       params: { },
+      //     });
+      //   }
+      // }
     });
 };
 

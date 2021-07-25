@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import TwilioVoice from 'react-native-twilio-programmable-voice';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { disconnectCall } from '../../../actions';
@@ -66,6 +67,7 @@ class ActiveCall extends Component {
   onPressMute() {
     let { isMuted } = this.state;
     isMuted = !isMuted;
+    TwilioVoice.setMuted(isMuted)
     this.setState({
       isMuted,
     });
@@ -87,11 +89,17 @@ class ActiveCall extends Component {
       this.unsubscribe();
     }
     this.props.disconnectCall();
-    this.props.navigation.goBack();
+    const stack = this.props.navigation.dangerouslyGetState();
+    const { routes } = stack;
+    if (routes.length === 1) {
+      this.props.navigation.goBack();
+    } else {
+      this.props.navigation.navigate('Home');
+    }
   }
 
   render() {
-    const { isMuted, activePhoneNumberFormatted } = this.state;
+    const { isMuted, activePhoneNumberFormatted, activePhoneNumber } = this.state;
     let micStyles = {
       backgroundColor: 'transparent',
       iconColor: R.colors.TEXT_MAIN,
@@ -105,12 +113,22 @@ class ActiveCall extends Component {
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.row}>
-          <View style={styles.textContainer}>
-            <Text style={styles.primaryText}>{activePhoneNumberFormatted}</Text>
-          </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.secondaryText}>{'Connected'}</Text>
-          </View>
+          {
+            (() => {
+              if (activePhoneNumber && activePhoneNumber.length > 0) {
+                return (
+                  <View style={styles.row}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.primaryText}>{activePhoneNumberFormatted}</Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.secondaryText}>{'Connected'}</Text>
+                    </View>
+                  </View>
+                )
+              }
+            })()
+          }
           <View style={styles.person}>
             <MaterialIcons name='person' size={100} color={R.colors.TEXT_MAIN} />
           </View>

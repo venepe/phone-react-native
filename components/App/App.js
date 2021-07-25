@@ -11,6 +11,7 @@ import { initializeApplication, requestMessages } from '../../actions';
 import { getIsLoggedIn, getIsActiveUser, getIsInitialized } from '../../reducers';
 import { initializeNotifications } from '../../utilities/notification';
 import { getReadableNumber } from '../../utilities/phone';
+import { checkActiveOrIncomingCalls } from '../../utilities/twilio-voice';
 
 import Blank from '../Blank';
 import Home from '../Home';
@@ -424,10 +425,11 @@ class App extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
-  handleAppStateChange(nextAppState) {
+  async handleAppStateChange(nextAppState) {
     const { appState, isActiveUser  } = this.state;
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       if (isActiveUser) {
+        checkActiveOrIncomingCalls();
         this.props.requestMessages();
       }
     }

@@ -11,7 +11,7 @@ import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
 import { requestMicrophonePermission } from '../utilities/permissions';
 import { closeSocket } from '../utilities/socket';
-import { registerTwilioVoiceEvents } from '../utilities/twilio-voice';
+import { registerTwilioVoiceEvents, checkActiveOrIncomingCalls } from '../utilities/twilio-voice';
 import { FACEBOOK_APP_ID } from '../config';
 import R from '../resources';
 
@@ -88,6 +88,9 @@ export const initializeApplication = () =>
     if (token) {
       dispatch(requestActivationToken());
       refreshToken();
+    }
+    if (isActive) {
+      await checkActiveOrIncomingCalls();
     }
     await Facebook.initializeAsync({ appId: FACEBOOK_APP_ID });
     await Facebook.setAutoLogAppEventsEnabledAsync(true);

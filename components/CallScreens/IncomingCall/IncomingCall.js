@@ -33,6 +33,7 @@ class IncomingCall extends Component {
     let { activePhoneNumber } = this.state;
     let activePhoneNumberFormatted = await getReadableNumber(activePhoneNumber);
     this.setState({
+      activePhoneNumber,
       activePhoneNumberFormatted,
     });
   }
@@ -75,16 +76,26 @@ class IncomingCall extends Component {
   }
 
   render() {
-    const { activePhoneNumberFormatted } = this.state;
+    const { activePhoneNumber, activePhoneNumberFormatted } = this.state;
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.row}>
-          <View style={styles.textContainer}>
-            <Text style={styles.primaryText}>{activePhoneNumberFormatted}</Text>
-          </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.secondaryText}>{'Connected'}</Text>
-          </View>
+          {
+            (() => {
+              if (activePhoneNumber && activePhoneNumber.length > 0) {
+                return (
+                  <View style={styles.row}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.primaryText}>{activePhoneNumberFormatted}</Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.secondaryText}>{'Connected'}</Text>
+                    </View>
+                  </View>
+                )
+              }
+            })()
+          }
           <View style={styles.person}>
             <MaterialIcons name='person' size={100} color={R.colors.TEXT_MAIN} />
           </View>

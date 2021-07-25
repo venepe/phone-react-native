@@ -75,9 +75,7 @@ class CallList extends Component {
       });
     }
     if (props.calls !== prevProps.calls) {
-      let calls = _.uniqWith(props.calls, (a, b) => {
-        return (a.to === b.to && a.from === b.from) || (a.to === b.from && a.from === b.to);
-      });
+      let calls = props.calls;
       calls = await this.formatCalls(calls);
       this.setState({
         calls,

@@ -46,8 +46,16 @@ class CallItem extends Component {
     const callItem = this.state.callItem || {};
     const { phoneNumber } = this.state;
     const opacity = 1.0;
-    let { from, fromText, dateCreated, direction, to } = callItem;
-    let callIcon = (direction === 'inbound') ? 'call-received' : 'call-made';
+    let { from, fromText, createdAt, direction, to, status } = callItem;
+    let callIcon;
+    let callIconColor = R.colors.TEXT_MAIN;
+    if (direction === 'inbound') {
+      callIcon = (status === 'no-answer') ? 'call-missed' : 'call-received';
+      callIconColor = (status === 'no-answer') ? R.colors.MISSED : R.colors.TEXT_MAIN;
+    } else {
+      callIcon = (status === 'no-answer') ? 'call-missed-outgoing' : 'call-made';
+      callIconColor = (status === 'no-answer') ? R.colors.MISSED : R.colors.TEXT_MAIN;
+    }
     return (
       <TouchableOpacity style={styles.card} onPress={() => this.onPressRow({ from, to })}>
         <View style={styles.headerContainer}>
@@ -61,8 +69,8 @@ class CallItem extends Component {
                   <Text style={styles.topTitle}>{fromText}</Text>
                 </View>
                   <View style={styles.bodyTextContainer}>
-                    <MaterialIcons style={styles.bodyTitle} name={callIcon} />
-                    <Text style={styles.bodyTitle}>{getDateDiffText(dateCreated)}</Text>
+                    <MaterialIcons style={styles.callIcon} name={callIcon} color={callIconColor} />
+                    <Text style={styles.bodyTitle}>{getDateDiffText(createdAt)}</Text>
                   </View>
               </View>
             </View>
@@ -142,6 +150,11 @@ const styles = StyleSheet.create({
   },
   bodyTitle: {
     color: R.colors.TEXT_MAIN,
+    fontSize: 16,
+    fontWeight: 'bold',
+    margin: 2,
+  },
+  callIcon: {
     fontSize: 16,
     fontWeight: 'bold',
     margin: 2,

@@ -11,6 +11,7 @@ export default {
   YES: '#00E676',
   NO: '#FF1744',
   SUCCESS: '#00E676',
+  MISSED: '#E57373',
   SEARCH_INPUT_CONTAINER: '#424242',
   LOGO: '#18FFFF',
 };

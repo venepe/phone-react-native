@@ -46,7 +46,7 @@ class ChatItem extends Component {
     const chatItem = this.state.chatItem || {};
     const { phoneNumber } = this.state;
     const opacity = 1.0;
-    let { from, fromText, body, dateCreated, to } = chatItem;
+    let { from, fromText, body, createdAt, to } = chatItem;
     if (from === phoneNumber) {
       body = `Us: ${body}`;
     }
@@ -61,7 +61,7 @@ class ChatItem extends Component {
               <View style={styles.topTextContainer}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.topTitle}>{fromText}</Text>
-                  <Text style={styles.topSubtitle}>{getDateDiffText(dateCreated)}</Text>
+                  <Text style={styles.topSubtitle}>{getDateDiffText(createdAt)}</Text>
                 </View>
                   <View style={styles.bodyTextContainer}>
                     <Text style={styles.bodyTitle}>{body}</Text>

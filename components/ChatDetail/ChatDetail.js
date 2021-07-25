@@ -73,12 +73,14 @@ class ChatDetail extends Component {
 
   render() {
     const { targetNumber, messages, phoneNumber, text } = this.state;
+    console.log(targetNumber);
+    console.log(phoneNumber);
     let _messages = _.filter(messages, (message) => {
       return message.from === targetNumber || message.to === targetNumber;
     })
     .map((message) => {
-      const { from, body, dateCreated, sid } = message;
-      message.createdAt = dateCreated;
+      const { from, body, createdAt, sid } = message;
+      message.createdAt = createdAt;
       message.text = body;
       message._id = sid;
       message.user = {

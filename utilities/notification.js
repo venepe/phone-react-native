@@ -33,17 +33,28 @@ export const initializeNotifications = async () => {
     messaging().setBackgroundMessageHandler(async (remoteMessage) => {
       console.log('Message handled in the background!', remoteMessage);
       const { data } = remoteMessage;
-      // if (data.twi_account_sid) {
-      //   const { twi_from: activePhoneNumber, twi_message_type } = data;
-      //   if (twi_message_type === TWILIO_CALL) {
-      //     getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
-      //     RootNavigation.navigate('CallStates', {
-      //       screen: 'IncomingCall',
-      //       params: { },
-      //     });
-      //   }
-      // }
     });
+
+    messaging().onNotificationOpenedApp(remoteMessage => {
+    const { type } = remoteMessage.data;
+    const { title, body } = remoteMessage.data;
+    console.log(remoteMessage.data);
+  });
+
+  // Check whether an initial notification is available
+  messaging()
+    .getInitialNotification()
+    .then(remoteMessage => {
+      if (remoteMessage) {
+        const { type } = remoteMessage.data;
+        console.log(remoteMessage.data);
+      }
+    });
+
+  messaging().onMessage(remoteMessage => {
+    const { type } = remoteMessage.data;
+    console.log(remoteMessage.data);
+  });
 };
 
 async function requestUserPermission() {

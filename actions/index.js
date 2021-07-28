@@ -33,18 +33,21 @@ export const requestCalls = () =>
 
 export const acceptCall = () =>
   async (dispatch, getState) => {
+    dispatch(setIsCallInProgress({ payload: { isCallInProgress: true } }));
     TwilioVoice.accept();
   }
 
 export const rejectCall = () =>
   async (dispatch, getState) => {
+    dispatch(setIsCallInProgress({ payload: { isCallInProgress: false } }));
     TwilioVoice.reject()
   }
 
-export const connectCall = (targetNumber) =>
+export const connectCall = (activePhoneNumber) =>
   async (dispatch, getState) => {
     const { accountId } = getState();
-    dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: targetNumber } }));
+    dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
+    dispatch(setIsCallInProgress({ payload: { isCallInProgress: true } }));
     TwilioVoice.connect({ To: targetNumber, From: accountId });
   }
 
@@ -52,7 +55,15 @@ export const disconnectCall = () =>
   async (dispatch, getState) => {
     const { accountId } = getState();
     dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: '' } }));
+    dispatch(setIsCallInProgress({ payload: { isCallInProgress: false } }));
     TwilioVoice.disconnect();
+  }
+
+export const joinActiveCall = () =>
+  async (dispatch, getState) => {
+    const { accountId } = getState();
+    dispatch(setIsCallInProgress({ payload: { isCallInProgress: true } }));
+    TwilioVoice.connect({ To: accountId, From: accountId });
   }
 
 export const requestActivationToken = () =>
@@ -207,6 +218,16 @@ export const setActivePhoneNumber = payload => ({
 
 export const setCallState = payload => ({
   type: CallTypes.SET_CALL_STATE,
+  ...payload,
+});
+
+export const setIsAccountCallInProgress = payload => ({
+  type: CallTypes.SET_IS_ACCOUNT_CALL_IN_PROGRESS,
+  ...payload,
+});
+
+export const setIsCallInProgress = payload => ({
+  type: CallTypes.SET_IS_CALL_IN_PROGRESS,
   ...payload,
 });
 

@@ -31,7 +31,8 @@ export const registerTwilioVoiceEvents = () => {
   });
 
   TwilioVoice.addEventListener('connectionDidDisconnect', (data) => {
-
+    console.log('Twilio connectionDidDisconnect', data);
+    RootNavigation.navigate('Home');
   });
 
   TwilioVoice.addEventListener('callStateRinging', (data) => {
@@ -61,10 +62,7 @@ export const registerTwilioVoiceEvents = () => {
       //       call_to: string,   // "client:bob"
       //   }
       console.log('callInviteCancelled', data);
-      RootNavigation.navigate('ANumberForUs', {
-        screen: 'Home',
-        params: { },
-      });
+      RootNavigation.navigate('Home');
   });
 };
 

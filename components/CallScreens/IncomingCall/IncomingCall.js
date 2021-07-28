@@ -101,11 +101,11 @@ class IncomingCall extends Component {
           </View>
         </View>
         <View style={styles.bottomRow}>
-          <TouchableOpacity style={styles.pickup} onPress={() => this.onPressPickup()}>
-            <MaterialCommunityIcons name='phone' size={40} color={R.colors.TEXT_MAIN} />
-          </TouchableOpacity>
           <TouchableOpacity style={styles.hangup} onPress={() => this.onPressHangup()}>
             <MaterialCommunityIcons name='phone-hangup' size={40} color={R.colors.TEXT_MAIN} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.pickup} onPress={() => this.onPressPickup()}>
+            <MaterialCommunityIcons name='phone' size={40} color={R.colors.TEXT_MAIN} />
           </TouchableOpacity>
         </View>
       </SafeAreaView>

@@ -13,7 +13,9 @@ const initialState = {
   calls: [],
   activationToken: '',
   activePhoneNumber: '',
+  isAccountCallInProgress: false,
   callState: '',
+  isCallInProgress: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -109,6 +111,22 @@ const reducer = (state = initialState, action) => {
         callState,
       };
     }
+    case CallTypes.SET_IS_ACCOUNT_CALL_IN_PROGRESS:
+    {
+      const { isAccountCallInProgress } = action.payload;
+      return {
+        ...state,
+        isAccountCallInProgress,
+      };
+    }
+    case CallTypes.SET_IS_CALL_IN_PROGRESS:
+    {
+      const { isCallInProgress } = action.payload;
+      return {
+        ...state,
+        isCallInProgress,
+      };
+    }
     case AppTypes.SET_IS_INITIALIZED:
     {
       const { isInitialized } = action.payload;
@@ -130,6 +148,8 @@ export const getMessages = state => state.messages;
 export const getCalls = state => state.calls;
 export const getActivePhoneNumber = state => state.activePhoneNumber;
 export const getCallState = state => state.callState;
+export const getIsAccountCallActive = state => state.isAccountCallInProgress;
+export const getIsCallInProgress = state => state.isCallInProgress;
 export const getActivationToken = state => state.activationToken;
 export const getIsInitialized = state => state.isInitialized;
 export const getIsActiveUser = state => (state.isActive && state.token && state.phoneNumber && state.accountId && state.token.length > 0 && state.phoneNumber.length > 0 && state.accountId.length > 0) ? true : false;

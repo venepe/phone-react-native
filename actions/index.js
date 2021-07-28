@@ -48,7 +48,7 @@ export const connectCall = (activePhoneNumber) =>
     const { accountId } = getState();
     dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
     dispatch(setIsCallInProgress({ payload: { isCallInProgress: true } }));
-    TwilioVoice.connect({ To: targetNumber, From: accountId });
+    TwilioVoice.connect({ To: activePhoneNumber, From: accountId });
   }
 
 export const disconnectCall = () =>

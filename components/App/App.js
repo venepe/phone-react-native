@@ -7,7 +7,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { connect } from 'react-redux';
 import { navigationRef } from './RootNavigation';
-import { initializeApplication, requestMessages } from '../../actions';
+import { initializeApplication, requestCalls, requestMessages, requestActivationToken } from '../../actions';
 import { getIsLoggedIn, getIsActiveUser, getIsInitialized } from '../../reducers';
 import { initializeNotifications } from '../../utilities/notification';
 import { getReadableNumber } from '../../utilities/phone';
@@ -440,6 +440,8 @@ class App extends Component {
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       if (isActiveUser) {
         checkActiveOrIncomingCalls();
+        this.props.requestActivationToken();
+        this.props.requestCalls();
         this.props.requestMessages();
       }
     }
@@ -509,5 +511,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { initializeApplication, requestMessages },
+  { initializeApplication, requestMessages, requestActivationToken, requestCalls },
 )(App);

@@ -1,5 +1,5 @@
 
-export const API_URL = 'https://101d07407d64.ngrok.io';
+export const API_URL = 'https://e4b1b38920ad.ngrok.io';
 export const SOCKET_URL = API_URL;
 export const AUTH0_DOMAIN = 'bubblepop.us.auth0.com';
 export const AUTH0_CLIENT_ID = 'LCGTl08HZL5Se6baHXZHSeGild39j4HL';

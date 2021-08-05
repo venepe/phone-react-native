@@ -9,6 +9,7 @@ import { getStore } from '../store';
 import { getActivationToken, getCalls, getMessages } from '../fetches';
 import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
+import { showActiveCallMessage, hideMessage } from '../utilities/flash-message';
 import { requestMicrophonePermission } from '../utilities/permissions';
 import { closeSocket } from '../utilities/socket';
 import { registerTwilioVoiceEvents, checkActiveOrIncomingCalls } from '../utilities/twilio-voice';
@@ -52,9 +53,9 @@ export const connectCall = (activePhoneNumber) =>
   }
 
 export const disconnectCall = () =>
-  async (dispatch, getState) => {
+  (dispatch, getState) => {
     const { accountId } = getState();
-    dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: '' } }));
+    // dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: '' } }));
     dispatch(setIsCallInProgress({ payload: { isCallInProgress: false } }));
     TwilioVoice.disconnect();
   }
@@ -83,6 +84,16 @@ export const requestActivationToken = () =>
       });
     } catch (err) {
         console.err(err)
+    }
+  }
+
+export const displayCallStatus = () =>
+  (dispatch, getState) => {
+    const { isAccountCallInProgress, isCallInProgress, activePhoneNumber } = getState();
+    if (isAccountCallInProgress && !isCallInProgress) {
+      showActiveCallMessage({ activePhoneNumber });
+    } else {
+      hideMessage();
     }
   }
 

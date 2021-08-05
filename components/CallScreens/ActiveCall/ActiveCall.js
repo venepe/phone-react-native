@@ -10,7 +10,7 @@ import {
 import TwilioVoice from 'react-native-twilio-programmable-voice';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-import { disconnectCall } from '../../../actions';
+import { disconnectCall, displayCallStatus } from '../../../actions';
 import { getActivePhoneNumber, getCallState } from '../../../reducers';
 import { getReadableNumber } from '../../../utilities/phone';
 import R from '../../../resources';
@@ -96,6 +96,7 @@ class ActiveCall extends Component {
     } else {
       this.props.navigation.navigate('Home');
     }
+    this.props.displayCallStatus();
   }
 
   render() {
@@ -200,5 +201,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { disconnectCall },
+  { disconnectCall, displayCallStatus },
 )(ActiveCall);

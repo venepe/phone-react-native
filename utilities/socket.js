@@ -1,10 +1,9 @@
 import io from 'socket.io-client';
 import { SOCKET_URL } from '../config';
 import { getStore } from '../store';
-import { addMessage, storeAndSetIsActive,
+import { addMessage, storeAndSetIsActive, displayCallStatus,
   setIsAccountCallInProgress, setActivePhoneNumber } from '../actions';
 import { showCongratulationsAlert } from './alert';
-import { showActiveCallMessage, hideMessage } from './flash-message';
 
 let socket = {};
 
@@ -36,15 +35,10 @@ export const initSocket = async ({ accountId }) => {
     getStore().dispatch(addMessage({ payload: { message } }));
   });
 
-  socket.on('set-is-account-call-in-progress', ({ isAccountCallInProgress, activePhoneNumber }) => {
+  socket.on('set-is-account-call-in-progress', ({ isAccountCallInProgress, activePhoneNumber = '' }) => {
     getStore().dispatch(setIsAccountCallInProgress({ payload: { isAccountCallInProgress } }));
     getStore().dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
-    const isCallInProgress = getStore().getState().isCallInProgress;
-    if (isAccountCallInProgress && !isCallInProgress) {
-      showActiveCallMessage({ activePhoneNumber });
-    } else {
-      hideMessage();
-    }
+    getStore().dispatch(displayCallStatus());
   });
 }
 

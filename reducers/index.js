@@ -140,19 +140,19 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const getUserId = state => (state.userId < 1) ? null : state.userId;
-export const getToken = state => state.token;
-export const getPhoneNumber = state => state.phoneNumber;
-export const getAccountId = state => state.accountId;
-export const getMessages = state => state.messages;
-export const getCalls = state => state.calls;
-export const getActivePhoneNumber = state => state.activePhoneNumber;
-export const getCallState = state => state.callState;
-export const getIsAccountCallActive = state => state.isAccountCallInProgress;
-export const getIsCallInProgress = state => state.isCallInProgress;
-export const getActivationToken = state => state.activationToken;
-export const getIsInitialized = state => state.isInitialized;
-export const getIsActiveUser = state => (state.isActive && state.token && state.phoneNumber && state.accountId && state.token.length > 0 && state.phoneNumber.length > 0 && state.accountId.length > 0) ? true : false;
-export const getIsLoggedIn = state => (state.token && state.phoneNumber && state.token.length > 0 && state.phoneNumber.length > 0) ? true : false;
+export const getUserId = state => (state.default.userId < 1) ? null : state.default.userId;
+export const getToken = state => state.default.token;
+export const getPhoneNumber = state => state.default.phoneNumber;
+export const getAccountId = state => state.default.accountId;
+export const getMessages = state => state.default.messages;
+export const getCalls = state => state.default.calls;
+export const getActivePhoneNumber = state => state.default.activePhoneNumber;
+export const getCallState = state => state.default.callState;
+export const getIsAccountCallActive = state => state.default.isAccountCallInProgress;
+export const getIsCallInProgress = state => state.default.isCallInProgress;
+export const getActivationToken = state => state.default.activationToken;
+export const getIsInitialized = state => state.default.isInitialized;
+export const getIsActiveUser = state => (state.default.isActive && state.default.token && state.default.phoneNumber && state.default.accountId && state.default.token.length > 0 && state.default.phoneNumber.length > 0 && state.default.accountId.length > 0) ? true : false;
+export const getIsLoggedIn = state => (state.default.token && state.default.phoneNumber && state.default.token.length > 0 && state.default.phoneNumber.length > 0) ? true : false;
 
 export default reducer;

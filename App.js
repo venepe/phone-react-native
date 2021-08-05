@@ -5,22 +5,27 @@ import { enableScreens } from 'react-native-screens';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
 import AppApp from './components/App';
-import { initStore } from './store';
+import { initStore, getPersistor } from './store';
 enableScreens();
 
 const store = initStore();
+const persistor = getPersistor();
+console.log(persistor);
 
 export default class Base extends React.Component {
 
   render() {
     return (
       <Provider store={store}>
-        <View style={{ flex: 1 }}>
-          <AppApp />
-          <FlashMessage position='top' animated={true}/>
-        </View>
+        <PersistGate loading={null} persistor={persistor}>
+          <View style={{ flex: 1 }}>
+            <AppApp />
+            <FlashMessage position='top' animated={true}/>
+          </View>
+        </PersistGate>
       </Provider>
   );
   }

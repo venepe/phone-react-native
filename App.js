@@ -13,7 +13,6 @@ enableScreens();
 
 const store = initStore();
 const persistor = getPersistor();
-console.log(persistor);
 
 export default class Base extends React.Component {
 

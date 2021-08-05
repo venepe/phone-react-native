@@ -50,7 +50,7 @@ export const login = async () => {
 
 export const clearSession = async () => {
   const auth0 = new Auth0({ domain: AUTH0_DOMAIN, clientId: AUTH0_CLIENT_ID });
-  const token = getStore().getState().token;
+  const token = getStore().getState().default.token;
 
   return auth0
   .webAuth

@@ -7,7 +7,7 @@ import reducers from '../reducers';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['messages'],
+  whitelist: ['messages', 'calls'],
 };
 
 const rootReducer = combineReducers({

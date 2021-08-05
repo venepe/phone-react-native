@@ -18,7 +18,7 @@ import R from '../resources';
 
 export const requestMessages = () =>
   async (dispatch, getState) => {
-    const { token, accountId } = getState();
+    const { token, accountId } = getState().default;
     const data = await getMessages({ token, accountId }) || {};
     let { messages } = data;
     dispatch(setMessages({ payload: { messages } }));
@@ -26,7 +26,7 @@ export const requestMessages = () =>
 
 export const requestCalls = () =>
   async (dispatch, getState) => {
-    const { token, accountId } = getState();
+    const { token, accountId } = getState().default;
     const data = await getCalls({ token, accountId }) || {};
     let { calls } = data;
     dispatch(setCalls({ payload: { calls } }));
@@ -46,7 +46,7 @@ export const rejectCall = () =>
 
 export const connectCall = (activePhoneNumber) =>
   async (dispatch, getState) => {
-    const { accountId } = getState();
+    const { accountId } = getState().default;
     dispatch(setActivePhoneNumber({ payload: { activePhoneNumber } }));
     dispatch(setIsCallInProgress({ payload: { isCallInProgress: true } }));
     TwilioVoice.connect({ To: activePhoneNumber, From: accountId });
@@ -54,7 +54,7 @@ export const connectCall = (activePhoneNumber) =>
 
 export const disconnectCall = () =>
   (dispatch, getState) => {
-    const { accountId } = getState();
+    const { accountId } = getState().default;
     // dispatch(setActivePhoneNumber({ payload: { activePhoneNumber: '' } }));
     dispatch(setIsCallInProgress({ payload: { isCallInProgress: false } }));
     TwilioVoice.disconnect();
@@ -62,14 +62,14 @@ export const disconnectCall = () =>
 
 export const joinActiveCall = () =>
   async (dispatch, getState) => {
-    const { accountId } = getState();
+    const { accountId } = getState().default;
     dispatch(setIsCallInProgress({ payload: { isCallInProgress: true } }));
     TwilioVoice.connect({ To: accountId, From: accountId });
   }
 
 export const requestActivationToken = () =>
   async (dispatch, getState) => {
-    const { token, accountId } = getState();
+    const { token, accountId } = getState().default;
     const platform = Platform.OS;
     const data = await getActivationToken({ token, accountId, platform }) || {};
     let { activationToken } = data;
@@ -89,7 +89,7 @@ export const requestActivationToken = () =>
 
 export const displayCallStatus = () =>
   (dispatch, getState) => {
-    const { isAccountCallInProgress, isCallInProgress, activePhoneNumber } = getState();
+    const { isAccountCallInProgress, isCallInProgress, activePhoneNumber } = getState().default;
     if (isAccountCallInProgress && !isCallInProgress) {
       showActiveCallMessage({ activePhoneNumber });
     } else {

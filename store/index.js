@@ -7,15 +7,11 @@ let persistor;
 export function initStore() {
 	store =  configureStore();
 	persistor = persistStore(store);
-  return store;
+  return { store, persistor };
 }
 
 export function getStore() {
   return store;
-}
-
-export function getPersistor() {
-  return persistor;
 }
 
 export default {};

@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "A Number For Us",
-    "slug": "Pairmeum",
-    "version": "1.0.0",
+    "name": "Bubblepop",
+    "slug": "Bubblepop",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "facebookScheme": "fb1078041962693536",
     "facebookAppId": "1078041962693536",
-    "facebookDisplayName": "A Number For Us",
+    "facebookDisplayName": "Bubblepop",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,12 +24,12 @@
       "bundleIdentifier": "com.venepe.anumberforus",
       "buildNumber": "1.0.0",
       "infoPlist": {
-        "NSContactsUsageDescription": "A Number For Us needs access to your contacts to display contact information. Otherwise, you'll just see the number.",
-        "NSCameraUsageDescription": "A Number For Us needs access to your camera to read the invitation.",
-        "NSMicrophoneUsageDescription": "A Number For Us needs access to your camera to read invitation.",
-        "NSLocationUsageDescription": "A Number For Us needs access to your location to find local phone numbers.",
-        "NSLocationWhenInUseUsageDescription": "A Number For Us needs access to your location to find local phone numbers.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "A Number For Us needs access to your location to find local phone numbers."
+        "NSContactsUsageDescription": "Bubblepop needs access to your contacts to display contact information. Otherwise, you'll just see the number.",
+        "NSCameraUsageDescription": "Bubblepop needs access to your camera to read the invitation.",
+        "NSMicrophoneUsageDescription": "Bubblepop needs access to your camera to read invitation.",
+        "NSLocationUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
+        "NSLocationWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Bubblepop needs access to your location to find local phone numbers."
       }
     },
     "android": {

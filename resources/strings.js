@@ -1,4 +1,4 @@
-const APP_NAME = 'A Number For Us';
+const APP_NAME = 'Bubblepop';
 
 export default {
   APP_NAME,

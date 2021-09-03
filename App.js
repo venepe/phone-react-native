@@ -8,11 +8,10 @@ import thunk from 'redux-thunk';
 import { PersistGate } from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
 import AppApp from './components/App';
-import { initStore, getPersistor } from './store';
+import { initStore } from './store';
 enableScreens();
 
-const store = initStore();
-const persistor = getPersistor();
+const { store, persistor } = initStore();
 
 export default class Base extends React.Component {
 

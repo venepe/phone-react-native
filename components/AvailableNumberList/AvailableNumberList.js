@@ -8,9 +8,11 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
 import AvailableNumberItem from './AvailableNumberItem';
 import SearchBar from './SearchBar';
 import Empty from './Empty';
+import SubscriptionModal from '../SubscriptionModal';
 import Loading from './Loading';
 import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
@@ -30,10 +32,12 @@ class AvailableNumberList extends Component {
     this.fetch = this.fetch.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.onPress = this.onPress.bind(this);
+    this.onAccept = this.onAccept.bind(this);
     this.purchase = this.purchase.bind(this);
     this.state = {
       isFetching: false,
       location: props.location,
+      token: '',
       location: {
         latitude: null,
         longitude: null,
@@ -42,12 +46,45 @@ class AvailableNumberList extends Component {
       phoneNumbers: [],
       query: '',
       isPurchasing: false,
+      isSubscriptionModalVisible: false,
     };
   }
 
   async componentDidMount() {
+    await initConnection();
+    this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
+      const { phoneNumber, token } = this.state;
+      const { productId, transactionId, transactionReceipt } = purchase;
+      if (transactionReceipt && phoneNumber.length > 0) {
+        const platform = Platform.OS;
+        const data = await postAccounts({ token, phoneNumber });
+        let { account } = data;
+        if (account) {
+          await RNIap.finishTransaction(purchase, true);
+          const { phoneNumber, isActive, id: accountId } = account;
+          this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+        } else {
+          this.setState({
+            errorMessage: 'Failed up load. Try again.',
+          });
+        }
+      } else {
+        this.setState({
+          errorMessage: 'Failed up load. Try again.',
+        });
+      }
+    });
+    this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
+      console.log('purchaseErrorListener', error);
+      console.log(error);
+    });
     this.fetch();
     analytics.track(EVENTS.VIEWED_AVAILABLE_NUMBERS);
+  }
+
+  componentWillUnmount() {
+    this.purchaseUpdateSubscription.remove();
+    this.purchaseErrorSubscription.remove();
   }
 
   async onSearch({ query }) {
@@ -82,20 +119,23 @@ class AvailableNumberList extends Component {
     this.setState({ isFetching: false });
   }
 
+  async onAccept() {
+    try {
+      const subscriptions = await getSubscriptions(['annual']);
+      console.log(subscriptions);
+      requestSubscription('annual');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   async purchase({ phoneNumber }) {
     const { isPurchasing } = this.state;
     if (!isPurchasing) {
       this.setState({ isPurchasing: true });
       try {
         const { accessToken: token } = await login();
-        const data = await postAccounts({ token, phoneNumber });
-        let { account } = data;
-        if (account) {
-          const { phoneNumber, isActive, id: accountId } = account;
-          this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
-        } else {
-          showVerifyEmailAddressAlert({ token });
-        }
+        this.setState({ token, isSubscriptionModalVisible: true });
       } catch (e) {
         console.log(e);
       }
@@ -114,7 +154,7 @@ class AvailableNumberList extends Component {
   }
 
   render() {
-    const { isFetching, location = {}, phoneNumbers, phoneNumber, query, isPurchasing } = this.state;
+    const { isFetching, location = {}, phoneNumbers, phoneNumber, query, isPurchasing, isSubscriptionModalVisible } = this.state;
     const { latitude, longitude } = location;
     if (isPurchasing) {
       return <Loading/>;
@@ -137,6 +177,7 @@ class AvailableNumberList extends Component {
           }
           />
         </View>
+        <SubscriptionModal phoneNumber={phoneNumber} isVisible={isSubscriptionModalVisible} onAccept={this.onAccept} handleClose={() => this.setState({ isSubscriptionModalVisible: false })}/>
       </View>
     )
   }

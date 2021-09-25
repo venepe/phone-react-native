@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  Dimensions,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -8,18 +9,20 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Video from 'react-native-video';
 import { getAccountById, postOwners } from '../../fetches';
 import { storeAndSetActiveUser } from '../../actions';
 import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
 import { login } from '../../utilities/auth';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 class JoinCode extends Component {
 
   constructor(props) {
     super(props);
-    const { invitation: accountId } = props.route.params;
+    const { invitation: accountId } = props.route.params || {};
     this.purchase = this.purchase.bind(this);
     this.cancel = this.cancel.bind(this);
     this.join = this.join.bind(this);
@@ -79,6 +82,16 @@ class JoinCode extends Component {
     const { isLoading } = this.state;
     return (
       <SafeAreaView style={styles.root}>
+        <Video
+          source={require('../../assets/couple-running-background.mp4')}
+          shouldPlay={true}
+          resizeMode={'cover'}
+          style={styles.backgroundVideo}
+          isMuted={true}
+          repeat={true}
+          rate={1.0}
+          ignoreSilentSwitch={'obey'}
+        />
         <View style={styles.container}>
           {(isLoading) ?
             (<ActivityIndicator style={styles.spinner} size='large' color={R.colors.BACKGROUND_MAIN} />) :
@@ -102,7 +115,15 @@ class JoinCode extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#18FFFF',
+  },
+  backgroundVideo: {
+    height: SCREEN_HEIGHT,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    alignItems: 'stretch',
+    bottom: 0,
+    right: 0,
   },
   container: {
     flex: 1,

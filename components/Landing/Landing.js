@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Image,
+  Dimensions,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Video from 'react-native-video';
 import Loading from './Loading';
 import { showNoAccountAlert } from '../../utilities/alert';
 import { clearSession, login } from '../../utilities/auth';
@@ -17,6 +18,7 @@ import { storeAndSetActiveUser } from '../../actions';
 import { getToken } from '../../reducers';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 const MARGIN_WIDTH = 5;
 
 class Landing extends Component {
@@ -95,6 +97,16 @@ class Landing extends Component {
     }
     return (
       <SafeAreaView style={styles.root}>
+        <Video
+          source={require('../../assets/couple-background.mp4')}
+          shouldPlay={true}
+          resizeMode={'cover'}
+          style={styles.backgroundVideo}
+          isMuted={true}
+          repeat={true}
+          rate={1.0}
+          ignoreSilentSwitch={'obey'}
+        />
         <View style={styles.topContainer}>
           <Text style={styles.primaryText}>{R.strings.APP_NAME}</Text>
         </View>
@@ -118,20 +130,20 @@ class Landing extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: R.colors.LOGO,
+  },
+  backgroundVideo: {
+    height: SCREEN_HEIGHT,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    alignItems: 'stretch',
+    bottom: 0,
+    right: 0,
   },
   topContainer: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-  },
-  imageContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  image: {
-    height: 200,
-    margin: 20,
   },
   primaryText: {
     fontSize: 36,
@@ -141,11 +153,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   actionContainer: {
-    backgroundColor: R.colors.TEXT_MAIN,
+    backgroundColor: R.colors.TRANSPARENT,
   },
   loginButtonContainer: {
     flexDirection: 'row',
-    backgroundColor: R.colors.LOGO,
+    backgroundColor: R.colors.GREY_BACKGROUND,
     padding: 10,
     marginBottom: MARGIN_WIDTH,
     marginLeft: MARGIN_WIDTH,

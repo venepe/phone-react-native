@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Linking,
   Platform,
   ScrollView,
   StyleSheet,
@@ -10,6 +11,7 @@ import {
 import Modal from 'react-native-modal';
 import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
+import { HOME_PAGE } from '../../config';
 import R from '../../resources';
 const PRICE = '99.99';
 
@@ -64,12 +66,12 @@ class SubscriptionModal extends Component {
         <ScrollView style={styles.root}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={this.handleClose}>
-              <MaterialIcons name="close" size={48} color={`${R.colors.TEXT_MAIN}`} />
+              <MaterialIcons name='close' size={48} color={`${R.colors.TEXT_MAIN}`} />
             </TouchableOpacity>
           </View>
           <View style={styles.mainContainer}>
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{`Join`}</Text>
+              <Text style={styles.titleText}>{`Reserve`}</Text>
               <Text style={styles.titleText}>{getFormattedNumber(phoneNumber)}</Text>
             </View>
             <View style={styles.bodyContainer}>
@@ -77,14 +79,29 @@ class SubscriptionModal extends Component {
               <Text style={styles.bodyText}>{`Payment will be charged to your ${accountName} account at confirmation of purchase and will automatically renew (at the duration/price selected) unless auto-renew is turned off at least 24 hrs before the end of the current period.`}</Text>
               <Text style={styles.bodyText}>{`Account will be charged for renewal within 24-hours prior to the end of the current period.`}</Text>
               <Text style={styles.bodyText}>{`Current subscription may not be cancelled during the active subscription period; however, you can manage your subscription and/or turn off auto-renewal by visiting your ${accountName} Account Settings after purchase.`}</Text>
+              <View style={styles.linkContainer}>
+                <Text style={styles.bodyText2}>By signing up for a free trial, you agree to Bubblepop's</Text>
+                <TouchableOpacity style={styles.link}>
+                  <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>
+                    Terms of Service
+                  </Text>
+                </TouchableOpacity>
+                <Text style={styles.bodyText2}>and</Text>
+                <TouchableOpacity style={styles.link}>
+                  <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/privacy`)}>
+                    Privacy Policy
+                  </Text>
+                </TouchableOpacity>
+                <Text style={styles.bodyText2}>.</Text>
+              </View>
               <Text style={styles.bodyText}>{`Please select one of the auto-renewable subscriptions below.`}</Text>
             </View>
             <View style={styles.freeTrialContainer}>
               <Text style={styles.freeTrialText}>{`Start with a 1 month free trial.`}</Text>
             </View>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept()}>
-              <Text style={styles.btnPrimaryText}>{`$${PRICE}/month`}</Text>
-              <Text style={styles.btnSecondaryText}>{`Includes number and incoming messages`}</Text>
+              <Text style={styles.btnPrimaryText}>{`$${PRICE}/year`}</Text>
+              <Text style={styles.btnSecondaryText}>{`Includes unlimited talk and text`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => this.handleClose()}>
               <Text style={styles.bodyText}>{`Cancel`}</Text>
@@ -131,6 +148,35 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flexWrap:'wrap',
     padding: 5,
+  },
+  linkContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  link: {
+    flexWrap: 'wrap',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  bodyText2: {
+    display: 'flex',
+    flexDirection: 'row',
+    color: `${R.colors.TEXT_MAIN}`,
+    fontSize: 18,
+    fontWeight: 'bold',
+    flexWrap:'wrap',
+    padding: 5,
+  },
+  linkText: {
+    flex: 1,
+    padding: 5,
+    display: 'flex',
+    flexDirection: 'row',
+    color: `${R.colors.LOGO}`,
+    fontSize: 18,
+    fontWeight: 'bold',
+    flexWrap:'wrap',
   },
   btnPrimaryText: {
     color: `${R.colors.TEXT_MAIN}`,

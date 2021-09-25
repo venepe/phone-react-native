@@ -13,12 +13,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		184CF73525DE002800A3AA3A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 184CF73425DE002800A3AA3A /* GoogleService-Info.plist */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		4341475C21FC38F98866C1EB /* libPods-A Number For Us.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C6780834D01A0F7000421F5 /* libPods-A Number For Us.a */; };
+		A15C8F3C5D239E63B6995F53 /* libPods-Bubblepop.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05AD2001D743EADF0D80A344 /* libPods-Bubblepop.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		05AD2001D743EADF0D80A344 /* libPods-Bubblepop.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bubblepop.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Bubblepop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubblepop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Pairmeum/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Pairmeum/AppDelegate.m; sourceTree = "<group>"; };
@@ -27,8 +28,9 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Pairmeum/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Pairmeum/main.m; sourceTree = "<group>"; };
 		184CF73425DE002800A3AA3A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Pairmeum/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		5C6780834D01A0F7000421F5 /* libPods-A Number For Us.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-A Number For Us.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5477AE1FBFF8F6EBBFFB91CB /* Pods-Bubblepop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubblepop.debug.xcconfig"; path = "Target Support Files/Pods-Bubblepop/Pods-Bubblepop.debug.xcconfig"; sourceTree = "<group>"; };
 		985A4894AC12768A8E324224 /* Pods-A Number For Us.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A Number For Us.release.xcconfig"; path = "Target Support Files/Pods-A Number For Us/Pods-A Number For Us.release.xcconfig"; sourceTree = "<group>"; };
+		9F1A84FB77C074D535D374CA /* Pods-Bubblepop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubblepop.release.xcconfig"; path = "Target Support Files/Pods-Bubblepop/Pods-Bubblepop.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Pairmeum/SplashScreen.storyboard; sourceTree = "<group>"; };
 		B9BC6987B39AA511B68CA06D /* Pods-A Number For Us.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-A Number For Us.debug.xcconfig"; path = "Target Support Files/Pods-A Number For Us/Pods-A Number For Us.debug.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
@@ -41,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4341475C21FC38F98866C1EB /* libPods-A Number For Us.a in Frameworks */,
+				A15C8F3C5D239E63B6995F53 /* libPods-Bubblepop.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +72,7 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				5C6780834D01A0F7000421F5 /* libPods-A Number For Us.a */,
+				05AD2001D743EADF0D80A344 /* libPods-Bubblepop.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -118,6 +120,8 @@
 			children = (
 				B9BC6987B39AA511B68CA06D /* Pods-A Number For Us.debug.xcconfig */,
 				985A4894AC12768A8E324224 /* Pods-A Number For Us.release.xcconfig */,
+				5477AE1FBFF8F6EBBFFB91CB /* Pods-Bubblepop.debug.xcconfig */,
+				9F1A84FB77C074D535D374CA /* Pods-Bubblepop.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -225,7 +229,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-A Number For Us-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Bubblepop-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -248,7 +252,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-A Number For Us/Pods-A Number For Us-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Bubblepop/Pods-Bubblepop-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
@@ -259,7 +263,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-A Number For Us/Pods-A Number For Us-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bubblepop/Pods-Bubblepop-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		89A3CD5D02065211EF4BE2B3 /* [CP] Embed Pods Frameworks */ = {
@@ -268,7 +272,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-A Number For Us/Pods-A Number For Us-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Bubblepop/Pods-Bubblepop-frameworks.sh",
 				"${PODS_ROOT}/TwilioVoice/Build/iOS/TwilioVoice.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -277,7 +281,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-A Number For Us/Pods-A Number For Us-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bubblepop/Pods-Bubblepop-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -328,7 +332,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B9BC6987B39AA511B68CA06D /* Pods-A Number For Us.debug.xcconfig */;
+			baseConfigurationReference = 5477AE1FBFF8F6EBBFFB91CB /* Pods-Bubblepop.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -361,7 +365,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 985A4894AC12768A8E324224 /* Pods-A Number For Us.release.xcconfig */;
+			baseConfigurationReference = 9F1A84FB77C074D535D374CA /* Pods-Bubblepop.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

@@ -1,6 +1,7 @@
 
 export const API_URL = 'https://1d6a-68-115-20-253.ngrok.io';
 export const SOCKET_URL = API_URL;
+export const HOME_PAGE = 'https://anumberforus.com';
 export const AUTH0_DOMAIN = 'bubblepop.us.auth0.com';
 export const AUTH0_CLIENT_ID = 'LCGTl08HZL5Se6baHXZHSeGild39j4HL';
 export const AUTH0_AUDIENCE = 'https://bubblepop.io/api/v1/';

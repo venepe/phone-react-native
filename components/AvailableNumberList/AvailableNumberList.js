@@ -132,7 +132,7 @@ class AvailableNumberList extends Component {
   async purchase({ phoneNumber }) {
     const { isPurchasing } = this.state;
     if (!isPurchasing) {
-      this.setState({ isPurchasing: true });
+      this.setState({ phoneNumber, isPurchasing: true });
       try {
         const { accessToken: token } = await login();
         this.setState({ token, isSubscriptionModalVisible: true });

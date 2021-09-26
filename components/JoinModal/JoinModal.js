@@ -13,26 +13,19 @@ import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
 import { HOME_PAGE } from '../../config';
 import R from '../../resources';
-const PRICE = '99.99';
 
-class SubscriptionModal extends Component {
+class JoinModal extends Component {
 
   constructor(props) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
     this.onAccept = this.onAccept.bind(this);
+    this.getNameText = this.getNameText.bind(this);
 
     this.state = {
       isVisible: props.isVisible,
       phoneNumber: props.phoneNumber,
-      storeName: Platform.select({
-        ios: 'App Store',
-        android: 'Google Play Store',
-      }),
-      accountName: Platform.select({
-        ios: 'iTunes',
-        android: 'Google Play',
-      }),
+      owners: props.owners,
     };
   }
 
@@ -48,6 +41,11 @@ class SubscriptionModal extends Component {
         phoneNumber: props.phoneNumber,
       });
     }
+    if (props.owners !== prevProps.owners) {
+      this.setState({
+        owners: props.owners,
+      });
+    }
   }
 
   handleClose() {
@@ -58,11 +56,33 @@ class SubscriptionModal extends Component {
     this.props.onAccept();
   }
 
+  getNameText(owners) {
+    let nameText = '';
+    let length = owners.length;
+    if (owners && length > 0) {
+      if (length === 1) {
+        nameText = owners[0].name;
+      } else if (length === 2) {
+        nameText = `${owners.map(({ name }) => name).join(' and ')}`;
+      } else {
+        const maxLength = 3;
+        if (length > maxLength) {
+          owners.splice(maxLength, length - maxLength);
+          owners.push({ name: 'others' });
+        }
+        const last = owners.pop();
+        nameText = `${owners.map(({ name }) => name).join(', ')}, and ${last.name}`;
+      }
+    }
+    return nameText;
+  }
+
   render() {
-    const { isVisible, phoneNumber, storeName, accountName } = this.state;
+    const { isVisible, phoneNumber, owners } = this.state;
+    const nameText = this.getNameText(owners);
     return (
       <Modal isVisible={isVisible} coverScreen={false}>
-        <ScrollView style={styles.root}>
+        <View style={styles.root}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={this.handleClose}>
               <MaterialIcons name='close' size={48} color={`${R.colors.TEXT_MAIN}`} />
@@ -70,15 +90,12 @@ class SubscriptionModal extends Component {
           </View>
           <View style={styles.mainContainer}>
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{`Reserve`}</Text>
+              <Text style={styles.titleText}>{`Join`}</Text>
               <Text style={styles.titleText}>{getFormattedNumber(phoneNumber)}</Text>
             </View>
             <View style={styles.bodyContainer}>
-              <Text style={styles.bodyText}>{`Auto-renewable subscriptions are available from the ${storeName} for $${PRICE}.`}</Text>
-              <Text style={styles.bodyText}>{`Payment will be charged to your ${accountName} account at confirmation of purchase and will automatically renew (at the duration/price selected) unless auto-renew is turned off at least 24 hrs before the end of the current period.`}</Text>
-              <Text style={styles.bodyText}>{`Account will be charged for renewal within 24-hours prior to the end of the current period.`}</Text>
-              <Text style={styles.bodyText}>{`Current subscription may not be cancelled during the active subscription period; however, you can manage your subscription and/or turn off auto-renewal by visiting your ${accountName} Account Settings after purchase.`}</Text>
-              <Text style={styles.bodyText}>{`By signing up for a free trial, you agree to Bubblepop's `}
+              <Text style={styles.bodyText}>{`Do you want to join ${nameText} on a phone number?`}</Text>
+              <Text style={styles.bodyText}>{`By joining, you agree to Bubblepop's `}
                 <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>
                   {`Terms of Service `}
                 </Text>
@@ -88,20 +105,15 @@ class SubscriptionModal extends Component {
                 </Text>
                 <Text style={styles.bodyText}>.</Text>
               </Text>
-              <Text style={styles.bodyText}>{`Please select the auto-renewable subscription below to continue.`}</Text>
-            </View>
-            <View style={styles.freeTrialContainer}>
-              <Text style={styles.freeTrialText}>{`Start with a 30 day free trial.`}</Text>
             </View>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept()}>
-              <Text style={styles.btnPrimaryText}>{`$${PRICE}/year`}</Text>
-              <Text style={styles.btnSecondaryText}>{`Includes unlimited talk and text`}</Text>
+              <Text style={styles.btnPrimaryText}>{R.strings.CONFIRM_PURCHASE_AFFIRMATIVE}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => this.handleClose()}>
-              <Text style={styles.bodyText}>{`Cancel`}</Text>
+              <Text style={styles.bodyText}>{R.strings.CONFIRM_PURCHASE_NEGATIVE}</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
+        </View>
       </Modal>
     );
   }
@@ -118,6 +130,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
+    flexDirection: 'column',
   },
   titleContainer: {
     alignItems: 'center',
@@ -182,10 +195,11 @@ const styles = StyleSheet.create({
   }
 });
 
-SubscriptionModal.defaultProps = {
+JoinModal.defaultProps = {
   isVisible: false,
+  owners: [],
   handleClose: () => {},
   onAccept: () => {},
 };
 
-export default SubscriptionModal;
+export default JoinModal;

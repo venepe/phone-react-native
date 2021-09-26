@@ -9,7 +9,7 @@ export default {
   DISABLED_MAIN: 'rgba(250, 250, 250, 0.2)',
   CONTENT_BACKGROUND: '#212121',
   GREY_BACKGROUND: 'rgba(0, 0, 0, 0.4)',
-  MODAL_BACKGROUND: '#212121',
+  MODAL_BACKGROUND: 'rgba(0, 0, 0, 0.4)',
   YES: '#00E676',
   NO: '#FF1744',
   SUCCESS: '#00E676',

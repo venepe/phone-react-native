@@ -40,7 +40,7 @@ export const getDateTimeText = (date) => {
 
 export const getReservationExpiration = (date) => {
   if (date) {
-    const EXPIRATION_DAYS = 7;
+    const EXPIRATION_DAYS = 30;
     const days = moment.utc().diff(moment(date), 'days');
     const daysUntilExpiration = EXPIRATION_DAYS - days;
     if (daysUntilExpiration > 0) {

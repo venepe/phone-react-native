@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Video from 'react-native-video';
+import JoinModal from '../JoinModal';
 import { getAccountById, postOwners } from '../../fetches';
 import { storeAndSetActiveUser } from '../../actions';
-import { showConfirmJoinAlert, showCongratulationsAlert } from '../../utilities/alert';
+import { showCongratulationsAlert } from '../../utilities/alert';
 import { login } from '../../utilities/auth';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
@@ -24,12 +25,14 @@ class JoinCode extends Component {
     super(props);
     const { invitation: accountId } = props.route.params || {};
     this.purchase = this.purchase.bind(this);
-    this.cancel = this.cancel.bind(this);
+    this.closeJoinModal = this.closeJoinModal.bind(this);
     this.join = this.join.bind(this);
     this.exitSetup = this.exitSetup.bind(this);
     this.state = {
       accountId,
       isLoading: false,
+      isJoinModalVisible: false,
+      owners: [],
     };
   }
 
@@ -37,8 +40,12 @@ class JoinCode extends Component {
     const { accountId } = this.state;
     this.setState({ isLoading: true });
     try {
-      const { account: { owners, phoneNumber } }= await getAccountById({ accountId });
-      showConfirmJoinAlert({ owners, phoneNumber }, () => this.purchase(), () => this.cancel());
+      // const { account: { owners, phoneNumber } }= await getAccountById({ accountId });
+      let owners = [{
+        name: 'Jolyne Chang',
+      }];
+      let phoneNumber = '+18155439618';
+      this.setState({ owners, phoneNumber, isJoinModalVisible: true, isLoading: false });
     } catch (e) {
       this.setState({ isLoading: false, didLogin: false });
       console.log(e);
@@ -58,6 +65,7 @@ class JoinCode extends Component {
 
   async purchase() {
     const { accountId } = this.state;
+    this.setState({ isLoading: true });
     try {
       const { accessToken: token } = await login();
       const data = await postOwners({ token, accountId });
@@ -74,12 +82,15 @@ class JoinCode extends Component {
     }
   }
 
-  cancel() {
-    this.setState({ isLoading: false });
+  closeJoinModal() {
+    this.setState({
+      isLoading: false,
+      isJoinModalVisible: false,
+    });
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, isJoinModalVisible, phoneNumber, owners } = this.state;
     return (
       <SafeAreaView style={styles.root}>
         <Video
@@ -94,7 +105,9 @@ class JoinCode extends Component {
         />
         <View style={styles.container}>
           {(isLoading) ?
-            (<ActivityIndicator style={styles.spinner} size='large' color={R.colors.BACKGROUND_MAIN} />) :
+            (<ActivityIndicator style={styles.spinner}
+              size='large' color={R.colors.BACKGROUND_MAIN} />) :
+              isJoinModalVisible ? (<View/>) :
               (
                 <View style={styles.retryContainer}>
                   <TouchableOpacity onPress={this.join}>
@@ -107,6 +120,8 @@ class JoinCode extends Component {
               )
             }
         </View>
+        <JoinModal phoneNumber={phoneNumber} owners={owners}
+          isVisible={isJoinModalVisible} onAccept={this.purchase} handleClose={this.closeJoinModal}/>
       </SafeAreaView>
     );
   }

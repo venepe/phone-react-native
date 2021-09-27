@@ -131,7 +131,7 @@ class UpdateName extends Component {
                 ) : null}
             <View style={styles.bottomContainer} >
               {(() => {
-                const backgroundColor = isValid && values.name.length > 0 ? '#FFFF00' : '#E0E0E0';
+                const backgroundColor = isValid && values.name.length > 0 ? R.colors.BACKGROUND_MAIN : '#E0E0E0';
                   return (
                     <TouchableOpacity style={[styles.userTitleButtonContainer, { backgroundColor }]} disabled={!isValid || isLoading} onPress={() => this.onUpdateName({ values })}>
                       {
@@ -183,12 +183,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   userTitleText: {
     height: 36,
     fontSize: 25,
-    color: '#757575',
+    color: R.colors.TEXT_MAIN,
   },
   errorText: {
     fontSize: 18,

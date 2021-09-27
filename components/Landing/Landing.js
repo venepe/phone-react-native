@@ -130,6 +130,7 @@ class Landing extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   backgroundVideo: {
     height: SCREEN_HEIGHT,

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  Dimensions,
+  ImageBackground,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import R from '../../resources';
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 class Loading extends Component {
 
@@ -16,11 +19,12 @@ class Loading extends Component {
 
   render() {
     return (
-      <SafeAreaView style={styles.root}>
+      <ImageBackground source={require('../../assets/couple-background.png')}
+        resizeMode='cover' style={styles.root}>
         <View style={styles.container}>
-          <ActivityIndicator style={styles.spinner} size='large' color={R.colors.BACKGROUND_MAIN} />
+          <ActivityIndicator style={styles.spinner} size='large' color={R.colors.TEXT_MAIN} />
         </View>
-      </SafeAreaView>
+      </ImageBackground>
     );
   }
 }
@@ -28,7 +32,7 @@ class Loading extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#18FFFF',
+    backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   container: {
     flex: 1,

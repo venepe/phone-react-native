@@ -37,20 +37,3 @@ export const getDateTimeText = (date) => {
     return moment(date).format('MMM D, h:mm A');
   }
 }
-
-export const getReservationExpiration = (date) => {
-  if (date) {
-    const EXPIRATION_DAYS = 30;
-    const days = moment.utc().diff(moment(date), 'days');
-    const daysUntilExpiration = EXPIRATION_DAYS - days;
-    if (daysUntilExpiration > 0) {
-      const expiresInDays = daysUntilExpiration - days;
-      const dayString = (expiresInDays === 1) ? 'day' : 'days';
-      return `Expires in ${expiresInDays} ${dayString}`;
-    } else {
-      return '';
-    }
-  } else {
-    return '';
-  }
-}

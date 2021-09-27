@@ -74,10 +74,9 @@ class SubscriptionModal extends Component {
               <Text style={styles.titleText}>{getFormattedNumber(phoneNumber)}</Text>
             </View>
             <View style={styles.bodyContainer}>
-              <Text style={styles.bodyText}>{`Auto-renewable subscriptions are available from the ${storeName} for $${PRICE}.`}</Text>
-              <Text style={styles.bodyText}>{`Payment will be charged to your ${accountName} account at confirmation of purchase and will automatically renew (at the duration/price selected) unless auto-renew is turned off at least 24 hrs before the end of the current period.`}</Text>
-              <Text style={styles.bodyText}>{`Account will be charged for renewal within 24-hours prior to the end of the current period.`}</Text>
-              <Text style={styles.bodyText}>{`Current subscription may not be cancelled during the active subscription period; however, you can manage your subscription and/or turn off auto-renewal by visiting your ${accountName} Account Settings after purchase.`}</Text>
+              <Text style={styles.bodyText}>{`Congratulations! 🎉🎉🎉`}</Text>
+              <Text style={styles.bodyText}>{`You are about to share a phone number designed for couples which includes unlimited talk and text.`}</Text>
+              <Text style={styles.bodyText}>{`Side effects may include feelings of 😍🥰😀`}</Text>
               <Text style={styles.bodyText}>{`By signing up for a free trial, you agree to Bubblepop's `}
                 <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>
                   {`Terms of Service `}
@@ -88,7 +87,6 @@ class SubscriptionModal extends Component {
                 </Text>
                 <Text style={styles.bodyText}>.</Text>
               </Text>
-              <Text style={styles.bodyText}>{`Please select the auto-renewable subscription below to continue.`}</Text>
             </View>
             <View style={styles.freeTrialContainer}>
               <Text style={styles.freeTrialText}>{`Start with a 30 day free trial.`}</Text>

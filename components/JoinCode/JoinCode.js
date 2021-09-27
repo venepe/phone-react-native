@@ -40,14 +40,10 @@ class JoinCode extends Component {
     const { accountId } = this.state;
     this.setState({ isLoading: true });
     try {
-      // const { account: { owners, phoneNumber } }= await getAccountById({ accountId });
-      let owners = [{
-        name: 'Jolyne Chang',
-      }];
-      let phoneNumber = '+18155439618';
+      const { account: { owners, phoneNumber } }= await getAccountById({ accountId });
       this.setState({ owners, phoneNumber, isJoinModalVisible: true, isLoading: false });
     } catch (e) {
-      this.setState({ isLoading: false, didLogin: false });
+      this.setState({ isLoading: false, didLogin: false, isJoinModalVisible: false });
       console.log(e);
     }
   }
@@ -65,7 +61,7 @@ class JoinCode extends Component {
 
   async purchase() {
     const { accountId } = this.state;
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, isJoinModalVisible: false });
     try {
       const { accessToken: token } = await login();
       const data = await postOwners({ token, accountId });
@@ -130,6 +126,7 @@ class JoinCode extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   backgroundVideo: {
     height: SCREEN_HEIGHT,

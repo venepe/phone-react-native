@@ -52,15 +52,16 @@ class AvailableNumberList extends Component {
 
   async componentDidMount() {
     await initConnection();
+    await RNIap.flushFailedPurchasesCachedAsPendingAndroid;
     this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
       const { phoneNumber, token } = this.state;
       const { productId, transactionId, transactionReceipt } = purchase;
       if (transactionReceipt && phoneNumber.length > 0) {
         const platform = Platform.OS;
-        const data = await postAccounts({ token, phoneNumber });
+        const data = await postAccounts({ token, phoneNumber, receipt: { productId, transactionId, transactionReceipt, platform } });
         let { account } = data;
         if (account) {
-          await RNIap.finishTransaction(purchase, true);
+          await RNIap.finishTransaction(purchase, false);
           const { phoneNumber, isActive, id: accountId } = account;
           this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
         } else {

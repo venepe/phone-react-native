@@ -16,7 +16,6 @@ import { storeAndSetActiveUser } from '../../actions';
 import { getAccountId, getToken } from '../../reducers';
 import { getInvitationUrl } from '../../utilities';
 import { copyText } from '../../utilities/copy';
-import { getReservationExpiration } from '../../utilities/date';
 import { initializeNotifications } from '../../utilities/notification';
 import { initSocket } from '../../utilities/socket';
 import { openShare } from '../../utilities/share';
@@ -139,9 +138,6 @@ class ShareCode extends Component {
             <MaterialIcons style={styles.leftIcon} name="qr-code" size={ICON_SIZE} color={R.colors.TEXT_MAIN} />
             <Text style={styles.titleText}>{R.strings.LABEL_QR_CODE}</Text>
           </TouchableOpacity>
-          <View style={styles.expirationContainer}>
-            <Text style={styles.titleText}>{getReservationExpiration(createdAt)}</Text>
-          </View>
       </View>
     );
   }
@@ -176,11 +172,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     flexWrap:'wrap',
-  },
-  expirationContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
   },
 });
 

@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Video from 'react-native-video';
+import { Video } from 'expo-av';
 import Loading from './Loading';
 import { showNoAccountAlert } from '../../utilities/alert';
 import { clearSession, login } from '../../utilities/auth';
@@ -99,11 +99,12 @@ class Landing extends Component {
       <SafeAreaView style={styles.root}>
         <Video
           source={require('../../assets/couple-background.mp4')}
+          useNativeControlsA={false}
+          resizeMode='cover'
           shouldPlay={true}
-          resizeMode={'cover'}
           style={styles.backgroundVideo}
           isMuted={true}
-          repeat={true}
+          isLooping={true}
           rate={1.0}
           ignoreSilentSwitch={'obey'}
         />

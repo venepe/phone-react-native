@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {
   ActivityIndicator,
+  ImageBackground,
   Platform,
   StyleSheet,
   Text,
@@ -90,9 +91,10 @@ class EnterCode extends Component {
     }
     if (isLoading) {
       return (
-        <View style={styles.root}>
+        <ImageBackground source={require('../../assets/couple-background.png')}
+          resizeMode='cover' style={styles.root}>
           <ActivityIndicator style={styles.spinner} size='large' color={R.colors.TEXT_MAIN} />
-        </View>
+        </ImageBackground>
       )
     }
     return (

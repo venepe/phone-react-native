@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Video from 'react-native-video';
+import { Video } from 'expo-av';
 import JoinModal from '../JoinModal';
 import { getAccountById, postOwners } from '../../fetches';
 import { storeAndSetActiveUser } from '../../actions';
@@ -91,11 +91,12 @@ class JoinCode extends Component {
       <SafeAreaView style={styles.root}>
         <Video
           source={require('../../assets/couple-running-background.mp4')}
+          useNativeControlsA={false}
+          resizeMode='cover'
           shouldPlay={true}
-          resizeMode={'cover'}
           style={styles.backgroundVideo}
           isMuted={true}
-          repeat={true}
+          isLooping={true}
           rate={1.0}
           ignoreSilentSwitch={'obey'}
         />

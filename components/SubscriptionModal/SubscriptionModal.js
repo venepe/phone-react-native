@@ -13,8 +13,8 @@ import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
 import { HOME_PAGE } from '../../config';
 import R from '../../resources';
-const PRICE_99 = '99.99';
-const PRICE_9 = '9.99';
+const PRICE_99 = '9.99';
+const PRICE_9 = '1.99';
 const ANNUAL = 'annual';
 const MONTHLY = 'monthly';
 

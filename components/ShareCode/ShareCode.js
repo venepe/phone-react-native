@@ -11,8 +11,8 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { List, Colors } from 'react-native-paper';
 import { Base64 } from 'js-base64';
 import { connect } from 'react-redux';
-import { getAccounts } from '../../fetches';
-import { storeAndSetActiveUser } from '../../actions';
+import { getAccounts, postActivateAccount } from '../../fetches';
+import { setIsActive, storeAndSetActiveUser } from '../../actions';
 import { getAccountId, getToken } from '../../reducers';
 import { getInvitationUrl } from '../../utilities';
 import { copyText } from '../../utilities/copy';
@@ -33,6 +33,7 @@ class ShareCode extends Component {
     this.shareQRCode = this.shareQRCode.bind(this);
     this.getAndSetActiveUser = this.getAndSetActiveUser.bind(this);
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    this.skipEnrollment = this.skipEnrollment.bind(this);
     this.state = {
       accountId: props.accountId,
       token: props.token,
@@ -116,6 +117,13 @@ class ShareCode extends Component {
     }
   }
 
+  skipEnrollment() {
+    const isActive = true;
+    const { token, accountId } = this.state;
+    postActivateAccount({ token, accountId, isActive });
+    this.props.setIsActive({ payload: { isActive } });
+  }
+
   render() {
     const { invitationUrl, createdAt } = this.state;
     return (
@@ -138,6 +146,11 @@ class ShareCode extends Component {
             <MaterialIcons style={styles.leftIcon} name="qr-code" size={ICON_SIZE} color={R.colors.TEXT_MAIN} />
             <Text style={styles.titleText}>{R.strings.LABEL_QR_CODE}</Text>
           </TouchableOpacity>
+          <View style={styles.skipContainer}>
+            <TouchableOpacity onPress={this.skipEnrollment}>
+              <Text style={styles.titleText}>{R.strings.LABEL_SKIP}</Text>
+            </TouchableOpacity>
+          </View>
       </View>
     );
   }
@@ -173,6 +186,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     flexWrap:'wrap',
   },
+  skipContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: 10,
+  },
 });
 
 const mapStateToProps = state => ({
@@ -182,5 +202,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { storeAndSetActiveUser },
+  { setIsActive, storeAndSetActiveUser },
 )(ShareCode);

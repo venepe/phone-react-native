@@ -88,6 +88,22 @@ export const postAccounts = ({ token, phoneNumber, receipt }) => {
   .then(handleResponse)
 };
 
+export const postActivateAccount = ({ token, accountId, isActive }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/activate`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      account: {
+        isActive,
+      },
+    }),
+  })
+};
+
 export const getAccountById = ({ accountId }) => {
   return fetch(`${API_URL}/accounts/${accountId}`, {
     method: 'GET',

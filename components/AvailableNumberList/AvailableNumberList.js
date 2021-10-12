@@ -88,6 +88,19 @@ class AvailableNumberList extends Component {
     this.purchaseErrorSubscription.remove();
   }
 
+  comparePhoneNumbers(a, b) {
+    const phoneNumberA = a.phoneNumber.toUpperCase();
+    const phoneNumberB = b.phoneNumber.toUpperCase();
+
+    let comparison = 0;
+    if (phoneNumberA > phoneNumberB) {
+      comparison = 1;
+    } else if (phoneNumberA < phoneNumberB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
   async onSearch({ query }) {
     this.setState({
       query,
@@ -102,6 +115,7 @@ class AvailableNumberList extends Component {
       const { latitude, longitude } = await requestLocation();
       const data = await getAvailableNumbers({ latitude, longitude, query });
       let { phoneNumbers } = data;
+      phoneNumbers = phoneNumbers.sort(this.comparePhoneNumbers);
       this.setState({
         location: { latitude, longitude },
         phoneNumbers,

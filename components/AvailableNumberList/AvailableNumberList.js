@@ -134,11 +134,11 @@ class AvailableNumberList extends Component {
     this.setState({ isFetching: false });
   }
 
-  async onAccept() {
+  async onAccept(subscription) {
     try {
-      const subscriptions = await getSubscriptions(['annual']);
+      const subscriptions = await getSubscriptions([subscription]);
       console.log(subscriptions);
-      requestSubscription('annual');
+      requestSubscription(subscription);
     } catch (e) {
       console.log(e);
     }

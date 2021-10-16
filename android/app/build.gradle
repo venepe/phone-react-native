@@ -135,8 +135,8 @@ android {
         applicationId 'com.venepe.anumberforus'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 27
-        versionName "1.0.25"
+        versionCode 29
+        versionName "1.0.26"
         missingDimensionStrategy 'store', 'play'
     }
     splits {

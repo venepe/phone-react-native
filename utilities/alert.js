@@ -131,3 +131,14 @@ export const showCongratulationsAlert = () => {
     { cancelable: true }
   );
 }
+
+export const showPurchaseFailed = (message = R.strings.ERROR_REQUEST_MESSAGE) => {
+  Alert.alert(
+    R.strings.ERROR_REQUEST_TITLE,
+    message,
+    [
+      { text: R.strings.LABEL_OKAY },
+    ],
+    { cancelable: true }
+  );
+}

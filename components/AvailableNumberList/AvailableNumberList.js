@@ -18,6 +18,7 @@ import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
 import { storeAndSetActiveUser} from '../../actions';
 import { showConfirmPurchaseAlert, showVerifyEmailAddressAlert } from '../../utilities/alert';
+import { showPurchaseFailed } from '../../utilities/alert';
 import { login } from '../../utilities/auth';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
@@ -78,6 +79,7 @@ class AvailableNumberList extends Component {
     this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
       console.log('purchaseErrorListener', error);
       console.log(error);
+      showPurchaseFailed(error.message);
     });
     this.fetch();
     analytics.track(EVENTS.VIEWED_AVAILABLE_NUMBERS);
@@ -140,6 +142,7 @@ class AvailableNumberList extends Component {
       console.log(subscriptions);
       requestSubscription(subscription);
     } catch (e) {
+      showPurchaseFailed(e.message);
       console.log(e);
     }
   }

@@ -13,6 +13,10 @@ import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
 import { HOME_PAGE } from '../../config';
 import R from '../../resources';
+const PRICE_99 = '9.99';
+const PRICE_9 = '1.99';
+const ANNUAL = 'annual';
+const MONTHLY = 'monthly';
 
 class JoinModal extends Component {
 
@@ -106,11 +110,19 @@ class JoinModal extends Component {
                 <Text style={styles.bodyText}>.</Text>
               </Text>
             </View>
-            <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept()}>
-              <Text style={styles.btnPrimaryText}>{R.strings.CONFIRM_PURCHASE_AFFIRMATIVE}</Text>
+            <View style={styles.freeTrialContainer}>
+              <Text style={styles.freeTrialText}>{`Start with a 30 day free trial.`}</Text>
+            </View>
+            <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept(ANNUAL)}>
+              <Text style={styles.btnPrimaryText}>{`$${PRICE_99}/year`}</Text>
+              <Text style={styles.btnSecondaryText}>{`Includes unlimited talk and text`}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept(MONTHLY)}>
+              <Text style={styles.btnPrimaryText}>{`$${PRICE_9}/month`}</Text>
+              <Text style={styles.btnSecondaryText}>{`Includes unlimited talk and text`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => this.handleClose()}>
-              <Text style={styles.bodyText}>{R.strings.CONFIRM_PURCHASE_NEGATIVE}</Text>
+              <Text style={styles.bodyText}>{`Cancel`}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -185,6 +197,7 @@ const styles = StyleSheet.create({
   },
   subscribeButtonContainer: {
     alignItems: 'center',
+    marginTop: 5,
     padding: 10,
     backgroundColor: R.colors.BACKGROUND_MAIN,
   },

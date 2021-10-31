@@ -47,48 +47,56 @@ class DrawerContent extends Component {
     const { userId, phoneNumber } = this.state;
     return (
       <DrawerContentScrollView {...this.props}>
-          <View style={styles.root}>
-            <View style={styles.drawerContent}>
-              <TouchableOpacity
-                onLongPress={() => copyPhoneNumber()}
-                onPress={() => navigation.navigate('Home')}>
-                <Text style={styles.title}>{getFormattedNumber(phoneNumber)}</Text>
-              </TouchableOpacity>
-              <DrawerItem
-                {...this.props}
-                icon={({ color, size }) => (
-                  <MaterialIcons name="person" color={R.colors.TEXT_MAIN} size={size} />
-                )}
-                label={R.strings.TITLE_ME}
-                onPress={() => navigation.navigate('Me')}
-                />
-              <DrawerItem
-                {...this.props}
-                icon={({ color, size }) => (
-                  <MaterialIcons name="people" color={R.colors.TEXT_MAIN} size={size} />
-                )}
-                label={R.strings.TITLE_MEMBERS}
-                onPress={() => navigation.navigate('Members')}
-                />
-              <DrawerItem
-                {...this.props}
-                icon={({ color, size }) => (
-                  <MaterialIcons name="share" color={R.colors.TEXT_MAIN} size={size} />
-                )}
-                label={R.strings.TITLE_INVITE}
-                onPress={() => navigation.navigate('ShareInvite')}
-                />
-              <DrawerItem
-                {...this.props}
-                icon={({ color, size }) => (
-                  <MaterialIcons name="settings" color={R.colors.TEXT_MAIN} size={size} />
-                )}
-                label={R.strings.TITLE_MANAGE}
-                onPress={() => navigation.navigate('Manage')}
-                />
-              <LogoutButton {...this.props}/>
-            </View>
+        <View style={styles.root}>
+          <View style={styles.drawerContent}>
+            <TouchableOpacity
+              onLongPress={() => copyPhoneNumber()}
+              onPress={() => navigation.navigate('Home')}>
+              <Text style={styles.title}>{getFormattedNumber(phoneNumber)}</Text>
+            </TouchableOpacity>
+            <DrawerItem
+              {...this.props}
+              icon={({ color, size }) => (
+                <MaterialIcons name="person" color={R.colors.TEXT_MAIN} size={size} />
+              )}
+              label={R.strings.TITLE_ME}
+              onPress={() => navigation.navigate('Me')}
+              />
+            <DrawerItem
+              {...this.props}
+              icon={({ color, size }) => (
+                <MaterialIcons name="people" color={R.colors.TEXT_MAIN} size={size} />
+              )}
+              label={R.strings.TITLE_MEMBERS}
+              onPress={() => navigation.navigate('Members')}
+              />
+            <DrawerItem
+              {...this.props}
+              icon={({ color, size }) => (
+                <MaterialIcons name="share" color={R.colors.TEXT_MAIN} size={size} />
+              )}
+              label={R.strings.TITLE_INVITE}
+              onPress={() => navigation.navigate('ShareInvite')}
+              />
+            <DrawerItem
+              {...this.props}
+              icon={({ color, size }) => (
+                <MaterialIcons name="shopping-cart" color={R.colors.TEXT_MAIN} size={size} />
+              )}
+              label={R.strings.TITLE_LISTS}
+              onPress={() => navigation.navigate('TodoList')}
+              />
+            <DrawerItem
+              {...this.props}
+              icon={({ color, size }) => (
+                <MaterialIcons name="settings" color={R.colors.TEXT_MAIN} size={size} />
+              )}
+              label={R.strings.TITLE_MANAGE}
+              onPress={() => navigation.navigate('Manage')}
+              />
+            <LogoutButton {...this.props}/>
           </View>
+        </View>
       </DrawerContentScrollView>
     );
   }

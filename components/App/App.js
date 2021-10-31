@@ -32,10 +32,13 @@ import ShareCode from '../ShareCode';
 import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
 import UpdateName from '../UpdateName';
+import TodoList from '../TodoList';
 import Manage from '../Manage';
 import ActiveCall from '../CallScreens/ActiveCall';
 import IncomingCall from '../CallScreens/IncomingCall';
+import CreateTodo from '../TodoModals/CreateTodo';
 import CreateCallButton from '../NavigationElements/CreateCallButton';
+import CancelButton from '../NavigationElements/CancelButton';
 import R from '../../resources';
 
 const LandingStack = createStackNavigator();
@@ -48,6 +51,7 @@ const CallDetailStack = createStackNavigator();
 const ChatDetailStack = createStackNavigator();
 const QRCodeStack = createStackNavigator();
 const CallStateStack = createStackNavigator();
+const ModalStack = createStackNavigator();
 
 function LandingStackScreen() {
   return (
@@ -202,7 +206,7 @@ function HomeTabs() {
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator
-      initialRouteName='Home'
+      initialRouteName='TodoList'
       screenOptions={{
         headerShown: true,
         headerStyle: {
@@ -262,6 +266,13 @@ function HomeStackScreen() {
         component={ShareInvite}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_INVITE,
+        })}
+      />
+      <HomeStack.Screen
+        name='TodoList'
+        component={TodoList}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_TODO_LIST,
         })}
       />
     </HomeStack.Navigator>
@@ -347,6 +358,31 @@ function CallStateStackScreen() {
         component={IncomingCall}
       />
     </CallStateStack.Navigator>
+  );
+};
+
+function ModalStackScreen() {
+  return (
+    <ModalStack.Navigator initialRouteName={'CreateTodo'}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <ModalStack.Screen
+        name="CreateTodo"
+        component={CreateTodo}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_CREATE_TODO,
+          headerLeft: () => (<CancelButton navigation={navigation}/>),
+        })}
+      />
+    </ModalStack.Navigator>
   );
 };
 
@@ -457,6 +493,7 @@ class App extends Component {
         <RootStack.Screen name="Messages" component={ChatDetailStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='QRCode' component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='CallStates' component={CallStateStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name="ModalStack" component={ModalStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }

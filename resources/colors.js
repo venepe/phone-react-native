@@ -17,4 +17,5 @@ export default {
   SEARCH_INPUT_CONTAINER: '#424242',
   LOGO: '#18FFFF',
   TRANSPARENT: 'transparent',
+  RED: '#FF1744',
 };

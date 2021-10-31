@@ -33,6 +33,7 @@ export const EVENTS = {
   VIEWED_DETAIL_MESSAGES: 'View Detail',
   CLICKED_COMPOSE: 'Click Compose',
   VIEWED_CALLS: 'View Calls',
+  VIEWED_SHOPPING_LISTS: 'View Shopping List'
 }
 
 export default analytics();

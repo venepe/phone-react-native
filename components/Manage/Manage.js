@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { deleteOwner } from '../../fetches';
+import { delOwner } from '../../fetches';
 import { getToken, getAccountId } from '../../reducers';
 import { clearSession } from '../../utilities/auth';
 import R from '../../resources';
@@ -45,7 +45,7 @@ class Manage extends Component {
     const { token, accountId } = this.state;
     this.setState({ isLoading: true });
     try {
-      const data = await deleteOwner({ token, accountId });
+      const data = await delOwner({ token, accountId });
       let { owner } = data;
       if (owner) {
         await clearSession();

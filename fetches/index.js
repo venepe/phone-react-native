@@ -145,8 +145,50 @@ export const postOwners = ({ token, accountId, receipt }) => {
   .then(handleResponse)
 };
 
-export const deleteOwner = ({ token, accountId }) => {
+export const delOwner = ({ token, accountId }) => {
   return fetch(`${API_URL}/accounts/${accountId}/owners/me`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
+export const getTodos = ({ token = '', accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/todos`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
+export const postTodos = ({ token, accountId, id, name }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/todos`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      todo: {
+        id,
+        name,
+      },
+    }),
+  })
+  .then(handleResponse)
+};
+
+export const delTodo = ({ token, accountId, todoId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/todos/${todoId}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',

@@ -3,6 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { persistReducer } from 'redux-persist';
 import reducers from '../reducers';
+import todoAppReducer from '../reducers/todo';
 
 const persistConfig = {
   key: 'root',
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   default: persistReducer(persistConfig, reducers),
+  todoApp: persistReducer(persistConfig, todoAppReducer),
 });
 
 export default function configureStore () {

@@ -8,6 +8,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import Swipeout from 'react-native-swipeout';
 import { connect } from 'react-redux';
+import { showCompleted } from '../../utilities/flash-message';
 import R from '../../resources';
 
 class TodoListItem extends Component {
@@ -17,6 +18,7 @@ class TodoListItem extends Component {
     this.state = {
       rowID: props.rowID,
       todoListItem: props.todoListItem,
+      isCompleted: false,
     };
   }
 
@@ -29,20 +31,28 @@ class TodoListItem extends Component {
     }
   }
 
-  onPressRow({ }) {
-    this.props.onPressRow({ });
+  onPressRow(todoListItem) {
+    const { name } = todoListItem;
+    this.setState({
+      isCompleted: true,
+    });
+    showCompleted();
+    setTimeout(() => {this.props.onPressRow(todoListItem)}, 1000);
   }
 
   render() {
     const { navigation } = this.props;
+    const { isCompleted } = this.state;
     const todoListItem = this.state.todoListItem || {};
     let { name, createdAt } = todoListItem;
+    const iconName = isCompleted ? 'radio-button-on' : 'radio-button-off';
     const right = [
       { text: R.strings.LABEL_DELETE, color: R.colors.TEXT_MAIN, backgroundColor: R.colors.RED, onPress: () => this.props.onDelete(todoListItem) },
     ];
     return (
       <Swipeout right={right} autoClose>
-        <TouchableOpacity style={[styles.card, styles.container]} onPress={() => this.onPressRow({ })}>
+        <TouchableOpacity style={[styles.card, styles.container]} onPress={() => this.onPressRow(todoListItem)}>
+          <MaterialIcons name={iconName} size={30} color={R.colors.TEXT_MAIN} />
           <Text style={styles.name}>{name}</Text>
         </TouchableOpacity>
       </Swipeout>
@@ -52,6 +62,8 @@ class TodoListItem extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 1,
     padding: 28,
     paddingLeft: 15,
@@ -71,6 +83,7 @@ const styles = StyleSheet.create({
     color: R.colors.TEXT_MAIN,
     fontSize: 28,
     fontWeight: '400',
+    marginLeft: 10,
   },
 });
 

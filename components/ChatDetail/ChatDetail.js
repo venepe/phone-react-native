@@ -73,8 +73,6 @@ class ChatDetail extends Component {
 
   render() {
     const { targetNumber, messages, phoneNumber, text } = this.state;
-    console.log(targetNumber);
-    console.log(phoneNumber);
     let _messages = _.filter(messages, (message) => {
       return message.from === targetNumber || message.to === targetNumber;
     })

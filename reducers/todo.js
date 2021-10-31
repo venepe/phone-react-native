@@ -3,29 +3,16 @@ import TodoTypes from '../constants/TodoTypes';
 
 const initialState = {
   todos: [],
-  selectedTodoId: '',
-  selectedTodoTitle: '',
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case TodoTypes.SET_TODOS:
     {
-      const { todos } = action.payload;
+      const todos = action.payload.todos || [];
       return {
         ...state,
         todos,
-      };
-    }
-    case TodoTypes.SET_SELECTED_TODO_ID:
-    {
-      const { selectedTodoId } = action.payload;
-      const { todos } = state;
-      const selectedTodoTitle = _.find(todos, todo => todo.id === selectedTodoId).title;
-      return {
-        ...state,
-        selectedTodoId,
-        selectedTodoTitle,
       };
     }
     case TodoTypes.ADD_TODO:
@@ -34,7 +21,7 @@ const reducer = (state = initialState, action) => {
 
       return {
         ...state,
-        todos: [ todo, ...state.todos ],
+        todos: [ ...state.todos, todo ],
       };
     }
     case TodoTypes.DELETE_TODO:
@@ -53,7 +40,5 @@ const reducer = (state = initialState, action) => {
 };
 
 export const getTodos = state => state.todoApp.todos;
-export const getSelectedTodoId = state => state.todoApp.selectedTodoId;
-export const getSelectedTodoTitle = state => state.todoApp.selectedTodoTitle;
 
 export default reducer;

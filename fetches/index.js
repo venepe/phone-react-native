@@ -187,6 +187,18 @@ export const postTodos = ({ token, accountId, id, name }) => {
   .then(handleResponse)
 };
 
+export const putTodo = ({ token, accountId, todoId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/todos/${todoId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
 export const delTodo = ({ token, accountId, todoId }) => {
   return fetch(`${API_URL}/accounts/${accountId}/todos/${todoId}`, {
     method: 'DELETE',

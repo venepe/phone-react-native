@@ -33,12 +33,11 @@ import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
 import UpdateName from '../UpdateName';
 import TodoList from '../TodoList';
+import CreateTodo from '../CreateTodo';
 import Manage from '../Manage';
 import ActiveCall from '../CallScreens/ActiveCall';
 import IncomingCall from '../CallScreens/IncomingCall';
-import CreateTodo from '../TodoModals/CreateTodo';
 import CreateCallButton from '../NavigationElements/CreateCallButton';
-import CancelButton from '../NavigationElements/CancelButton';
 import R from '../../resources';
 
 const LandingStack = createStackNavigator();
@@ -51,7 +50,7 @@ const CallDetailStack = createStackNavigator();
 const ChatDetailStack = createStackNavigator();
 const QRCodeStack = createStackNavigator();
 const CallStateStack = createStackNavigator();
-const ModalStack = createStackNavigator();
+const TodoStack = createStackNavigator();
 
 function LandingStackScreen() {
   return (
@@ -361,9 +360,9 @@ function CallStateStackScreen() {
   );
 };
 
-function ModalStackScreen() {
+function TodoStackScreen() {
   return (
-    <ModalStack.Navigator initialRouteName={'CreateTodo'}
+    <TodoStack.Navigator initialRouteName={'CreateTodo'}
       screenOptions={{
         headerStyle: {
           backgroundColor: R.colors.HEADER_MAIN,
@@ -374,15 +373,15 @@ function ModalStackScreen() {
         },
       }}
     >
-      <ModalStack.Screen
+      <TodoStack.Screen
         name="CreateTodo"
         component={CreateTodo}
         options={({ route, navigation }) => ({
+          headerBackTitle: R.strings.LABEL_CANCEL,
           title: R.strings.TITLE_CREATE_TODO,
-          headerLeft: () => (<CancelButton navigation={navigation}/>),
         })}
       />
-    </ModalStack.Navigator>
+    </TodoStack.Navigator>
   );
 };
 
@@ -493,7 +492,7 @@ class App extends Component {
         <RootStack.Screen name="Messages" component={ChatDetailStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='QRCode' component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='CallStates' component={CallStateStackScreen} options={() => ({ headerShown: false })} />
-        <RootStack.Screen name="ModalStack" component={ModalStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name="TodoStack" component={TodoStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }

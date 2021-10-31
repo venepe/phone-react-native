@@ -29,6 +29,17 @@ export const showActiveCallMessage = async ({ activePhoneNumber }) => {
   });
 }
 
+export const showCompleted = () => {
+  let message = R.strings.LABEL_COMPLETED;
+  RNFlashMessage.showMessage({
+    message,
+    type: 'default',
+    backgroundColor: R.colors.YES,
+    color: R.colors.TEXT_MAIN,
+    autoHide: true,
+  });
+}
+
 export const hideMessage = () => {
   RNFlashMessage.hideMessage();
 }

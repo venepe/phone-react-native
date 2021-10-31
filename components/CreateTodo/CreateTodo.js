@@ -13,8 +13,7 @@ import {
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { createTodo } from '../../actions/todo';
-import Empty from './Empty';
+import { requestCreateTodo } from '../../actions/todo';
 import R from '../../resources';
 
 const CreateTodoSchema = Yup.object().shape({
@@ -24,7 +23,7 @@ const CreateTodoSchema = Yup.object().shape({
     .required(R.strings.WARNING_FIELD_REQUIRED),
 });
 
-class CreateTodoName extends Component {
+class CreateTodo extends Component {
 
   constructor(props) {
     super(props);
@@ -37,7 +36,7 @@ class CreateTodoName extends Component {
 
   onCreateTodo({ values }) {
     const { name } = values;
-    this.props.createTodo({ name });
+    this.props.requestCreateTodo({ name });
     this.props.navigation.goBack();
   }
 
@@ -135,5 +134,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   null,
-  { createTodo },
-)(CreateTodoName);
+  { requestCreateTodo },
+)(CreateTodo);

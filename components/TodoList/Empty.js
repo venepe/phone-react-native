@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons'
 const SCREEN_HEIGHT = Dimensions.get('window').height - 70;
 import R from '../../resources';
 
@@ -19,7 +19,7 @@ class Empty extends Component {
   }
 
   onPress() {
-    this.props.navigation.navigate('ModalStack', { screen: 'CreateTodo' });
+    this.props.navigation.navigate('TodoStack', { screen: 'CreateTodo' });
   }
 
   render() {
@@ -27,7 +27,7 @@ class Empty extends Component {
       <View style={styles.root}>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={this.onPress} style={styles.localContainer}>
-            <MaterialCommunityIcons name="plus" size={100} color={R.colors.TEXT_MAIN} />
+            <MaterialIcons name="playlist-add" size={100} color={R.colors.TEXT_MAIN} />
             <Text style={styles.primaryText}>{R.strings.LABEL_TODO_LIST_EMPTY_PRIMARY}</Text>
             <Text style={styles.secondaryText}>{R.strings.LABEL_TODO_LIST_EMPTY_SECONDARY}</Text>
           </TouchableOpacity>

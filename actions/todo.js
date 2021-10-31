@@ -2,7 +2,7 @@ import moment from 'moment';
 import uuid from 'react-native-uuid';
 import TodoTypes from '../constants/TodoTypes';
 import { getStore } from '../store';
-import { getTodos, postTodos, delTodo } from '../fetches';
+import { getTodos, postTodos, putTodo, delTodo } from '../fetches';
 import analytics from '../analytics';
 import R from '../resources';
 
@@ -11,11 +11,10 @@ export const requestTodos = () =>
     const { token, accountId } = getState().default;
     const data = await getTodos({ token, accountId }) || {};
     let { todos } = data;
-    console.log(todos);
     dispatch(setTodos({ payload: { todos } }));
   }
 
-export const createTodo = ({ name }) =>
+export const requestCreateTodo = ({ name }) =>
   async (dispatch, getState) => {
     const { token, accountId } = getState().default;
     const id = uuid.v4();
@@ -23,6 +22,13 @@ export const createTodo = ({ name }) =>
     postTodos({ token, accountId, id, name });
     const todo = { id, name, createdAt: now, updateAt: now };
     dispatch(addTodo({ payload: { todo } }));
+  }
+
+export const requestUpdateTodo = ({ todoId }) =>
+  async (dispatch, getState) => {
+    const { token, accountId } = getState().default;
+    putTodo({ token, accountId, todoId });
+    dispatch(deleteTodo({ payload: { todoId } }));
   }
 
 export const requestDeleteTodo = ({ todoId }) =>
@@ -42,33 +48,8 @@ export const addTodo = payload => ({
   ...payload,
 });
 
-export const updateTodo = payload => ({
-  type: TodoTypes.UPDATE_TODO,
-  ...payload,
-});
-
 export const deleteTodo = payload => ({
   type: TodoTypes.DELETE_TODO,
-  ...payload,
-});
-
-export const addTodoItem = payload => ({
-  type: TodoTypes.ADD_TODO_ITEM,
-  ...payload,
-});
-
-export const updateTodoItem = payload => ({
-  type: TodoTypes.UPDATE_TODO_ITEM,
-  ...payload,
-});
-
-export const deleteTodoItem = payload => ({
-  type: TodoTypes.DELETE_TODO_ITEM,
-  ...payload,
-});
-
-export const setSelectedTodoId = payload => ({
-  type: TodoTypes.SET_SELECTED_TODO_ID,
   ...payload,
 });
 

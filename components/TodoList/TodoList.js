@@ -13,7 +13,7 @@ import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux';
 import TodoListItem from './TodoListItem';
 import Empty from './Empty';
-import { requestTodos, requestDeleteTodo } from '../../actions/todo';
+import { requestTodos, requestDeleteTodo, requestUpdateTodo } from '../../actions/todo';
 import { getToken, getAccountId } from '../../reducers';
 import { getTodos } from '../../reducers/todo';
 import { initSocket } from '../../utilities/socket';
@@ -88,15 +88,11 @@ class TodoList extends Component {
   }
 
   onCreateTodoList() {
-    this.props.navigation.navigate('ModalStack', { screen: 'CreateTodo' });
-    analytics.track(EVENTS.CLICKED_COMPOSE);
+    this.props.navigation.navigate('TodoStack', { screen: 'CreateTodo' });
   }
 
-  async onPressRow({ }) {
-    this.props.navigation.push('Messages', {
-      screen: 'TodoDetail',
-      params: { title, targetNumber: number },
-    });
+  async onPressRow({ id }) {
+    this.props.requestUpdateTodo({ todoId: id });
   }
 
   onDelete({ id }) {
@@ -112,7 +108,6 @@ class TodoList extends Component {
 
   render() {
     const { isFetching, todos } = this.state;
-    console.log(todos);
     return (
       <View style={styles.root}>
         <FlatList
@@ -168,5 +163,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { requestTodos, requestDeleteTodo },
+  { requestTodos, requestDeleteTodo, requestUpdateTodo },
 )(TodoList);

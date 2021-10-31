@@ -69,22 +69,9 @@ class ContactList extends Component {
   async onPressRow(item) {
     const { phoneNumber: targetNumber } = item;
     const { navigation, route } = this.props;
-    // console.log(this.props.navigation);
-    // this.props.navigation.setParams({ targetNumber });
-    // this.props.navigation.state.params.targetNumber = targetNumber;
-    // this.props.navigation.goBack();
     this.props.navigation.navigate('DialPad', {
       targetNumber,
     });
-    // const { navigation, route } = this.props;
-    // navigation.goBack();
-    // console.log(route);
-    // route.params = { targetNumber };
-    // this.props.route.params.updateTargetNumber(targetNumber);
-    // this.props.navigation.goBack();
-    // navigation.goBack();
-    // console.log(route);
-    // route.params.updateTargetNumber(targetNumber);
   }
 
   renderItem({ item, index }) {

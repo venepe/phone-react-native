@@ -81,7 +81,7 @@ class DrawerContent extends Component {
             <DrawerItem
               {...this.props}
               icon={({ color, size }) => (
-                <MaterialIcons name="shopping-cart" color={R.colors.TEXT_MAIN} size={size} />
+                <MaterialIcons name="playlist-add" color={R.colors.TEXT_MAIN} size={size} />
               )}
               label={R.strings.TITLE_LISTS}
               onPress={() => navigation.navigate('TodoList')}

@@ -1,5 +1,5 @@
 
-export const API_URL = 'https://a019-172-58-142-204.ngrok.io';
+export const API_URL = 'https://a54a-99-203-28-170.ngrok.io';
 export const SOCKET_URL = API_URL;
 export const HOME_PAGE = 'https://anumberforus.com';
 export const AUTH0_DOMAIN = 'bubblepop.us.auth0.com';

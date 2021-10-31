@@ -3,7 +3,9 @@ import { SOCKET_URL } from '../config';
 import { getStore } from '../store';
 import { addMessage, storeAndSetIsActive, displayCallStatus,
   setIsAccountCallInProgress, setActivePhoneNumber } from '../actions';
+import { addTodo, deleteTodo } from '../actions/todo';
 import { showCongratulationsAlert } from './alert';
+import { showCompletedTodo } from './flash-message';
 
 let socket = {};
 
@@ -33,6 +35,19 @@ export const initSocket = async ({ accountId }) => {
 
   socket.on('did-receive-message', ({ message }) => {
     getStore().dispatch(addMessage({ payload: { message } }));
+  });
+
+  socket.on('did-create-todo', ({ todo }) => {
+    getStore().dispatch(addTodo({ payload: { todo } }));
+  });
+
+  socket.on('did-complete-todo', ({ todo }) => {
+    showCompletedTodo(todo);
+    getStore().dispatch(deleteTodo({ payload: { todoId: todo.id } }));
+  });
+
+  socket.on('did-delete-todo', ({ todo }) => {
+    getStore().dispatch(deleteTodo({ payload: { todoId: todo.id } }));
   });
 
   socket.on('set-is-account-call-in-progress', ({ isAccountCallInProgress, activePhoneNumber = '' }) => {

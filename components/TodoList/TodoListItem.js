@@ -8,7 +8,6 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import Swipeout from 'react-native-swipeout';
 import { connect } from 'react-redux';
-import { showCompleted } from '../../utilities/flash-message';
 import R from '../../resources';
 
 class TodoListItem extends Component {
@@ -36,7 +35,6 @@ class TodoListItem extends Component {
     this.setState({
       isCompleted: true,
     });
-    showCompleted();
     setTimeout(() => {this.props.onPressRow(todoListItem)}, 1000);
   }
 

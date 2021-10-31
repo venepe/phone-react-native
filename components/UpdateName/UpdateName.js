@@ -120,7 +120,7 @@ class UpdateName extends Component {
                   onChangeText={handleChange('name')}
                   onBlur={handleBlur('name')}
                   value={values.name}
-                  autoFocus={false}
+                  autoFocus={true}
                   keyboardType={'default'}
                   returnKeyType={'done'}
                   maxLength={150}
@@ -131,12 +131,12 @@ class UpdateName extends Component {
                 ) : null}
             <View style={styles.bottomContainer} >
               {(() => {
-                const backgroundColor = isValid && values.name.length > 0 ? R.colors.BACKGROUND_MAIN : '#E0E0E0';
+                const backgroundColor = isValid && values.name.length > 0 ? R.colors.BACKGROUND_MAIN : R.colors.TEXT_BACKGROUND_LIGHT;
                   return (
                     <TouchableOpacity style={[styles.userTitleButtonContainer, { backgroundColor }]} disabled={!isValid || isLoading} onPress={() => this.onUpdateName({ values })}>
                       {
                         isLoading ? (
-                          <ActivityIndicator style={styles.spinner} size='large' color='#757575' />
+                          <ActivityIndicator style={styles.spinner} size='large' color={R.colors.SPINNER} />
                         ) : (
                           <Text style={styles.userTitleText}>{R.strings.LABEL_NEXT}</Text>
                         )
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 18,
-    color: '#FF5252',
+    color: R.colors.TEXT_ERROR,
     margin: 10,
   },
   spinner: {

@@ -17,12 +17,19 @@ const reducer = (state = initialState, action) => {
     }
     case TodoTypes.ADD_TODO:
     {
+      const { todos } = state;
       const { todo } = action.payload;
-
-      return {
-        ...state,
-        todos: [ ...state.todos, todo ],
-      };
+      const didFindTodoById = todos.find(elm => elm.id === todo.id);
+      if (didFindTodoById) {
+        return {
+          ...state,
+        };
+      } else {
+        return {
+          ...state,
+          todos: [ ...state.todos, todo ],
+        };
+      }
     }
     case TodoTypes.DELETE_TODO:
     {

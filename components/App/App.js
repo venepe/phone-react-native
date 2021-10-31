@@ -205,7 +205,7 @@ function HomeTabs() {
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator
-      initialRouteName='TodoList'
+      initialRouteName='Home'
       screenOptions={{
         headerShown: true,
         headerStyle: {

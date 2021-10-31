@@ -15,11 +15,13 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { requestCreateTodo } from '../../actions/todo';
 import R from '../../resources';
+const MIN_LENGTH = 1;
+const MAX_LENGTH = 128;
 
 const CreateTodoSchema = Yup.object().shape({
   name: Yup.string()
-    .min(2, R.strings.WARNING_MIN_LENGTH)
-    .max(128, R.strings.WARNING_MAX_LENGTH)
+    .min(MIN_LENGTH, R.strings.WARNING_MIN_LENGTH)
+    .max(MAX_LENGTH, R.strings.WARNING_MAX_LENGTH)
     .required(R.strings.WARNING_FIELD_REQUIRED),
 });
 
@@ -36,8 +38,10 @@ class CreateTodo extends Component {
 
   onCreateTodo({ values }) {
     const { name } = values;
-    this.props.requestCreateTodo({ name });
-    this.props.navigation.goBack();
+    if (name.length > MIN_LENGTH - 1) {
+      this.props.requestCreateTodo({ name });
+      this.props.navigation.goBack();
+    }
   }
 
   render() {
@@ -58,18 +62,16 @@ class CreateTodo extends Component {
                   onChangeText={handleChange('name')}
                   onBlur={handleBlur('name')}
                   value={values.name}
-                  autoFocus={false}
+                  autoFocus={true}
                   keyboardType={'default'}
                   returnKeyType={'done'}
-                  maxLength={150}
-                  autoCapitalize={'none'}
+                  maxLength={MAX_LENGTH}
+                  autoCapitalize={'sentences'}
+                  onSubmitEditing={() => this.onCreateTodo({ values })}
                 />
-                {errors.name && touched.name ? (
-                  <Text style={styles.errorText}>{errors.name}</Text>
-                ) : null}
             <View style={styles.bottomContainer} >
               {(() => {
-                const backgroundColor = isValid && values.name.length > 0 ? R.colors.BACKGROUND_MAIN : '#E0E0E0';
+                const backgroundColor = isValid && values.name.length > 0 ? R.colors.BACKGROUND_MAIN : R.colors.TEXT_BACKGROUND_LIGHT;
                   return (
                     <TouchableOpacity style={[styles.userNameButtonContainer, { backgroundColor }]} disabled={!isValid} onPress={() => this.onCreateTodo({ values })}>
                       <Text style={styles.userNameText}>{R.strings.LABEL_NEXT}</Text>
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 18,
-    color: '#FF5252',
+    color: R.colors.TEXT_ERROR,
     margin: 10,
   },
   spinner: {

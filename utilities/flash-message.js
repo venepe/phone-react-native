@@ -29,14 +29,17 @@ export const showActiveCallMessage = async ({ activePhoneNumber }) => {
   });
 }
 
-export const showCompleted = () => {
-  let message = R.strings.LABEL_COMPLETED;
+export const showCompletedTodo = ({ name }) => {
+  let message = name;
+  let description = R.strings.LABEL_TASK_COMPLETED;
   RNFlashMessage.showMessage({
     message,
+    description,
     type: 'default',
     backgroundColor: R.colors.YES,
     color: R.colors.TEXT_MAIN,
     autoHide: true,
+    duration: 3200
   });
 }
 

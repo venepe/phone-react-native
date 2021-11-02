@@ -13,8 +13,8 @@ import {
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
-import { requestCreateTodo } from '../../actions/todo';
-import R from '../../resources';
+import { requestCreateTodo } from '../../../actions/todo';
+import R from '../../../resources';
 const MIN_LENGTH = 1;
 const MAX_LENGTH = 128;
 

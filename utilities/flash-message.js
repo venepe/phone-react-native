@@ -43,6 +43,20 @@ export const showCompletedTodo = ({ name }) => {
   });
 }
 
+export const showCompletedEssential = ({ name }) => {
+  let message = name;
+  let description = R.strings.LABEL_ESSENTIAL_COMPLETED;
+  RNFlashMessage.showMessage({
+    message,
+    description,
+    type: 'default',
+    backgroundColor: R.colors.YES,
+    color: R.colors.TEXT_MAIN,
+    autoHide: true,
+    duration: 3200
+  });
+}
+
 export const hideMessage = () => {
   RNFlashMessage.hideMessage();
 }

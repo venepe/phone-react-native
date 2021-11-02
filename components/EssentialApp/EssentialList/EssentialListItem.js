@@ -8,48 +8,48 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import Swipeout from 'react-native-swipeout';
 import { connect } from 'react-redux';
-import R from '../../resources';
+import R from '../../../resources';
 
-class TodoListItem extends Component {
+class EssentialListItem extends Component {
   constructor(props) {
     super(props);
     this.onPressRow = this.onPressRow.bind(this);
     this.state = {
       rowID: props.rowID,
-      todoListItem: props.todoListItem,
+      essentialListItem: props.essentialListItem,
       isCompleted: false,
     };
   }
 
   componentDidUpdate(prevProps) {
     const props = this.props;
-    if (props.todoListItem !== prevProps.todoListItem) {
+    if (props.essentialListItem !== prevProps.essentialListItem) {
       this.setState({
-        todoListItem: props.todoListItem,
+        essentialListItem: props.essentialListItem,
       });
     }
   }
 
-  onPressRow(todoListItem) {
-    const { name } = todoListItem;
+  onPressRow(essentialListItem) {
+    const { name } = essentialListItem;
     this.setState({
       isCompleted: true,
     });
-    setTimeout(() => {this.props.onPressRow(todoListItem)}, 1000);
+    setTimeout(() => {this.props.onPressRow(essentialListItem)}, 1000);
   }
 
   render() {
     const { navigation } = this.props;
     const { isCompleted } = this.state;
-    const todoListItem = this.state.todoListItem || {};
-    let { name, createdAt } = todoListItem;
+    const essentialListItem = this.state.essentialListItem || {};
+    let { name, createdAt } = essentialListItem;
     const iconName = isCompleted ? 'radio-button-on' : 'radio-button-off';
     const right = [
-      { text: R.strings.LABEL_DELETE, color: R.colors.TEXT_MAIN, backgroundColor: R.colors.RED, onPress: () => this.props.onDelete(todoListItem) },
+      { text: R.strings.LABEL_DELETE, color: R.colors.TEXT_MAIN, backgroundColor: R.colors.RED, onPress: () => this.props.onDelete(essentialListItem) },
     ];
     return (
       <Swipeout right={right} autoClose>
-        <TouchableOpacity style={[styles.card, styles.container]} onPress={() => this.onPressRow(todoListItem)}>
+        <TouchableOpacity style={[styles.card, styles.container]} onPress={() => this.onPressRow(essentialListItem)}>
           <MaterialIcons name={iconName} size={30} color={R.colors.TEXT_MAIN} />
           <Text style={styles.name}>{name}</Text>
         </TouchableOpacity>
@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
   },
 });
 
-TodoListItem.defaultProps = {
+EssentialListItem.defaultProps = {
   onPressRow: () => {},
 };
 
 export default connect(
   null,
   { },
-)(TodoListItem);
+)(EssentialListItem);

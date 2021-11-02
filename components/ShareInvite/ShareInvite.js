@@ -66,9 +66,7 @@ class ShareInvite extends Component {
   }
 
   shareQRCode() {
-    this.props.navigation.navigate('QRCode', {
-      screen: 'ShareQRCode'
-    });
+    this.props.navigation.navigate('ShareQRCode');
   }
 
   render() {

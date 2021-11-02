@@ -4,7 +4,9 @@ import branch from 'react-native-branch';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { navigationRef } from './RootNavigation';
 import { initializeApplication, requestCalls, requestMessages, requestActivationToken } from '../../actions';
@@ -15,6 +17,7 @@ import { checkActiveOrIncomingCalls } from '../../utilities/twilio-voice';
 
 import Blank from '../Blank';
 import Home from '../Home';
+import Account from '../Account';
 import CallList from '../CallList';
 import ChatList from '../ChatList';
 import ChatDetail from '../ChatDetail';
@@ -32,8 +35,10 @@ import ShareCode from '../ShareCode';
 import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
 import UpdateName from '../UpdateName';
-import TodoList from '../TodoList';
-import CreateTodo from '../CreateTodo';
+import TodoList from '../TodoApp/TodoList';
+import CreateTodo from '../TodoApp/CreateTodo';
+import EssentialList from '../EssentialApp/EssentialList';
+import CreateEssential from '../EssentialApp/CreateEssential';
 import Manage from '../Manage';
 import ActiveCall from '../CallScreens/ActiveCall';
 import IncomingCall from '../CallScreens/IncomingCall';
@@ -45,12 +50,17 @@ const JoinStack = createStackNavigator();
 const ProposeStack = createDrawerNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
-const HomeStack = createDrawerNavigator();
+const HomeStack = createStackNavigator();
 const CallDetailStack = createStackNavigator();
 const ChatDetailStack = createStackNavigator();
 const QRCodeStack = createStackNavigator();
 const CallStateStack = createStackNavigator();
+const ListTab = createMaterialTopTabNavigator();
+const ListStack = createStackNavigator();
 const TodoStack = createStackNavigator();
+const EssentialStack = createStackNavigator();
+const MainTab = createBottomTabNavigator();
+const AccountStack = createStackNavigator();
 
 function LandingStackScreen() {
   return (
@@ -216,65 +226,76 @@ function HomeStackScreen() {
           fontWeight: 'bold',
         },
       }}
-      drawerStyle={{
-        flex: 1,
-        backgroundColor: R.colors.CONTENT_BACKGROUND,
-      }}
-      drawerContentOptions={{
-        itemStyle: {
-          color: R.colors.TEXT_MAIN,
-        },
-        labelStyle: {
-          color: R.colors.TEXT_MAIN,
-        },
-        activeTintColor: R.colors.TEXT_MAIN,
-      }}
-      drawerPosition={'left'}
-      drawerContent={(props) => (<DrawerContent {...props} />)}
       >
       <HomeStack.Screen
         name='Home'
         component={HomeTabs}
         options={({ route, navigation }) => ({
-          title: R.strings.TITLE_APP_NAME,
+          title: R.strings.TITLE_PHONE_TAB,
         })}
       />
-      <HomeStack.Screen
+    </HomeStack.Navigator>
+  );
+}
+
+function AccountStackScreen() {
+  return (
+    <AccountStack.Navigator
+      initialRouteName='Account'
+      screenOptions={{
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+      >
+      <AccountStack.Screen
+        name='Account'
+        component={Account}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_MORE_TAB,
+        })}
+      />
+      <AccountStack.Screen
         name='Me'
         component={UpdateName}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_ME,
         })}
       />
-      <HomeStack.Screen
+      <AccountStack.Screen
         name='Members'
         component={MemberList}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_MEMBERS,
         })}
       />
-      <HomeStack.Screen
+      <AccountStack.Screen
         name='Manage'
         component={Manage}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_MANAGE,
         })}
       />
-      <HomeStack.Screen
+      <AccountStack.Screen
         name='ShareInvite'
         component={ShareInvite}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_INVITE,
         })}
       />
-      <HomeStack.Screen
-        name='TodoList'
-        component={TodoList}
-        options={({ route, navigation }) => ({
-          title: R.strings.TITLE_TODO_LIST,
+      <QRCodeStack.Screen
+        name='ShareQRCode'
+        component={ShareQRCode}
+        options={() => ({
+          title: R.strings.TITLE_ENTER_CODE,
         })}
       />
-    </HomeStack.Navigator>
+    </AccountStack.Navigator>
   );
 }
 
@@ -360,10 +381,12 @@ function CallStateStackScreen() {
   );
 };
 
-function TodoStackScreen() {
+function ListStackScreen() {
   return (
-    <TodoStack.Navigator initialRouteName={'CreateTodo'}
+    <ListStack.Navigator
+      initialRouteName='List'
       screenOptions={{
+        headerShown: true,
         headerStyle: {
           backgroundColor: R.colors.HEADER_MAIN,
         },
@@ -372,16 +395,142 @@ function TodoStackScreen() {
           fontWeight: 'bold',
         },
       }}
+      >
+      <ListStack.Screen
+        name='List'
+        component={ListTabs}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_LIST_TAB,
+        })}
+      />
+    </ListStack.Navigator>
+  );
+}
+
+function ListTabs() {
+  return (
+    <ListTab.Navigator
+      tabBarOptions={{
+        style: {
+          backgroundColor: R.colors.BACKGROUND_DARK,
+        },
+        indicatorStyle: {
+          backgroundColor: R.colors.TEXT_MAIN,
+        },
+        labelStyle: {
+          color: R.colors.TEXT_MAIN,
+        }
+      }}
     >
+      <ListTab.Screen name={R.strings.TITLE_ESSENTIAL_LIST} component={EssentialStackScreen} />
+      <ListTab.Screen name={R.strings.TITLE_TODO_LIST} component={TodoStackScreen} />
+    </ListTab.Navigator>
+  );
+}
+
+function EssentialStackScreen() {
+  return (
+    <EssentialStack.Navigator
+      initialRouteName='EssentialList'
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+      >
+      <EssentialStack.Screen
+        name='EssentialList'
+        component={EssentialList}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_LIST_TAB,
+        })}
+      />
+      <EssentialStack.Screen
+        name="CreateEssential"
+        component={CreateEssential}
+        options={({ route, navigation }) => ({
+          headerShown: true,
+          headerBackTitle: R.strings.LABEL_CANCEL,
+          title: R.strings.TITLE_CREATE_ESSENTIAL,
+        })}
+      />
+    </EssentialStack.Navigator>
+  );
+};
+
+function TodoStackScreen() {
+  return (
+    <TodoStack.Navigator
+      initialRouteName='TodoList'
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+      >
+      <TodoStack.Screen
+        name='TodoList'
+        component={TodoList}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_LIST_TAB,
+        })}
+      />
       <TodoStack.Screen
         name="CreateTodo"
         component={CreateTodo}
         options={({ route, navigation }) => ({
+          headerShown: true,
           headerBackTitle: R.strings.LABEL_CANCEL,
           title: R.strings.TITLE_CREATE_TODO,
         })}
       />
     </TodoStack.Navigator>
+  );
+};
+
+function MainTabScreen() {
+  return (
+    <MainTab.Navigator
+        tabBarOptions={{
+          activeTintColor: R.colors.LOGO,
+          inactiveTintColor: R.colors.TAB_BAR_INACTIVE,
+          style: {
+            backgroundColor: R.colors.HEADER_MAIN,
+          },
+        }}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === R.strings.TITLE_PHONE_TAB) {
+              iconName = focused
+                ? 'phone'
+                : 'phone-outline';
+            } else if (route.name === R.strings.TITLE_LIST_TAB) {
+              iconName = focused ? 'clipboard-list' : 'clipboard-list-outline';
+            } else if (route.name === R.strings.TITLE_MORE_TAB) {
+              iconName = 'dots-vertical';
+            }
+
+            // You can return any component that you like here!
+            return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+          },
+        })}
+      >
+        <MainTab.Screen name={R.strings.TITLE_PHONE_TAB} component={HomeStackScreen} />
+        <MainTab.Screen name={R.strings.TITLE_LIST_TAB} component={ListStackScreen} />
+        <MainTab.Screen name={R.strings.TITLE_MORE_TAB} component={AccountStackScreen} />
+      </MainTab.Navigator>
   );
 };
 
@@ -487,12 +636,14 @@ class App extends Component {
     initializeNotifications();
     return (
       <>
+        <RootStack.Screen name='MainTab' component={MainTabScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='ANumberForUs' component={HomeStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name="Calls" component={CallDetailStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name="Messages" component={ChatDetailStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='QRCode' component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='CallStates' component={CallStateStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name="TodoStack" component={TodoStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name="EssentialStack" component={EssentialStackScreen} options={() => ({ headerShown: false })} />
       </>
     );
   }

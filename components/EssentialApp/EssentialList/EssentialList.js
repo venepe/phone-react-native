@@ -11,16 +11,16 @@ import {
 import _ from 'lodash';
 import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux';
-import TodoListItem from './TodoListItem';
+import EssentialListItem from './EssentialListItem';
 import Empty from './Empty';
-import { requestTodos, requestDeleteTodo, requestUpdateTodo } from '../../actions/todo';
-import { getToken, getAccountId } from '../../reducers';
-import { getTodos } from '../../reducers/todo';
-import { initSocket } from '../../utilities/socket';
-import analytics, { EVENTS } from '../../analytics';
-import R from '../../resources';
+import { requestEssentials, requestDeleteEssential, requestUpdateEssential } from '../../../actions/essential';
+import { getToken, getAccountId } from '../../../reducers';
+import { getEssentials } from '../../../reducers/essential';
+import { initSocket } from '../../../utilities/socket';
+import analytics, { EVENTS } from '../../../analytics';
+import R from '../../../resources';
 
-class TodoList extends Component {
+class EssentialList extends Component {
 
   constructor(props) {
     super(props);
@@ -28,20 +28,20 @@ class TodoList extends Component {
     this.onRefresh = this.onRefresh.bind(this);
     this.fetch = this.fetch.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
-    this.onCreateTodoList = this.onCreateTodoList.bind(this);
+    this.onCreateEssentialList = this.onCreateEssentialList.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.state = {
       isFetching: false,
       token: props.token,
       accountId: props.accountId,
-      todos: [],
+      essentials: [],
     };
   }
 
   async fetch() {
     try {
-      this.props.requestTodos();
+      this.props.requestEssentials();
     } catch (e) {
       console.log(e);
     }
@@ -66,9 +66,9 @@ class TodoList extends Component {
         accountId: props.accountId,
       });
     }
-    if (props.todos !== prevProps.todos) {
+    if (props.essentials !== prevProps.essentials) {
       this.setState({
-        todos: props.todos,
+        essentials: props.essentials,
       });
     }
   }
@@ -87,32 +87,32 @@ class TodoList extends Component {
     }
   }
 
-  onCreateTodoList() {
-    this.props.navigation.navigate('TodoStack', { screen: 'CreateTodo' });
+  onCreateEssentialList() {
+    this.props.navigation.navigate('EssentialStack', { screen: 'CreateEssential' });
   }
 
   async onPressRow({ id }) {
-    this.props.requestUpdateTodo({ todoId: id });
+    this.props.requestUpdateEssential({ essentialId: id });
   }
 
   onDelete({ id }) {
-    this.props.requestDeleteTodo({ todoId: id });
+    this.props.requestDeleteEssential({ essentialId: id });
   }
 
   renderItem({ item }) {
     const { navigation } = this.props;
     return (
-      <TodoListItem todoListItem={item} navigation={navigation} onPressRow={this.onPressRow} onDelete={this.onDelete}/>
+      <EssentialListItem essentialListItem={item} navigation={navigation} onPressRow={this.onPressRow} onDelete={this.onDelete}/>
     )
   }
 
   render() {
-    const { isFetching, todos } = this.state;
+    const { isFetching, essentials } = this.state;
     return (
       <View style={styles.root}>
         <FlatList
-          data={todos}
-          keyExtractor={(todos) => todos.id}
+          data={essentials}
+          keyExtractor={(essentials) => essentials.id}
           renderItem={this.renderItem}
           refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN}
             progressBackgroundColor={R.colors.BACKGROUND_DARK}  colors={[R.colors.TEXT_MAIN]}
@@ -128,7 +128,7 @@ class TodoList extends Component {
           style={styles.fab}
           large
           icon='plus'
-          onPress={() => this.onCreateTodoList()}
+          onPress={() => this.onCreateEssentialList()}
         />
       </View>
     )
@@ -151,17 +151,17 @@ const styles = StyleSheet.create({
   },
 });
 
-TodoList.defaultProps = {};
+EssentialList.defaultProps = {};
 
-TodoList.propTypes = {}
+EssentialList.propTypes = {}
 
 const mapStateToProps = state => ({
   token: getToken(state),
   accountId: getAccountId(state),
-  todos: getTodos(state),
+  essentials: getEssentials(state),
 });
 
 export default connect(
   mapStateToProps,
-  { requestTodos, requestDeleteTodo, requestUpdateTodo },
-)(TodoList);
+  { requestEssentials, requestDeleteEssential, requestUpdateEssential },
+)(EssentialList);

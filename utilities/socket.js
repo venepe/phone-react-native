@@ -4,8 +4,9 @@ import { getStore } from '../store';
 import { addMessage, storeAndSetIsActive, displayCallStatus,
   setIsAccountCallInProgress, setActivePhoneNumber } from '../actions';
 import { addTodo, deleteTodo } from '../actions/todo';
+import { addEssential, deleteEssential } from '../actions/essential';
 import { showCongratulationsAlert } from './alert';
-import { showCompletedTodo } from './flash-message';
+import { showCompletedTodo, showCompletedEssential } from './flash-message';
 
 let socket = {};
 
@@ -48,6 +49,19 @@ export const initSocket = async ({ accountId }) => {
 
   socket.on('did-delete-todo', ({ todo }) => {
     getStore().dispatch(deleteTodo({ payload: { todoId: todo.id } }));
+  });
+
+  socket.on('did-create-essential', ({ essential }) => {
+    getStore().dispatch(addEssential({ payload: { essential } }));
+  });
+
+  socket.on('did-complete-essential', ({ essential }) => {
+    showCompletedEssential(essential);
+    getStore().dispatch(deleteEssential({ payload: { essentialId: essential.id } }));
+  });
+
+  socket.on('did-delete-essential', ({ essential }) => {
+    getStore().dispatch(deleteEssential({ payload: { essentialId: essential.id } }));
   });
 
   socket.on('set-is-account-call-in-progress', ({ isAccountCallInProgress, activePhoneNumber = '' }) => {

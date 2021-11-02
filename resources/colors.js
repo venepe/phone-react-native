@@ -20,4 +20,5 @@ export default {
   LOGO: '#18FFFF',
   TRANSPARENT: 'transparent',
   RED: '#FF1744',
+  TAB_BAR_INACTIVE: '#808080',
 };

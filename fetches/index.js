@@ -211,6 +211,60 @@ export const delTodo = ({ token, accountId, todoId }) => {
   .then(handleResponse)
 };
 
+export const getEssentials = ({ token = '', accountId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/essentials`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
+export const postEssentials = ({ token, accountId, id, name }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/essentials`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      essential: {
+        id,
+        name,
+      },
+    }),
+  })
+  .then(handleResponse)
+};
+
+export const putEssential = ({ token, accountId, essentialId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/essentials/${essentialId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
+export const delEssential = ({ token, accountId, essentialId }) => {
+  return fetch(`${API_URL}/accounts/${accountId}/essentials/${essentialId}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};
+
 export const getMessages = ({ token = '', accountId }) => {
   return fetch(`${API_URL}/accounts/${accountId}/messages`, {
     method: 'GET',

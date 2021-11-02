@@ -8,8 +8,8 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
-const SCREEN_HEIGHT = Dimensions.get('window').height - 70;
-import R from '../../resources';
+const SCREEN_HEIGHT = Dimensions.get('window').height - 200;
+import R from '../../../resources';
 
 class Empty extends Component {
 
@@ -27,7 +27,7 @@ class Empty extends Component {
       <View style={styles.root}>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={this.onPress} style={styles.localContainer}>
-            <MaterialIcons name="playlist-add" size={100} color={R.colors.TEXT_MAIN} />
+            <MaterialIcons name="check" size={100} color={R.colors.TEXT_MAIN} />
             <Text style={styles.primaryText}>{R.strings.LABEL_TODO_LIST_EMPTY_PRIMARY}</Text>
             <Text style={styles.secondaryText}>{R.strings.LABEL_TODO_LIST_EMPTY_SECONDARY}</Text>
           </TouchableOpacity>

@@ -12,9 +12,8 @@ import Modal from 'react-native-modal';
 import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
 import { HOME_PAGE } from '../../config';
+import Prices from '../../constants/Prices';
 import R from '../../resources';
-const PRICE_99 = '9.99';
-const PRICE_9 = '1.99';
 const ANNUAL = 'annual';
 const MONTHLY = 'monthly';
 
@@ -95,11 +94,11 @@ class SubscriptionModal extends Component {
               <Text style={styles.freeTrialText}>{`Start with a 30 day free trial.`}</Text>
             </View>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept(ANNUAL)}>
-              <Text style={styles.btnPrimaryText}>{`$${PRICE_99}/year`}</Text>
+              <Text style={styles.btnPrimaryText}>{`$${Prices.ANNUAL}/year`}</Text>
               <Text style={styles.btnSecondaryText}>{`Includes unlimited talk and text`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept(MONTHLY)}>
-              <Text style={styles.btnPrimaryText}>{`$${PRICE_9}/month`}</Text>
+              <Text style={styles.btnPrimaryText}>{`$${Prices.MONTHLY}/month`}</Text>
               <Text style={styles.btnSecondaryText}>{`Includes unlimited talk and text`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => this.handleClose()}>

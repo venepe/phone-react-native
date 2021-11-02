@@ -8,24 +8,28 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
-import { copyPhoneNumber } from '../../utilities/copy';
 const SCREEN_HEIGHT = Dimensions.get('window').height - 200;
-import R from '../../resources';
+import R from '../../../resources';
 
 class Empty extends Component {
 
   constructor(props) {
     super(props);
+    this.onPress = this.onPress.bind(this);
+  }
+
+  onPress() {
+    this.props.navigation.navigate('EssentialStack', { screen: 'CreateEssential' });
   }
 
   render() {
     return (
       <View style={styles.root}>
         <View style={styles.iconContainer}>
-          <TouchableOpacity onLongPress={() => copyPhoneNumber()} style={styles.localContainer}>
-            <MaterialIcons name="phone-in-talk" size={100} color={R.colors.TEXT_MAIN} />
-            <Text style={styles.primaryText}>{R.strings.LABEL_CHAT_EMPTY_PRIMARY}</Text>
-            <Text style={styles.secondaryText}>{R.strings.LABEL_CHAT_EMPTY_SECONDARY}</Text>
+          <TouchableOpacity onPress={this.onPress} style={styles.localContainer}>
+            <MaterialIcons name="shopping-cart" size={100} color={R.colors.TEXT_MAIN} />
+            <Text style={styles.primaryText}>{R.strings.LABEL_ESSENTIAL_LIST_EMPTY_PRIMARY}</Text>
+            <Text style={styles.secondaryText}>{R.strings.LABEL_ESSENTIAL_LIST_EMPTY_SECONDARY}</Text>
           </TouchableOpacity>
         </View>
       </View>

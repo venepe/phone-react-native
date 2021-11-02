@@ -77,7 +77,7 @@ class SubscriptionModal extends Component {
             </View>
             <View style={styles.bodyContainer}>
               <Text style={styles.bodyText}>{`Congratulations! 🎉🎉🎉`}</Text>
-              <Text style={styles.bodyText}>{`You are about to share a phone number designed for couples which includes unlimited talk and text.`}</Text>
+              <Text style={styles.bodyText}>{`You are about to share a phone number designed to break down silos.`}</Text>
               <Text style={styles.bodyText}>{`Side effects may include feelings of 😍🥰😀`}</Text>
               <Text style={styles.bodyText}>{`By signing up for a free trial, you agree to Bubblepop's `}
                 <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>
@@ -91,7 +91,7 @@ class SubscriptionModal extends Component {
               </Text>
             </View>
             <View style={styles.freeTrialContainer}>
-              <Text style={styles.freeTrialText}>{`Start with a 30 day free trial.`}</Text>
+              <Text style={styles.freeTrialText}>{Prices.FREE_TRIAL}</Text>
             </View>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept(ANNUAL)}>
               <Text style={styles.btnPrimaryText}>{`$${Prices.ANNUAL}/year`}</Text>

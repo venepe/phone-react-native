@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { copyPhoneNumber } from '../../utilities/copy';
-const SCREEN_HEIGHT = Dimensions.get('window').height - 200;
+const SCREEN_HEIGHT = Dimensions.get('window').height - 180;
 import R from '../../resources';
 
 class Empty extends Component {

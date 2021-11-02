@@ -21,4 +21,8 @@ export default {
   TRANSPARENT: 'transparent',
   RED: '#FF1744',
   TAB_BAR_INACTIVE: '#808080',
+  MESSAGE_THEME: '#7C4DFF',
+  PHONE_THEME: '#40C4FF',
+  ESSENTIAL_THEME: '#FFFF00',
+  TODO_THEME: '#FF3D00',
 };

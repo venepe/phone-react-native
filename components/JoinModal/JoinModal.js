@@ -110,7 +110,7 @@ class JoinModal extends Component {
               </Text>
             </View>
             <View style={styles.freeTrialContainer}>
-              <Text style={styles.freeTrialText}>{`Start with a 30 day free trial.`}</Text>
+              <Text style={styles.freeTrialText}>{Prices.FREE_TRIAL}</Text>
             </View>
             <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept(ANNUAL)}>
               <Text style={styles.btnPrimaryText}>{`$${Prices.ANNUAL}/year`}</Text>

@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
-const SCREEN_HEIGHT = Dimensions.get('window').height - 200;
+const SCREEN_HEIGHT = Dimensions.get('window').height - 180;
 import R from '../../../resources';
 
 class Empty extends Component {

@@ -157,7 +157,6 @@ class ChatList extends Component {
         }
         />
         <FAB
-          color={R.colors.TEXT_MAIN}
           style={styles.fab}
           large
           icon='plus'
@@ -177,6 +176,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   fab: {
+    backgroundColor: R.colors.MESSAGE_THEME,
     position: 'absolute',
     margin: 16,
     right: 15,

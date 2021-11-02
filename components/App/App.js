@@ -3,7 +3,6 @@ import { AppState } from 'react-native';
 import branch from 'react-native-branch';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -25,8 +24,6 @@ import CreateCall from '../CreateCall';
 import CreateChat from '../CreateChat';
 import DialPad from '../DialPad';
 import AvailableNumberList from '../AvailableNumberList';
-import DrawerContent from '../DrawerContent';
-import SimpleDrawer from '../DrawerContent/SimpleDrawer';
 import Landing from '../Landing';
 import EnterCode from '../EnterCode';
 import JoinCode from '../JoinCode';
@@ -47,7 +44,6 @@ import R from '../../resources';
 
 const LandingStack = createStackNavigator();
 const JoinStack = createStackNavigator();
-const ProposeStack = createDrawerNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
 const HomeStack = createStackNavigator();
@@ -116,54 +112,6 @@ function JoinStackScreen() {
         })}
       />
     </JoinStack.Navigator>
-  );
-};
-
-function ProposeStackScreen() {
-  return (
-    <ProposeStack.Navigator
-      initialRouteName='ProposeStack'
-      screenOptions={{
-        headerShown: true,
-        headerStyle: {
-          backgroundColor: R.colors.HEADER_MAIN,
-        },
-        headerTintColor: R.colors.TEXT_MAIN,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-      drawerStyle={{
-        flex: 1,
-        backgroundColor: R.colors.CONTENT_BACKGROUND,
-      }}
-      drawerContentOptions={{
-        itemStyle: {
-          color: R.colors.TEXT_MAIN,
-        },
-        labelStyle: {
-          color: R.colors.TEXT_MAIN,
-        },
-        activeTintColor: R.colors.TEXT_MAIN,
-      }}
-      drawerPosition={'left'}
-      drawerContent={(props) => (<SimpleDrawer {...props} />)}
-      >
-      <ProposeStack.Screen
-        name='ShareCode'
-        component={ShareCode}
-        options={({ route, navigation }) => ({
-          title: R.strings.TITLE_SHARE_CODE,
-        })}
-      />
-      <ProposeStack.Screen
-        name='Manage'
-        component={Manage}
-        options={({ route, navigation }) => ({
-          title: R.strings.TITLE_MANAGE,
-        })}
-      />
-    </ProposeStack.Navigator>
   );
 };
 
@@ -519,7 +467,7 @@ function MainTabScreen() {
             } else if (route.name === R.strings.TITLE_LIST_TAB) {
               iconName = focused ? 'clipboard-list' : 'clipboard-list-outline';
             } else if (route.name === R.strings.TITLE_MORE_TAB) {
-              iconName = 'dots-vertical';
+              iconName = focused ? 'account-circle' : 'account-circle-outline';
             }
 
             // You can return any component that you like here!
@@ -581,7 +529,6 @@ class App extends Component {
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.renderAuthenticated = this.renderAuthenticated.bind(this);
     this.renderUnauthenticated = this.renderUnauthenticated.bind(this);
-    this.renderProposal = this.renderProposal.bind(this);
     this.renderInitializing = this.renderInitializing.bind(this);
     this.state = {
       isInitialized: props.isInitialized,
@@ -648,15 +595,6 @@ class App extends Component {
     );
   }
 
-  renderProposal() {
-    return (
-      <>
-        <RootStack.Screen name='Propose' component={ProposeStackScreen} options={() => ({ headerShown: false })} />
-        <RootStack.Screen name='QRCode' component={QRCodeStackScreen} options={() => ({ headerShown: false })} />
-      </>
-    );
-  }
-
   renderUnauthenticated() {
     return (
       <>
@@ -676,7 +614,7 @@ class App extends Component {
 
   render() {
     const { isLoggedIn, isActiveUser, isInitialized } = this.state;
-    const screens = !isInitialized ? this.renderInitializing() : isActiveUser ? this.renderAuthenticated() : isLoggedIn ? this.renderProposal() : this.renderUnauthenticated();
+    const screens = !isInitialized ? this.renderInitializing() : isActiveUser ? this.renderAuthenticated() : this.renderUnauthenticated();
     return (
       <NavigationContainer
         ref={navigationRef}

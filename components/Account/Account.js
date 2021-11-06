@@ -97,6 +97,7 @@ class Account extends Component {
 
   render() {
     const list = LIST;
+    const { navigation } = this.props;
     const { phoneNumber } = this.state;
       return (
         <View style={styles.root}>

@@ -12,10 +12,7 @@ import Modal from 'react-native-modal';
 import { getFormattedNumber } from '../../utilities/phone';
 import { MaterialIcons } from '@expo/vector-icons';
 import { HOME_PAGE } from '../../config';
-import Prices from '../../constants/Prices';
 import R from '../../resources';
-const ANNUAL = 'annual';
-const MONTHLY = 'monthly';
 
 class JoinModal extends Component {
 
@@ -98,27 +95,19 @@ class JoinModal extends Component {
             </View>
             <View style={styles.bodyContainer}>
               <Text style={styles.bodyText}>{`Do you want to join ${nameText} on a phone number?`}</Text>
-              <Text style={styles.bodyText}>{`By joining, you agree to Bubblepop's `}
-                <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>
-                  {`Terms of Service `}
-                </Text>
-                <Text style={styles.bodyText}>{`and `}</Text>
-                <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/privacy`)}>
-                  Privacy Policy
-                </Text>
-                <Text style={styles.bodyText}>.</Text>
+            </View>
+            <Text style={styles.bodyText}>{`By joining, you agree to Bubblepop's `}
+              <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>
+                {`Terms of Service `}
               </Text>
-            </View>
-            <View style={styles.freeTrialContainer}>
-              <Text style={styles.freeTrialText}>{Prices.FREE_TRIAL}</Text>
-            </View>
-            <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept(ANNUAL)}>
-              <Text style={styles.btnPrimaryText}>{`$${Prices.ANNUAL}/year`}</Text>
-              <Text style={styles.btnSecondaryText}>{`Includes unlimited talk and text`}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept(MONTHLY)}>
-              <Text style={styles.btnPrimaryText}>{`$${Prices.MONTHLY}/month`}</Text>
-              <Text style={styles.btnSecondaryText}>{`Includes unlimited talk and text`}</Text>
+              <Text style={styles.bodyText}>{`and `}</Text>
+              <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/privacy`)}>
+                Privacy Policy
+              </Text>
+              <Text style={styles.bodyText}>.</Text>
+            </Text>
+            <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept()}>
+              <Text style={styles.btnPrimaryText}>{`Yes, join ${nameText}`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButtonContainer} onPress={() => this.handleClose()}>
               <Text style={styles.bodyText}>{`Cancel`}</Text>
@@ -178,26 +167,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flexWrap:'wrap',
   },
-  btnSecondaryText: {
-    color: `${R.colors.TEXT_MAIN}`,
-    fontSize: 12,
-    fontWeight: '400',
-    flexWrap:'wrap',
-  },
-  freeTrialContainer: {
-    alignItems: 'center',
-  },
-  freeTrialText: {
-    color: `${R.colors.TEXT_MAIN}`,
-    fontSize: 18,
-    fontWeight: '500',
-    flexWrap:'wrap',
-    padding: 5,
-  },
   subscribeButtonContainer: {
     alignItems: 'center',
     marginTop: 5,
-    padding: 10,
+    padding: 20,
     backgroundColor: R.colors.BACKGROUND_MAIN,
   },
   cancelButtonContainer: {

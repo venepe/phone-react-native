@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Video } from 'expo-av';
-import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
 import JoinModal from '../JoinModal';
 import { getAccountById, postOwners } from '../../fetches';
 import { storeAndSetActiveUser } from '../../actions';
@@ -57,58 +56,8 @@ class JoinCode extends Component {
   }
 
   async componentDidMount() {
-    await initConnection();
-    await RNIap.flushFailedPurchasesCachedAsPendingAndroid;
-    this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
-      const { accountId, token } = this.state;
-      const { productId, transactionId, transactionReceipt } = purchase;
-      if (transactionReceipt && phoneNumber.length > 0) {
-        const platform = Platform.OS;
-        const data = await postOwners({ token, accountId, receipt: { productId, transactionId, transactionReceipt, platform } });
-        let { owner } = data;
-        if (owner) {
-          await RNIap.finishTransaction(purchase, false);
-          const { phoneNumber } = owner;
-          this.props.storeAndSetActiveUser({ payload: { accountId, phoneNumber, isActive: true } });
-          showCongratulationsAlert();
-        } else {
-          this.setState({
-            errorMessage: 'Failed up load. Try again.',
-          });
-        }
-      } else {
-        this.setState({
-          errorMessage: 'Failed up load. Try again.',
-        });
-      }
-    });
-    this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
-      showPurchaseFailed(error.message);
-      console.log('purchaseErrorListener', error);
-      console.log(error);
-    });
     this.join();
     analytics.track(EVENTS.VIEWED_JOIN_CODE);
-  }
-
-  componentWillUnmount() {
-    this.purchaseUpdateSubscription.remove();
-    this.purchaseErrorSubscription.remove();
-  }
-
-  async purchase(subscription) {
-    try {
-      this.setState({ isLoading: true, isJoinModalVisible: false });
-      const { accessToken: token } = await login();
-      this.setState({ token });
-      const subscriptions = await getSubscriptions([subscription]);
-      console.log(subscriptions);
-      requestSubscription(subscription);
-    } catch (e) {
-      showPurchaseFailed(e.message);
-      console.log(e);
-      this.setState({ isLoading: false });
-    }
   }
 
   async purchase() {
@@ -116,6 +65,7 @@ class JoinCode extends Component {
     this.setState({ isLoading: true, isJoinModalVisible: false });
     try {
       const { accessToken: token } = await login();
+      this.setState({ token });
       const data = await postOwners({ token, accountId });
       let { owner } = data;
       if (owner) {

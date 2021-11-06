@@ -127,7 +127,7 @@ export const getOwners = ({ token, accountId }) => {
   .then(handleResponse)
 };
 
-export const postOwners = ({ token, accountId, receipt }) => {
+export const postOwners = ({ token, accountId }) => {
   return fetch(`${API_URL}/accounts/${accountId}/owners`, {
     method: 'POST',
     headers: {
@@ -138,7 +138,6 @@ export const postOwners = ({ token, accountId, receipt }) => {
     body: JSON.stringify({
       owner: {
         accountId,
-        receipt,
       },
     }),
   })

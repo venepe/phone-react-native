@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     borderBottomColor: R.colors.GREY_BACKGROUND,
   },
   title: {
-    fontSize: 42,
+    fontSize: 36,
     marginTop: 20,
     marginLeft: 20,
     fontWeight: 'bold',

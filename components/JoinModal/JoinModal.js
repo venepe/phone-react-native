@@ -94,7 +94,8 @@ class JoinModal extends Component {
               <Text style={styles.titleText}>{getFormattedNumber(phoneNumber)}</Text>
             </View>
             <View style={styles.bodyContainer}>
-              <Text style={styles.bodyText}>{`Do you want to join ${nameText} on a phone number?`}</Text>
+              <Text style={styles.bodyText}>{`Do you wish to join ${nameText}?`}</Text>
+              <Text style={styles.bodyText}>{`Side effects may include feelings of 😍🥰😀`}</Text>
             </View>
             <Text style={styles.bodyText}>{`By joining, you agree to Bubblepop's `}
               <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>

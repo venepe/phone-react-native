@@ -72,12 +72,12 @@ class SubscriptionModal extends Component {
           </View>
           <View style={styles.mainContainer}>
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{`Reserve`}</Text>
+              <Text style={styles.titleText}>{R.strings.LABEL_CREATE_NUMBER}</Text>
               <Text style={styles.titleText}>{getFormattedNumber(phoneNumber)}</Text>
             </View>
             <View style={styles.bodyContainer}>
               <Text style={styles.bodyText}>{`Congratulations! 🎉🎉🎉`}</Text>
-              <Text style={styles.bodyText}>{`You are about to share a phone number designed to break down silos.`}</Text>
+              <Text style={styles.bodyText}>{`You are about to activate a service designed to break down silos.`}</Text>
               <Text style={styles.bodyText}>{`Side effects may include feelings of 😍🥰😀`}</Text>
               <Text style={styles.bodyText}>{`By signing up for a free trial, you agree to Bubblepop's `}
                 <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>

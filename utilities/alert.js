@@ -60,8 +60,8 @@ export const showVerifyEmailAddressAlert = ({ token }) => {
 export const showConfirmPurchaseAlert = ({ phoneNumber }, purchase, cancel = () => {}) => {
   const formattedNumber = getFormattedNumber(phoneNumber);
   Alert.alert(
-    `Reserve ${formattedNumber}?`,
-    `Do you want to use ${formattedNumber} as your phone number?`,
+    `${R.strings.LABEL_CREATE_NUMBER } ${formattedNumber}?`,
+    `Do you wish to use ${formattedNumber} as your phone number?`,
     [
       {
         text: R.strings.CONFIRM_PURCHASE_NEGATIVE ,
@@ -71,44 +71,6 @@ export const showConfirmPurchaseAlert = ({ phoneNumber }, purchase, cancel = () 
       {
         text: R.strings.CONFIRM_PURCHASE_AFFIRMATIVE,
         onPress: () => purchase({ phoneNumber }),
-      },
-    ],
-    { cancelable: false }
-  );
-}
-
-export const showConfirmJoinAlert = ({ owners, phoneNumber }, purchase, cancel) => {
-  const formattedNumber = getFormattedNumber(phoneNumber);
-  let nameText = '';
-  let length = owners.length;
-  if (owners && length > 0) {
-    if (length === 1) {
-      nameText = owners[0].name;
-    } else if (length === 2) {
-      nameText = `${owners.map(({ name }) => name).join(' and ')}`;
-    } else {
-      const maxLength = 3;
-      if (length > maxLength) {
-        owners.splice(maxLength, length - maxLength);
-        owners.push({ name: 'others' });
-      }
-      const last = owners.pop();
-      nameText = `${owners.map(({ name }) => name).join(', ')}, and ${last.name}`;
-    }
-  }
-
-  Alert.alert(
-    `Join ${formattedNumber}?`,
-    `Do you want to join ${nameText} on a phone number?`,
-    [
-      {
-        text: R.strings.CONFIRM_PURCHASE_NEGATIVE ,
-        style: 'cancel',
-        onPress: () => cancel(),
-      },
-      {
-        text: R.strings.CONFIRM_PURCHASE_AFFIRMATIVE,
-        onPress: () => purchase({ }),
       },
     ],
     { cancelable: false }

@@ -14,6 +14,7 @@ import SearchBar from './SearchBar';
 import Empty from './Empty';
 import SubscriptionModal from '../SubscriptionModal';
 import Loading from './Loading';
+import LoadingNumbers from './LoadingNumbers';
 import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
 import { storeAndSetActiveUser} from '../../actions';
@@ -177,23 +178,33 @@ class AvailableNumberList extends Component {
     if (isPurchasing) {
       return <Loading/>;
     }
+
     return (
       <View style={styles.root}>
         <View style={styles.container}>
           <SearchBar onSearch={this.onSearch}/>
-          <FlatList
-            data={phoneNumbers}
-            keyExtractor={(item) => item.phoneNumber}
-            renderItem={this.renderItem}
-            refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN}
-              progressBackgroundColor={R.colors.BACKGROUND_DARK}  colors={[R.colors.TEXT_MAIN]}
-              refreshing={isFetching} onRefresh={() => this.fetch(query)} />)}
-            ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
-            ListFooterComponent={() => {
-              return (<View></View>)
+          {(() => {
+            if (isFetching && phoneNumbers.length < 1) {
+              return (<LoadingNumbers/>);
+            } else {
+              return (
+                <FlatList
+                  data={phoneNumbers}
+                  keyExtractor={(item) => item.phoneNumber}
+                  renderItem={this.renderItem}
+                  refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN}
+                    progressBackgroundColor={R.colors.BACKGROUND_DARK}  colors={[R.colors.TEXT_MAIN]}
+                    refreshing={isFetching} onRefresh={() => this.fetch(query)} />)}
+                  ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
+                  ListFooterComponent={() => {
+                    return (<View></View>)
+                    }
+                  }
+                />
+              );
             }
+          })()
           }
-          />
         </View>
         <SubscriptionModal phoneNumber={phoneNumber} isVisible={isSubscriptionModalVisible} onAccept={this.onAccept} handleClose={() => this.setState({ isSubscriptionModalVisible: false })}/>
       </View>

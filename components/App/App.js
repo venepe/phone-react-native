@@ -75,7 +75,7 @@ function LandingStackScreen() {
         name='AvailableNumberList'
         component={AvailableNumberList}
         options={() => ({
-          title: R.strings.TITLE_AVAILABLE_NUMBER,
+          title: R.strings.TITLE_CREATE_NUMBER,
         })}
       />
       <LandingStack.Screen
@@ -265,6 +265,7 @@ function ChatDetailStackScreen() {
         component={ChatDetail}
         options={({ route, navigation }) => ({
           title: route.params.title,
+          headerBackTitle: R.strings.LABEL_BACK,
           headerRight: () => (<CreateCallButton navigation={navigation} targetNumber={route.params.targetNumber}/>),
         })}
       />

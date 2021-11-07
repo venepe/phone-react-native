@@ -112,11 +112,11 @@ class Landing extends Component {
           <Text style={styles.primaryText}>{R.strings.APP_NAME}</Text>
         </View>
         <View style={styles.actionContainer}>
+          <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onCreateLine}>
+            <Text style={styles.loginText}>{R.strings.TITLE_CREATE_ACCOUNT}</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={[styles.loginButtonContainer, { marginTop: MARGIN_WIDTH }]} onPress={this.onJoinLine}>
             <Text style={styles.loginText}>{R.strings.LABEL_JOIN_LINE}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onCreateLine}>
-            <Text style={styles.loginText}>{R.strings.LABEL_CREATE_LINE}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.loginButtonContainer} onPress={this.onLogin}>
             <Text style={styles.loginText}>{R.strings.LABEL_HAVE_LINE}</Text>

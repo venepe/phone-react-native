@@ -4,9 +4,10 @@ import TwilioVoice from 'react-native-twilio-programmable-voice';
 import Keys from '../constants/Keys';
 import AppTypes from '../constants/AppTypes';
 import CallTypes from '../constants/CallTypes';
+import OwnerTypes from '../constants/OwnerTypes';
 import UserTypes from '../constants/UserTypes';
 import { getStore } from '../store';
-import { getActivationToken, getCalls, getMessages } from '../fetches';
+import { getActivationToken, getCalls, getMessages, getOwners } from '../fetches';
 import analytics from '../analytics';
 import { refreshToken } from '../utilities/auth';
 import { showActiveCallMessage, hideMessage } from '../utilities/flash-message';
@@ -15,6 +16,14 @@ import { closeSocket } from '../utilities/socket';
 import { registerTwilioVoiceEvents, checkActiveOrIncomingCalls } from '../utilities/twilio-voice';
 import { FACEBOOK_APP_ID } from '../config';
 import R from '../resources';
+
+export const requestOwners = () =>
+  async (dispatch, getState) => {
+    const { token, accountId } = getState().default;
+    const data = await getOwners({ token, accountId }) || {};
+    let { owners } = data;
+    dispatch(setOwners({ payload: { owners } }));
+  }
 
 export const requestMessages = () =>
   async (dispatch, getState) => {
@@ -204,6 +213,11 @@ export const setAccountId = payload => ({
 
 export const setIsActive = payload => ({
   type: UserTypes.SET_IS_ACTIVE,
+  ...payload,
+});
+
+export const setOwners = payload => ({
+  type: OwnerTypes.SET_OWNERS,
   ...payload,
 });
 

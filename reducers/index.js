@@ -1,5 +1,6 @@
 import AppTypes from '../constants/AppTypes';
 import CallTypes from '../constants/CallTypes';
+import OwnerTypes from '../constants/OwnerTypes';
 import UserTypes from '../constants/UserTypes';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   isAccountCallInProgress: false,
   callState: '',
   isCallInProgress: false,
+  owners: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -127,6 +129,14 @@ const reducer = (state = initialState, action) => {
         isCallInProgress,
       };
     }
+    case OwnerTypes.SET_OWNERS:
+    {
+      const { owners } = action.payload;
+      return {
+        ...state,
+        owners,
+      };
+    }
     case AppTypes.SET_IS_INITIALIZED:
     {
       const { isInitialized } = action.payload;
@@ -150,6 +160,7 @@ export const getActivePhoneNumber = state => state.default.activePhoneNumber;
 export const getCallState = state => state.default.callState;
 export const getIsAccountCallActive = state => state.default.isAccountCallInProgress;
 export const getIsCallInProgress = state => state.default.isCallInProgress;
+export const getOwners = state => state.default.owners;
 export const getActivationToken = state => state.default.activationToken;
 export const getIsInitialized = state => state.default.isInitialized;
 export const getIsActiveUser = state => (state.default.isActive && state.default.token && state.default.phoneNumber && state.default.accountId && state.default.token.length > 0 && state.default.phoneNumber.length > 0 && state.default.accountId.length > 0) ? true : false;

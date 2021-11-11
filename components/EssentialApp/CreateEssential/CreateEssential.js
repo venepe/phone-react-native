@@ -104,12 +104,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '500',
     backgroundColor: R.colors.TEXT_BACKGROUND_LIGHT,
-    borderRadius: 5,
+    marginTop: 20,
   },
   bottomContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
+    marginTop: 20,
   },
   userNameButtonContainer: {
     flex: 1,

@@ -17,6 +17,8 @@ import { checkActiveOrIncomingCalls } from '../../utilities/twilio-voice';
 import Blank from '../Blank';
 import Home from '../Home';
 import Account from '../Account';
+import Blog from '../Blog';
+import Horoscope from '../Horoscope';
 import CallList from '../CallList';
 import ChatList from '../ChatList';
 import ChatDetail from '../ChatDetail';
@@ -31,6 +33,7 @@ import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
 import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
+import UpdateBirthdate from '../UpdateBirthdate';
 import UpdateName from '../UpdateName';
 import TodoList from '../TodoApp/TodoList';
 import CreateTodo from '../TodoApp/CreateTodo';
@@ -209,8 +212,29 @@ function AccountStackScreen() {
         })}
       />
       <AccountStack.Screen
+        name='Blog'
+        component={Blog}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_BLOG,
+        })}
+      />
+      <AccountStack.Screen
+        name='Horoscope'
+        component={Horoscope}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_HOROSCOPE,
+        })}
+      />
+      <AccountStack.Screen
         name='Me'
         component={UpdateName}
+        options={({ route, navigation }) => ({
+          title: R.strings.TITLE_ME,
+        })}
+      />
+      <AccountStack.Screen
+        name='Birthdate'
+        component={UpdateBirthdate}
         options={({ route, navigation }) => ({
           title: R.strings.TITLE_ME,
         })}

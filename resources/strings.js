@@ -18,6 +18,8 @@ export default {
   TITLE_SHARE_CODE: 'Complete Enrollment',
   TITLE_MANAGE: 'Manage',
   TITLE_INVITE: 'Invite',
+  TITLE_BLOG: 'Blog',
+  TITLE_HOROSCOPE: 'Horoscope',
   TITLE_TODO_LIST: 'Tasks',
   TITLE_CREATE_TODO: 'Add Task',
   TITLE_ESSENTIAL_LIST: 'Shopping',

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Alert,
-  FlatList,
+  SectionList,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { List } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { getFormattedNumber } from '../../utilities/phone';
@@ -17,27 +17,63 @@ import { clearSession } from '../../utilities/auth';
 import { getPhoneNumber } from '../../reducers';
 import R from '../../resources';
 
-const LIST = [
+const ADVICE_LIST = [
+  {
+    title: R.strings.TITLE_BLOG,
+    icon: 'newspaper',
+    iconSet: 'MaterialCommunityIcons',
+  },
+  {
+    title: R.strings.TITLE_HOROSCOPE,
+    icon: 'zodiac-aquarius',
+    iconSet: 'MaterialCommunityIcons',
+  },
+];
+
+const ACCOUNT_LIST = [
   {
     title: R.strings.TITLE_ME,
     icon: 'person',
+    iconSet: 'MaterialIcons',
   },
   {
     title: R.strings.TITLE_MEMBERS,
     icon: 'people',
+    iconSet: 'MaterialIcons',
   },
+];
+
+const MANAGE_LIST = [
   {
     title: R.strings.TITLE_INVITE,
     icon: 'share',
+    iconSet: 'MaterialIcons',
   },
   {
     title: R.strings.TITLE_MANAGE,
     icon: 'settings',
+    iconSet: 'MaterialIcons',
   },
   {
     title: R.strings.TITLE_LOGOUT,
     icon: 'cancel',
+    iconSet: 'MaterialIcons',
   },
+];
+
+const SECTION_LIST = [
+  {
+    title: 'Advice',
+    data: ADVICE_LIST,
+  },
+  {
+    title: 'People',
+    data: ACCOUNT_LIST,
+  },
+  {
+    title: 'Settings',
+    data: MANAGE_LIST,
+  }
 ];
 
 class Account extends Component {
@@ -45,6 +81,7 @@ class Account extends Component {
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);
+    this.renderSectionHeader = this.renderSectionHeader.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.state = {
       phoneNumber: props.phoneNumber,
@@ -64,6 +101,12 @@ class Account extends Component {
     const { navigation } = this.props;
     const { title } = item;
     switch (title) {
+      case R.strings.TITLE_BLOG:
+        navigation.navigate('Blog')
+        break;
+      case R.strings.TITLE_HOROSCOPE:
+        navigation.navigate('Horoscope')
+        break;
       case R.strings.TITLE_ME:
         navigation.navigate('Me')
         break;
@@ -83,20 +126,33 @@ class Account extends Component {
     }
   }
 
+  renderIcon({ icon, iconSet }) {
+    if (iconSet === 'MaterialCommunityIcons') {
+      return (<MaterialCommunityIcons name={icon} color={R.colors.TEXT_MAIN} size={28} />);
+    } else {
+      return (<MaterialIcons name={icon} color={R.colors.TEXT_MAIN} size={28} />);
+    }
+  }
+
   renderItem({ item }) {
-    const { title, icon } = item;
+    const { title, icon, iconSet } = item;
     return (
       <TouchableOpacity
         style={styles.rowContainer}
         onPress={() => this.onPressRow(item)}>
-        <MaterialIcons name={icon} color={R.colors.TEXT_MAIN} size={28} />
+        {this.renderIcon({ icon, iconSet })}
         <Text style={styles.rowText}>{title}</Text>
       </TouchableOpacity>
     )
   }
 
+  renderSectionHeader({ section: { title } }) {
+    return (
+      <Text style={styles.sectionText}>{title}</Text>
+    )
+  }
+
   render() {
-    const list = LIST;
     const { navigation } = this.props;
     const { phoneNumber } = this.state;
       return (
@@ -107,10 +163,11 @@ class Account extends Component {
             onPress={() => navigation.navigate('Home')}>
             <Text style={styles.title}>{getFormattedNumber(phoneNumber)}</Text>
           </TouchableOpacity>
-          <FlatList
-            data={list}
+          <SectionList
+            sections={SECTION_LIST}
             keyExtractor={(item) => item.title}
             renderItem={this.renderItem}
+            renderSectionHeader={this.renderSectionHeader}
           />
         </View>
       );
@@ -125,6 +182,7 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     justifyContent: 'flex-end',
+    marginBottom: 5,
   },
   rowContainer: {
     flexDirection: 'row',
@@ -146,6 +204,15 @@ const styles = StyleSheet.create({
   rowText: {
     fontSize: 16,
     marginLeft: 20,
+    fontWeight: 'bold',
+    color: R.colors.TEXT_MAIN,
+  },
+  sectionText: {
+    flex: 1,
+    height: 20,
+    fontSize: 16,
+    marginLeft: 20,
+    marginTop: 10,
     fontWeight: 'bold',
     color: R.colors.TEXT_MAIN,
   },

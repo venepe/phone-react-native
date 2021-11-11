@@ -11,8 +11,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import MemberItem from './MemberItem';
 import Empty from './Empty';
-import { getOwners } from '../../fetches';
-import { getToken, getAccountId } from '../../reducers';
+import { requestOwners } from '../../actions';
+import { getOwners } from '../../reducers';
 import R from '../../resources';
 
 class MemberList extends Component {
@@ -22,58 +22,38 @@ class MemberList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.fetch = this.fetch.bind(this);
-    this.stopFetching = this.stopFetching.bind(this);
     this.state = {
       isFetching: false,
-      token: props.token,
-      accountId: props.accountId,
-      owners: [],
+      owners: props.owners,
     };
   }
 
   async fetch() {
-    try {
-      const { token, accountId } = this.state;
-      const data = await getOwners({ token, accountId });
-      let { owners } = data;
-      this.setState({
-        owners,
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    this.props.requestOwners();
   }
 
   componentDidMount() {
+    if (this.state.owners.length > 0) {
+      this.setState({ isFetching: true });
+    }
     this.fetch();
   }
 
   componentDidUpdate(prevProps) {
     const props = this.props;
-    if (props.token !== prevProps.token) {
+    if (props.owners !== prevProps.owners) {
       this.setState({
-        token: props.token,
-      });
-    }
-    if (props.accountId !== prevProps.accountId) {
-      this.setState({
-        accountId: props.accountId,
+        owners: props.owners,
+        isFetching: false,
       });
     }
   }
 
-  async onRefresh() {
+  onRefresh() {
     this.setState({
       isFetching: true,
     });
-    await this.fetch();;
-    this.stopFetching();
-  }
-
-  stopFetching() {
-    if (this.state.isFetching) {
-      this.setState({ isFetching: false });
-    }
+    this.fetch();
   }
 
   renderItem({ item }) {
@@ -119,11 +99,10 @@ MemberList.defaultProps = {};
 MemberList.propTypes = {}
 
 const mapStateToProps = state => ({
-  token: getToken(state),
-  accountId: getAccountId(state),
+  owners: getOwners(state),
 });
 
 export default connect(
   mapStateToProps,
-  { },
+  { requestOwners },
 )(MemberList);

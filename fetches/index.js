@@ -384,3 +384,15 @@ export const postUserLogout = ({ token }) => {
     },
   })
 };
+
+export const getHoroscopes = ({ token, userId }) => {
+  return fetch(`${API_URL}/horoscopes/${userId}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(handleResponse)
+};

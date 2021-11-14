@@ -1,5 +1,5 @@
 
-export const API_URL = 'http://localhost:8002';
+export const API_URL = 'https://bd86-68-115-20-253.ngrok.io';
 export const SOCKET_URL = API_URL;
 export const HOME_PAGE = 'https://anumberforus.com';
 export const BLOG_PAGE = 'https://blog.anumberforus.com';

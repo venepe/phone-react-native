@@ -22,16 +22,27 @@ class UpdateBirthdate extends Component {
   constructor(props) {
     super(props);
     this.fetch = this.fetch.bind(this);
+    this.onPress = this.onPress.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onUpdateBirthdate = this.onUpdateBirthdate.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
+    this.shouldShowDatePicker = this.shouldShowDatePicker.bind(this);
     const birthdate = getBirthdate();
     this.state = {
       isLoading: false,
       isValid: is18YearsOld(birthdate),
       token: props.token,
       birthdate: getBirthdate(),
+      showDatePicker: false,
     };
+  }
+
+  shouldShowDatePicker() {
+    if (Platform.OS === 'ios') {
+      return true;
+    } else {
+      return this.state.showDatePicker;
+    }
   }
 
   async fetch() {
@@ -65,10 +76,18 @@ class UpdateBirthdate extends Component {
     }
   }
 
+  onPress() {
+    this.setState({ showDatePicker: true });
+  }
+
   onChange(event, date) {
-    const isValid = is18YearsOld(date);
-    const birthdate = getBirthdate(date);
-    this.setState({ birthdate, isValid });
+    if (event.type === 'dismissed') {
+      this.setState({ showDatePicker: false });
+    } else {
+      const isValid = is18YearsOld(date);
+      const birthdate = getBirthdate(date);
+      this.setState({ birthdate, isValid, showDatePicker: false });
+    }
   }
 
   onUpdateBirthdate() {
@@ -115,17 +134,21 @@ class UpdateBirthdate extends Component {
           <Text
             style={[styles.textInput, {margin: 5}]}
             placeholder={R.strings.HINT_BIRTHDATE}
+            onPress={this.onPress}
           >
             {birthdateText}
           </Text>
-          <DateTimePicker
-            style={[styles.textInput, {margin: 5}]}
-            value={birthdate}
-            maximumDate={new Date()}
-            mode={'date'}
-            onChange={this.onChange}
-            display={display}
-          />
+          {
+            this.shouldShowDatePicker() && (
+              <DateTimePicker
+                style={[styles.textInput, {margin: 5}]}
+                value={birthdate}
+                maximumDate={new Date()}
+                mode={'date'}
+                onChange={this.onChange}
+                display={display}
+              />
+          )}
           <View style={styles.bottomContainer} >
             {(() => {
               const backgroundColor = isValid ? R.colors.BACKGROUND_MAIN : R.colors.TEXT_BACKGROUND_LIGHT;

@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import {
   FlatList,
   RefreshControl,
+  SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import RNIap, { initConnection, requestSubscription, purchaseUpdatedListener, purchaseErrorListener, getSubscriptions } from 'react-native-iap';
-import AvailableNumberItem from './AvailableNumberItem';
+import { RadioButton } from 'react-native-paper';
 import SearchBar from './SearchBar';
 import Empty from './Empty';
 import SubscriptionModal from '../SubscriptionModal';
@@ -18,28 +19,29 @@ import LoadingNumbers from './LoadingNumbers';
 import { getAvailableNumbers, postAccounts } from '../../fetches';
 import { requestLocation } from '../../utilities/location';
 import { storeAndSetActiveUser} from '../../actions';
-import { showConfirmPurchaseAlert, showVerifyEmailAddressAlert } from '../../utilities/alert';
-import { showPurchaseFailed } from '../../utilities/alert';
-import { login } from '../../utilities/auth';
+import { getToken } from '../../reducers';
+import { showConfirmPurchaseAlert, showPurchaseFailed, showVerifyEmailAddressAlert } from '../../utilities/alert';
+import { getFormattedNumber } from '../../utilities/phone';
 import analytics, { EVENTS } from '../../analytics';
 import R from '../../resources';
+const START_TIMER = 58;
 
 class AvailableNumberList extends Component {
 
   constructor(props) {
     super(props);
-    this.renderItem = this.renderItem.bind(this);
+    this.setPhoneNumber = this.setPhoneNumber.bind(this);
     this.startFetching = this.startFetching.bind(this);
     this.stopFetching = this.stopFetching.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
     this.fetch = this.fetch.bind(this);
     this.onSearch = this.onSearch.bind(this);
-    this.onPress = this.onPress.bind(this);
     this.onAccept = this.onAccept.bind(this);
-    this.purchase = this.purchase.bind(this);
     this.state = {
       isFetching: false,
       location: props.location,
-      token: '',
+      token: props.token,
       location: {
         latitude: null,
         longitude: null,
@@ -53,42 +55,12 @@ class AvailableNumberList extends Component {
   }
 
   async componentDidMount() {
-    await initConnection();
-    await RNIap.flushFailedPurchasesCachedAsPendingAndroid;
-    this.purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
-      const { phoneNumber, token } = this.state;
-      const { productId, transactionId, transactionReceipt } = purchase;
-      if (transactionReceipt && phoneNumber.length > 0) {
-        const platform = Platform.OS;
-        const data = await postAccounts({ token, phoneNumber, receipt: { productId, transactionId, transactionReceipt, platform } });
-        let { account } = data;
-        if (account) {
-          await RNIap.finishTransaction(purchase, false);
-          const { phoneNumber, isActive, id: accountId } = account;
-          this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
-        } else {
-          this.setState({
-            errorMessage: 'Failed up load. Try again.',
-          });
-        }
-      } else {
-        this.setState({
-          errorMessage: 'Failed up load. Try again.',
-        });
-      }
-    });
-    this.purchaseErrorSubscription = purchaseErrorListener(async (error) => {
-      console.log('purchaseErrorListener', error);
-      console.log(error);
-      showPurchaseFailed(error.message);
-    });
     this.fetch();
     analytics.track(EVENTS.VIEWED_AVAILABLE_NUMBERS);
   }
 
-  componentWillUnmount() {
-    this.purchaseUpdateSubscription.remove();
-    this.purchaseErrorSubscription.remove();
+  setPhoneNumber(phoneNumber) {
+    this.setState({ phoneNumber });
   }
 
   comparePhoneNumbers(a, b) {
@@ -113,16 +85,25 @@ class AvailableNumberList extends Component {
 
   async fetch() {
     this.startFetching();
+    if (this.intervalId) {
+      this.stopTimer();
+    }
     const { query } = this.state;
     try {
       const { latitude, longitude } = await requestLocation();
       const data = await getAvailableNumbers({ latitude, longitude, query });
       let { phoneNumbers } = data;
       phoneNumbers = phoneNumbers.sort(this.comparePhoneNumbers);
+      let phoneNumber = '';
+      if (phoneNumbers.length > 0) {
+        phoneNumber = phoneNumbers[0];
+      }
       this.setState({
         location: { latitude, longitude },
+        phoneNumber,
         phoneNumbers,
       });
+      this.startTimer();
     } catch (e) {
       console.log(e);
     }
@@ -137,50 +118,76 @@ class AvailableNumberList extends Component {
     this.setState({ isFetching: false });
   }
 
-  async onAccept(subscription) {
+  async onAccept() {
     try {
-      const subscriptions = await getSubscriptions([subscription]);
-      console.log(subscriptions);
-      requestSubscription(subscription);
+      const { phoneNumber: phoneNumberItem, token } = this.state;
+      const phoneNumber = phoneNumberItem.phoneNumber;
+      console.log(phoneNumber);
+      if (phoneNumber.length > 0) {
+        const platform = Platform.OS;
+        const data = await postAccounts({ token, phoneNumber });
+        console.log(data);
+        let { account } = data;
+        if (account) {
+          console.log(account);
+          const { phoneNumber, isActive, id: accountId } = account;
+          this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+        } else {
+          this.setState({
+            errorMessage: 'Failed up load. Try again.',
+          });
+        }
+      } else {
+        this.setState({
+          errorMessage: 'Failed up load. Try again.',
+        });
+      }
     } catch (e) {
       showPurchaseFailed(e.message);
       console.log(e);
     }
   }
 
-  async purchase({ phoneNumber }) {
-    const { isPurchasing } = this.state;
-    if (!isPurchasing) {
-      this.setState({ phoneNumber, isPurchasing: true });
-      try {
-        const { accessToken: token } = await login();
-        this.setState({ token, isSubscriptionModalVisible: true });
-      } catch (e) {
-        console.log(e);
-      }
-      this.setState({ isPurchasing: false });
+  startTimer() {
+    this.setState({ timer: START_TIMER });
+    this.intervalId = setInterval(() => {
+      let { timer } = this.state;
+      this.setState({ timer: timer - 1 });
+    }, 1000);
+  }
+
+  stopTimer() {
+    console.log('stopTimer');
+    console.log(this.intervalId);
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = undefined;
     }
   }
 
-  onPress({ phoneNumber }) {
-    showConfirmPurchaseAlert({ phoneNumber }, ({ phoneNumber }) => this.purchase({ phoneNumber }));
+  componentDidUpdate() {
+    if (this.state.timer === 0 && this.intervalId) {
+      console.log('refresh');
+      this.fetch();
+    }
   }
 
-  renderItem({ item }) {
-    return (
-      <AvailableNumberItem availableNumberItem={item} onPress={this.onPress}/>
-    )
+  componentWillUnmount() {
+    if (this.intervalId) {
+      this.stopTimer();
+    }
   }
 
   render() {
-    const { isFetching, location = {}, phoneNumbers, phoneNumber, query, isPurchasing, isSubscriptionModalVisible } = this.state;
+    const { isFetching, timer, location = {}, phoneNumbers, phoneNumber, query, isPurchasing, isSubscriptionModalVisible } = this.state;
     const { latitude, longitude } = location;
+    const refreshPhoneNumberTextColor = timer < 11 ? R.colors.TEXT_ERROR : R.colors.TEXT_MAIN;
     if (isPurchasing) {
       return <Loading/>;
     }
 
     return (
-      <View style={styles.root}>
+      <SafeAreaView style={styles.root}>
         <View style={styles.container}>
           <SearchBar onSearch={this.onSearch}/>
           {(() => {
@@ -188,26 +195,46 @@ class AvailableNumberList extends Component {
               return (<LoadingNumbers/>);
             } else {
               return (
-                <FlatList
-                  data={phoneNumbers}
-                  keyExtractor={(item) => item.phoneNumber}
-                  renderItem={this.renderItem}
-                  refreshControl={(<RefreshControl tintColor={R.colors.TEXT_MAIN}
-                    progressBackgroundColor={R.colors.BACKGROUND_DARK}  colors={[R.colors.TEXT_MAIN]}
-                    refreshing={isFetching} onRefresh={() => this.fetch(query)} />)}
-                  ListEmptyComponent={(<Empty navigation={this.props.navigation}/>)}
-                  ListFooterComponent={() => {
-                    return (<View></View>)
+                <View style={styles.container}>
+                  <Text style={[styles.refreshPhoneNumberText, { color: refreshPhoneNumberTextColor }]}>{`Numbers will refresh in ${timer} seconds`}</Text>
+                  <RadioButton.Group onValueChange={newValue => this.setPhoneNumber(newValue)} value={phoneNumber}>
+                    {
+                      phoneNumbers.map(phoneNumber => {
+                        return (
+                          <View>
+                            <RadioButton.Item
+                              label={getFormattedNumber(phoneNumber.phoneNumber)}
+                              value={phoneNumber}
+                              labelStyle={styles.labelStyle}
+                            />
+                          </View>
+                        )
+                      })
                     }
-                  }
-                />
+                    </RadioButton.Group>
+                    <View style={styles.bodyContainer}>
+                      <View style={{ flex: 1, alignItems: 'flex-end' }}></View>
+                      <TouchableOpacity style={styles.subscribeButtonContainer} onPress={() => this.onAccept()}>
+                        <Text style={styles.btnPrimaryText}>{R.strings.LABEL_CONTINUE}</Text>
+                      </TouchableOpacity>
+                          <Text style={styles.bodyText}>{`By clicking ${R.strings.LABEL_CONTINUE}, you agree to Bubblepop's `}
+                        <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/terms-of-service`)}>
+                          {`Terms of Service `}
+                        </Text>
+                        <Text style={styles.bodyText}>{`and `}</Text>
+                        <Text style={styles.linkText} onPress={() => Linking.openURL(`${HOME_PAGE}/privacy`)}>
+                          Privacy Policy
+                        </Text>
+                        <Text style={styles.bodyText}>.</Text>
+                      </Text>
+                    </View>
+                  </View>
               );
             }
           })()
           }
         </View>
-        <SubscriptionModal phoneNumber={phoneNumber} isVisible={isSubscriptionModalVisible} onAccept={this.onAccept} handleClose={() => this.setState({ isSubscriptionModalVisible: false })}/>
-      </View>
+      </SafeAreaView>
     )
   }
 }
@@ -215,13 +242,53 @@ class AvailableNumberList extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: R.colors.BACKGROUND_MAIN,
+    backgroundColor: R.colors.BACKGROUND_DARK,
   },
   container: {
     flex: 1,
   },
+  labelStyle: {
+    color: R.colors.TEXT_MAIN,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  refreshPhoneNumberText: {
+    marginTop: 5,
+    color: R.colors.TEXT_MAIN,
+    alignSelf: 'center',
+    fontSize: 16,
+  },
   moreContainer: {
     alignItems: 'center',
+  },
+  bodyContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    padding: 10,
+    marginTop: 2,
+  },
+  bodyText: {
+    color: `${R.colors.TEXT_MAIN}`,
+    fontSize: 18,
+    flexWrap:'wrap',
+    padding: 5,
+  },
+  linkText: {
+    color: `${R.colors.LOGO}`,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  btnPrimaryText: {
+    color: `${R.colors.TEXT_MAIN}`,
+    fontSize: 18,
+    fontWeight: 'bold',
+    flexWrap:'wrap',
+  },
+  subscribeButtonContainer: {
+    alignItems: 'center',
+    marginTop: 5,
+    padding: 20,
+    backgroundColor: R.colors.BACKGROUND_MAIN,
   },
 });
 

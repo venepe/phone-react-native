@@ -83,6 +83,7 @@ export default {
   LABEL_ACTIVITY_SHARE_TITLE: `Will you join me on ${APP_NAME}?`,
   LABEL_SKIP: 'Skip',
   LABEL_NEXT: 'Next',
+  LABEL_CONTINUE: 'Continue',
   HINT_NAME: 'Full Name',
   HINT_BIRTHDATE: 'Birthdate',
   HINT_TODO_NAME: 'Name',

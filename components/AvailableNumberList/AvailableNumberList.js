@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  FlatList,
-  RefreshControl,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -13,7 +11,6 @@ import { connect } from 'react-redux';
 import { RadioButton } from 'react-native-paper';
 import SearchBar from './SearchBar';
 import Empty from './Empty';
-import SubscriptionModal from '../SubscriptionModal';
 import Loading from './Loading';
 import LoadingNumbers from './LoadingNumbers';
 import { getAvailableNumbers, postAccounts } from '../../fetches';
@@ -50,7 +47,6 @@ class AvailableNumberList extends Component {
       phoneNumbers: [],
       query: '',
       isPurchasing: false,
-      isSubscriptionModalVisible: false,
     };
   }
 
@@ -120,11 +116,11 @@ class AvailableNumberList extends Component {
 
   async onAccept() {
     try {
-      this.setState({ isFetching: true });
+      this.setState({ isPurchasing: true });
       const { phoneNumber: phoneNumberItem, token } = this.state;
       const phoneNumber = phoneNumberItem.phoneNumber;
       if (phoneNumber.length > 0) {
-        const data = await postAccounts({ token, phoneNumber });
+        const data = await postAccounts({ token, phoneNumber }) || {};
         let { account } = data;
         if (account) {
           const { phoneNumber, isActive, id: accountId } = account;
@@ -135,21 +131,20 @@ class AvailableNumberList extends Component {
           });
         } else {
           this.setState({
-            isFetching: false,
+            isPurchasing: false,
             errorMessage: 'Failed up load. Try again.',
           });
         }
       } else {
         this.setState({
-          isFetching: false,
+          isPurchasing: false,
           errorMessage: 'Failed up load. Try again.',
         });
       }
     } catch (e) {
       console.log(e);
-      showPurchaseFailed(e.message);
       this.setState({
-        isFetching: false,
+        isPurchasing: false,
         errorMessage: 'Failed up load. Try again.',
       });
       console.log(e);
@@ -184,7 +179,7 @@ class AvailableNumberList extends Component {
   }
 
   render() {
-    const { isFetching, timer, location = {}, phoneNumbers, phoneNumber, query, isPurchasing, isSubscriptionModalVisible } = this.state;
+    const { isFetching, timer, location = {}, phoneNumbers, phoneNumber, query, isPurchasing } = this.state;
     const { latitude, longitude } = location;
     const refreshPhoneNumberTextColor = timer < 11 ? R.colors.TEXT_ERROR : R.colors.TEXT_MAIN;
     if (isPurchasing) {

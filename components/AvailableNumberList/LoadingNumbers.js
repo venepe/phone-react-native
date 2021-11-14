@@ -13,31 +13,14 @@ class LoadingNumbers extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      text: R.strings.LABEL_LOADING_NUMBERS,
-    }
-  }
-
-  componentDidMount() {
-    const intervalId = setInterval(() => {
-      let { text } = this.state;
-      text = `${text}.`;
-      this.setState({ text });
-    }, WAITING);
-    this.setState({ intervalId });
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.intervalId);
   }
 
   render() {
-    const { text } = this.state;
     return (
       <View style={styles.root}>
         <View style={styles.localContainer}>
           <ActivityIndicator style={styles.spinner} size='large' color={R.colors.TEXT_MAIN} />
-          <Text style={styles.primaryText}>{text}</Text>
+          <Text style={styles.primaryText}>{R.strings.LABEL_LOADING_NUMBERS}</Text>
         </View>
       </View>
     );

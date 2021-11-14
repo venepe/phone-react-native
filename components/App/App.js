@@ -137,6 +137,7 @@ function CreateAccountStackScreen() {
         component={ShareCode}
         options={() => ({
           title: R.strings.TITLE_SHARE_CODE,
+          headerLeft: () => null,
         })}
       />
     </CreateAccountStack.Navigator>

@@ -29,7 +29,7 @@ class JoinCode extends Component {
     this.join = this.join.bind(this);
     this.exitSetup = this.exitSetup.bind(this);
     this.state = {
-      accountId: '',
+      accountId,
       isLoading: false,
       isJoinModalVisible: false,
       owners: [],

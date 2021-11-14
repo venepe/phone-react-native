@@ -130,6 +130,13 @@ function CreateAccountStackScreen() {
           title: R.strings.TITLE_CREATE_NUMBER,
         })}
       />
+      <CreateAccountStack.Screen
+        name='ShareCode'
+        component={ShareCode}
+        options={() => ({
+          title: R.strings.TITLE_SHARE_CODE,
+        })}
+      />
     </CreateAccountStack.Navigator>
   );
 };

@@ -120,11 +120,12 @@ class AvailableNumberList extends Component {
 
   async onAccept() {
     try {
+      this.setState({ isFetching: true });
       const { phoneNumber: phoneNumberItem, token } = this.state;
       const phoneNumber = phoneNumberItem.phoneNumber;
       console.log(phoneNumber);
       if (phoneNumber.length > 0) {
-        const platform = Platform.OS;
+        console.log('phoneNumber');
         const data = await postAccounts({ token, phoneNumber });
         console.log(data);
         let { account } = data;
@@ -132,18 +133,29 @@ class AvailableNumberList extends Component {
           console.log(account);
           const { phoneNumber, isActive, id: accountId } = account;
           this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
+          this.props.navigation.navigate('CreateAccount', {
+            screen: 'ShareCode',
+            params: { },
+          });
         } else {
           this.setState({
+            isFetching: false,
             errorMessage: 'Failed up load. Try again.',
           });
         }
       } else {
         this.setState({
+          isFetching: false,
           errorMessage: 'Failed up load. Try again.',
         });
       }
     } catch (e) {
+      console.log(e);
       showPurchaseFailed(e.message);
+      this.setState({
+        isFetching: false,
+        errorMessage: 'Failed up load. Try again.',
+      });
       console.log(e);
     }
   }
@@ -294,9 +306,11 @@ const styles = StyleSheet.create({
 
 AvailableNumberList.defaultProps = {};
 
-AvailableNumberList.propTypes = {}
+const mapStateToProps = state => ({
+  token: getToken(state),
+});
 
 export default connect(
-  null,
+  mapStateToProps,
   { storeAndSetActiveUser },
 )(AvailableNumberList);

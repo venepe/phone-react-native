@@ -70,7 +70,7 @@ export const getAccounts = ({ token = '' }) => {
   .then(handleResponse)
 };
 
-export const postAccounts = ({ token, phoneNumber, receipt }) => {
+export const postAccounts = ({ token, phoneNumber }) => {
   return fetch(`${API_URL}/accounts`, {
     method: 'POST',
     headers: {
@@ -81,7 +81,6 @@ export const postAccounts = ({ token, phoneNumber, receipt }) => {
     body: JSON.stringify({
       account: {
         phoneNumber,
-        receipt,
       },
     }),
   })

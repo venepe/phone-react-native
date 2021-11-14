@@ -52,7 +52,7 @@ export default {
   LABEL_DELETE: 'Delete',
   LABEL_TASK_COMPLETED: 'Task completed 🎉',
   LABEL_ESSENTIAL_COMPLETED: 'Got it ✅',
-  LABEL_LOADING_NUMBERS: 'Searching numbers',
+  LABEL_LOADING_NUMBERS: 'Getting numbers',
   CONFIRM_PURCHASE_TITLE: 'Continue?',
   CONFIRM_PURCHASE_MESSAGE: 'Do you wish to join?',
   CONFIRM_PURCHASE_AFFIRMATIVE: 'Yes',

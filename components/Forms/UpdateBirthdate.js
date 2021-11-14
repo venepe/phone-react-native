@@ -2,54 +2,51 @@ import React, { Component, Fragment } from 'react';
 import {
   Alert,
   ActivityIndicator,
-  Keyboard,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { connect } from 'react-redux';
+import { getBirthdate, getBirthdateText, is18YearsOld, getBirthdatePayload } from '../../utilities/date';
 import { getToken } from '../../reducers';
 import { getMe, putUser } from '../../fetches';
 import Empty from './Empty';
 import R from '../../resources';
 
-const UpdateBirthdateSchema = Yup.object().shape({
-  birthdate: Yup.string()
-    .min(2, R.strings.WARNING_MIN_LENGTH)
-    .max(128, R.strings.WARNING_MAX_LENGTH)
-    .required(R.strings.WARNING_FIELD_REQUIRED),
-});
-
 class UpdateBirthdate extends Component {
 
   constructor(props) {
     super(props);
+    this.onChange = this.onChange.bind(this);
     this.onUpdateBirthdate = this.onUpdateBirthdate.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
-
+    const birthdate = getBirthdate();
     this.state = {
       isLoading: false,
+      isValid: is18YearsOld(birthdate),
       token: props.token,
-      birthdate: '',
+      birthdate: getBirthdate(),
     };
   }
 
   async fetch() {
+    this.setState({ isLoading: true });
     try {
-      const { token, accountId } = this.state;
+      let { token } = this.state;
       const data = await getMe({ token });
-      console.log(data);
-      let { user: { birthdate } } = data;
-      console.log(birthdate);
+      let birthdate = data.user.birthdate;
+      birthdate = getBirthdate(birthdate);
       this.setState({
         birthdate,
+        isLoading: false,
+        isValid: is18YearsOld(birthdate),
       });
     } catch (e) {
+      this.setState({ isLoading: false });
       console.log(e);
     }
   }
@@ -67,11 +64,17 @@ class UpdateBirthdate extends Component {
     }
   }
 
-  onUpdateBirthdate({ values }) {
-    const { birthdate } = values;
-    const { token } = this.state;
+  onChange(event, date) {
+    const isValid = is18YearsOld(date);
+    const birthdate = getBirthdate(date);
+    this.setState({ birthdate, isValid });
+  }
+
+  onUpdateBirthdate() {
+    const { token, birthdate } = this.state;
+    const birthdatePayload = getBirthdatePayload(birthdate);
     this.setState({ isLoading: true });
-    putUser({ token, birthdate })
+    putUser({ token, birthdate: birthdatePayload })
     .then((response) => {
       const statusCode = response.status;
       const data = response.json();
@@ -79,9 +82,8 @@ class UpdateBirthdate extends Component {
     })
     .then(([res, data]) => {
       if (res === 200) {
-        const { user: { birthdate } } = data;
-        this.setState({ birthdate });
         this.stopLoading();
+        this.props.onUpdateBirthdate();
       } else {
         Alert.alert('Error', 'Please retry',[{ text: 'Okay' }]);
         this.stopLoading();
@@ -100,56 +102,47 @@ class UpdateBirthdate extends Component {
   }
 
   render() {
-    const { isLoading, birthdate } = this.state;
-    if (!birthdate || birthdate.length < 1) {
+    const { isLoading, isValid, birthdate } = this.state;
+    const birthdateText = getBirthdateText(birthdate);
+    const display = Platform.OS === 'ios' ? 'spinner' : 'calendar';
+    if (isLoading) {
       return (<Empty navigation={this.props.navigation}/>);
     }
     return (
       <View style={styles.root}>
-        <Formik
-          initialValues={{ birthdate }}
-          validationSchema={UpdateBirthdateSchema}
-          onSubmit={values => console.log(values)}
+        <View style={styles.formContainer}>
+          <Text
+            style={[styles.textInput, {margin: 5}]}
+            placeholder={R.strings.HINT_BIRTHDATE}
           >
-          {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={styles.formContainer}>
-              <TextInput
-                  style={[styles.textInput, {margin: 5}]}
-                  placeholder={R.strings.HINT_NAME}
-                  onChangeText={handleChange('birthdate')}
-                  onBlur={handleBlur('birthdate')}
-                  value={values.birthdate}
-                  autoFocus={true}
-                  keyboardType={'default'}
-                  returnKeyType={'done'}
-                  maxLength={150}
-                  autoCapitalize={'none'}
-                />
-                {errors.birthdate && touched.birthdate ? (
-                  <Text style={styles.errorText}>{errors.birthdate}</Text>
-                ) : null}
-            <View style={styles.bottomContainer} >
-              {(() => {
-                const backgroundColor = isValid && values.birthdate.length > 0 ? R.colors.BACKGROUND_MAIN : R.colors.TEXT_BACKGROUND_LIGHT;
-                  return (
-                    <TouchableOpacity style={[styles.userTitleButtonContainer, { backgroundColor }]} disabled={!isValid || isLoading} onPress={() => this.onUpdateBirthdate({ values })}>
-                      {
-                        isLoading ? (
-                          <ActivityIndicator style={styles.spinner} size='large' color={R.colors.SPINNER} />
-                        ) : (
-                          <Text style={styles.userTitleText}>{R.strings.LABEL_NEXT}</Text>
-                        )
-                      }
-                    </TouchableOpacity>
-                  )
-                })()
-              }
-            </View>
+            {birthdateText}
+          </Text>
+          <DateTimePicker
+            style={[styles.textInput, {margin: 5}]}
+            value={birthdate}
+            maximumDate={new Date()}
+            mode={'date'}
+            onChange={this.onChange}
+            display={display}
+          />
+          <View style={styles.bottomContainer} >
+            {(() => {
+              const backgroundColor = isValid ? R.colors.BACKGROUND_MAIN : R.colors.TEXT_BACKGROUND_LIGHT;
+                return (
+                  <TouchableOpacity style={[styles.userTitleButtonContainer, { backgroundColor }]} disabled={!isValid || isLoading} onPress={() => this.onUpdateBirthdate()}>
+                    {
+                      isLoading ? (
+                        <ActivityIndicator style={styles.spinner} size='large' color={R.colors.SPINNER} />
+                      ) : (
+                        <Text style={styles.userTitleText}>{R.strings.LABEL_NEXT}</Text>
+                      )
+                    }
+                  </TouchableOpacity>
+                )
+              })()
+            }
           </View>
-          </TouchableWithoutFeedback>
-          )}
-          </Formik>
+        </View>
       </View>
     )
   }
@@ -200,6 +193,10 @@ const styles = StyleSheet.create({
     height: 35,
   },
 });
+
+UpdateBirthdate.defaultProps = {
+  onUpdateBirthdate: () => {},
+};
 
 const mapStateToProps = state => ({
   token: getToken(state),

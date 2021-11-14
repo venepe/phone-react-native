@@ -33,6 +33,8 @@ import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
 import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
+import CreateBirthdate from '../CreateBirthdate';
+import CreateName from '../CreateName';
 import UpdateBirthdate from '../UpdateBirthdate';
 import UpdateName from '../UpdateName';
 import TodoList from '../TodoApp/TodoList';
@@ -46,6 +48,7 @@ import CreateCallButton from '../NavigationElements/CreateCallButton';
 import R from '../../resources';
 
 const LandingStack = createStackNavigator();
+const CreateAccountStack = createStackNavigator();
 const JoinStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const HomeTab = createMaterialTopTabNavigator();
@@ -75,13 +78,6 @@ function LandingStackScreen() {
       }}
     >
       <LandingStack.Screen
-        name='AvailableNumberList'
-        component={AvailableNumberList}
-        options={() => ({
-          title: R.strings.TITLE_CREATE_NUMBER,
-        })}
-      />
-      <LandingStack.Screen
         name='Landing'
         component={Landing}
         options={() => ({
@@ -97,6 +93,44 @@ function LandingStackScreen() {
         })}
       />
     </LandingStack.Navigator>
+  );
+};
+
+function CreateAccountStackScreen() {
+  return (
+    <CreateAccountStack.Navigator initialRouteName='CreateName'
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <CreateAccountStack.Screen
+        name='CreateName'
+        component={CreateName}
+        options={() => ({
+          title: R.strings.TITLE_NAME,
+        })}
+      />
+      <CreateAccountStack.Screen
+        name='CreateBirthdate'
+        component={CreateBirthdate}
+        options={() => ({
+          title: R.strings.TITLE_BIRTHDATE,
+        })}
+      />
+      <CreateAccountStack.Screen
+        name='AvailableNumberList'
+        component={AvailableNumberList}
+        options={() => ({
+          title: R.strings.TITLE_CREATE_NUMBER,
+        })}
+      />
+    </CreateAccountStack.Navigator>
   );
 };
 
@@ -624,6 +658,7 @@ class App extends Component {
     return (
       <>
         <RootStack.Screen name='Welcome' component={LandingStackScreen} options={() => ({ headerShown: false })} />
+        <RootStack.Screen name='CreateAccount' component={CreateAccountStackScreen} options={() => ({ headerShown: false })} />
         <RootStack.Screen name='Join' component={JoinStackScreen} options={() => ({ headerShown: false })} />
       </>
     );

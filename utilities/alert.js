@@ -18,6 +18,20 @@ export const showNoAccountAlert = () => {
   );
 }
 
+export const showAlreadyHaveAccountAlert = () => {
+  Alert.alert(
+    R.strings.ERROR_REQUEST_TITLE,
+    R.strings.LABEL_ALREADY_HAVE_ACCOUNT,
+    [
+      {
+        text: R.strings.LABEL_OKAY,
+        style: 'cancel',
+      },
+    ],
+    { cancelable: false }
+  );
+}
+
 export const showVerifyEmailAddressSuccessAlert = () => {
   Alert.alert(
     R.strings.LABEL_RESEND_EMAIL_SUCCESS_TITLE,

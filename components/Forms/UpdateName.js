@@ -18,36 +18,38 @@ import { getMe, putUser } from '../../fetches';
 import Empty from './Empty';
 import R from '../../resources';
 
-const UpdateBirthdateSchema = Yup.object().shape({
-  birthdate: Yup.string()
+const UpdateNameSchema = Yup.object().shape({
+  name: Yup.string()
     .min(2, R.strings.WARNING_MIN_LENGTH)
     .max(128, R.strings.WARNING_MAX_LENGTH)
     .required(R.strings.WARNING_FIELD_REQUIRED),
 });
 
-class UpdateBirthdate extends Component {
+class UpdateName extends Component {
 
   constructor(props) {
     super(props);
-    this.onUpdateBirthdate = this.onUpdateBirthdate.bind(this);
+    this.onUpdateName = this.onUpdateName.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
 
     this.state = {
       isLoading: false,
       token: props.token,
-      birthdate: '',
+      name: '',
     };
   }
 
   async fetch() {
     try {
-      const { token, accountId } = this.state;
+      const { token } = this.state;
+      console.log(token);
+      console.log('here');
       const data = await getMe({ token });
       console.log(data);
-      let { user: { birthdate } } = data;
-      console.log(birthdate);
+      let { user: { name } } = data;
+      console.log(name);
       this.setState({
-        birthdate,
+        name,
       });
     } catch (e) {
       console.log(e);
@@ -67,11 +69,11 @@ class UpdateBirthdate extends Component {
     }
   }
 
-  onUpdateBirthdate({ values }) {
-    const { birthdate } = values;
+  onUpdateName({ values }) {
+    const { name } = values;
     const { token } = this.state;
     this.setState({ isLoading: true });
-    putUser({ token, birthdate })
+    putUser({ token, name })
     .then((response) => {
       const statusCode = response.status;
       const data = response.json();
@@ -79,9 +81,10 @@ class UpdateBirthdate extends Component {
     })
     .then(([res, data]) => {
       if (res === 200) {
-        const { user: { birthdate } } = data;
-        this.setState({ birthdate });
+        const { user: { name } } = data;
+        this.setState({ name });
         this.stopLoading();
+        this.props.onUpdateName();
       } else {
         Alert.alert('Error', 'Please retry',[{ text: 'Okay' }]);
         this.stopLoading();
@@ -100,15 +103,15 @@ class UpdateBirthdate extends Component {
   }
 
   render() {
-    const { isLoading, birthdate } = this.state;
-    if (!birthdate || birthdate.length < 1) {
+    const { isLoading, name } = this.state;
+    if (!name || name.length < 1) {
       return (<Empty navigation={this.props.navigation}/>);
     }
     return (
       <View style={styles.root}>
         <Formik
-          initialValues={{ birthdate }}
-          validationSchema={UpdateBirthdateSchema}
+          initialValues={{ name }}
+          validationSchema={UpdateNameSchema}
           onSubmit={values => console.log(values)}
           >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
@@ -117,23 +120,23 @@ class UpdateBirthdate extends Component {
               <TextInput
                   style={[styles.textInput, {margin: 5}]}
                   placeholder={R.strings.HINT_NAME}
-                  onChangeText={handleChange('birthdate')}
-                  onBlur={handleBlur('birthdate')}
-                  value={values.birthdate}
+                  onChangeText={handleChange('name')}
+                  onBlur={handleBlur('name')}
+                  value={values.name}
                   autoFocus={true}
                   keyboardType={'default'}
                   returnKeyType={'done'}
                   maxLength={150}
                   autoCapitalize={'none'}
                 />
-                {errors.birthdate && touched.birthdate ? (
-                  <Text style={styles.errorText}>{errors.birthdate}</Text>
+                {errors.name && touched.name ? (
+                  <Text style={styles.errorText}>{errors.name}</Text>
                 ) : null}
             <View style={styles.bottomContainer} >
               {(() => {
-                const backgroundColor = isValid && values.birthdate.length > 0 ? R.colors.BACKGROUND_MAIN : R.colors.TEXT_BACKGROUND_LIGHT;
+                const backgroundColor = isValid && values.name.length > 0 ? R.colors.BACKGROUND_MAIN : R.colors.TEXT_BACKGROUND_LIGHT;
                   return (
-                    <TouchableOpacity style={[styles.userTitleButtonContainer, { backgroundColor }]} disabled={!isValid || isLoading} onPress={() => this.onUpdateBirthdate({ values })}>
+                    <TouchableOpacity style={[styles.userTitleButtonContainer, { backgroundColor }]} disabled={!isValid || isLoading} onPress={() => this.onUpdateName({ values })}>
                       {
                         isLoading ? (
                           <ActivityIndicator style={styles.spinner} size='large' color={R.colors.SPINNER} />
@@ -201,6 +204,10 @@ const styles = StyleSheet.create({
   },
 });
 
+UpdateName.defaultProps = {
+  onUpdateName: () => {},
+};
+
 const mapStateToProps = state => ({
   token: getToken(state),
 });
@@ -208,4 +215,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {  },
-)(UpdateBirthdate);
+)(UpdateName);

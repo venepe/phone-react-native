@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { Video } from 'expo-av';
 import Loading from './Loading';
-import { showNoAccountAlert } from '../../utilities/alert';
+import { showNoAccountAlert, showAlreadyHaveAccountAlert } from '../../utilities/alert';
 import { clearSession, login } from '../../utilities/auth';
 import { getAccounts } from '../../fetches';
 import { storeAndSetActiveUser } from '../../actions';
@@ -81,8 +81,27 @@ class Landing extends Component {
     this.props.navigation.navigate('EnterCode');
   }
 
-  onCreateLine() {
-    this.props.navigation.navigate('AvailableNumberList');
+  async onCreateLine() {
+    this.setState({ isLoading: true });
+    try {
+      const credentials = await login();
+      const { accessToken: token } = credentials;
+      const data = await getAccounts({ token }) || {};
+      let { accounts } = data;
+      if (!accounts || accounts.length < 1) {
+        this.setState({ isLoading: false });
+        this.props.navigation.navigate('CreateAccount', {
+          screen: 'CreateName',
+          params: { },
+        });
+      } else {
+        this.setState({ isLoading: false, didLogin: false });
+        showAlreadyHaveAccountAlert();
+      }
+    } catch (e) {
+      this.setState({ isLoading: false, didLogin: false });
+      console.log(e);
+    }
   }
 
   async onLogout() {

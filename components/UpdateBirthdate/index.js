@@ -1,3 +1,3 @@
-import UpdateName from './UpdateName';
+import UpdateBirthdate from './UpdateBirthdate';
 
-export default UpdateName;
+export default UpdateBirthdate;

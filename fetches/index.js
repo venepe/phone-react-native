@@ -358,7 +358,7 @@ export const getMe = ({ token }) => {
   .then(handleResponse)
 };
 
-export const putUser = ({ token, name }) => {
+export const putUser = ({ token, name, birthdate }) => {
   return fetch(`${API_URL}/users/me`, {
     method: 'PUT',
     headers: {
@@ -369,6 +369,7 @@ export const putUser = ({ token, name }) => {
     body: JSON.stringify({
       user: {
         name,
+        birthdate,
       },
     }),
   });

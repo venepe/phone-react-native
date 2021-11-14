@@ -49,7 +49,7 @@ class SearchBar extends Component {
       <ElementsSearchBar
          value={query}
          platform={Platform.OS}
-         placeholder={'Search'}
+         placeholder={'Enter area code'}
          cancelIcon={{ type: 'font-awesome', name: 'chevron-left', color: R.colors.TEXT_MAIN }}
          searchIcon={{color: R.colors.TEXT_MAIN}}
          clearIcon={{color: R.colors.TEXT_MAIN}}
@@ -70,7 +70,7 @@ class SearchBar extends Component {
          onClear={this.onClear}
          cancelButtonProps={{ color: R.colors.TEXT_MAIN }}
          keyboardType={'number-pad'}
-         maxLength={16}
+         maxLength={5}
        />
     );
   }

@@ -37,3 +37,38 @@ export const getDateTimeText = (date) => {
     return moment(date).format('MMM D, h:mm A');
   }
 }
+
+export const getBirthdate = (date) => {
+  if (date) {
+    return new Date(date);
+  } else {
+    return new Date(moment().utc());
+  }
+}
+
+export const getBirthdateText = (date) => {
+  const format = 'MMMM DD, YYYY';
+  if (date) {
+    return moment(date).format(format);
+  } else {
+    return moment().format(format);
+  }
+}
+
+export const getBirthdatePayload = (date) => {
+  const format = 'YYYY-MM-DD';
+  if (date) {
+    return moment(date).format(format);
+  } else {
+    return moment().format(format);
+  }
+}
+
+export const is18YearsOld = (date) => {
+  const years = moment.utc().diff(moment(date), 'years');
+  if (years >= 18) {
+    return true;
+  } else {
+    return false;
+  }
+}

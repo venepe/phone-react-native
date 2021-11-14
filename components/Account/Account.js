@@ -30,14 +30,6 @@ const ADVICE_LIST = [
   },
 ];
 
-const ACCOUNT_LIST = [
-  {
-    title: R.strings.TITLE_MEMBERS,
-    icon: 'people',
-    iconSet: 'MaterialIcons',
-  },
-];
-
 const MANAGE_LIST = [
   {
     title: R.strings.TITLE_MEMBERS,
@@ -102,9 +94,6 @@ class Account extends Component {
         break;
       case R.strings.TITLE_HOROSCOPE:
         navigation.navigate('Horoscope')
-        break;
-      case R.strings.TITLE_ME:
-        navigation.navigate('Me')
         break;
       case R.strings.TITLE_MEMBERS:
         navigation.navigate('Members')

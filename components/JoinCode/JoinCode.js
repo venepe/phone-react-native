@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { Video } from 'expo-av';
 import JoinModal from '../JoinModal';
-import { getAccountById, postOwners } from '../../fetches';
+import { getAccountById } from '../../fetches';
 import { setPhoneNumber, setAccountId } from '../../actions';
 import { login } from '../../utilities/auth';
 import analytics, { EVENTS } from '../../analytics';
@@ -29,10 +29,11 @@ class JoinCode extends Component {
     this.join = this.join.bind(this);
     this.exitSetup = this.exitSetup.bind(this);
     this.state = {
-      accountId: '530f8325-8fb7-4de8-881e-f71c1a3285e9',
+      accountId: '',
       isLoading: false,
       isJoinModalVisible: false,
       owners: [],
+      phoneNumber: '',
     };
   }
 
@@ -60,23 +61,17 @@ class JoinCode extends Component {
   }
 
   async purchase() {
-    const { accountId } = this.state;
+    const { accountId, phoneNumber } = this.state;
     this.setState({ isLoading: true, isJoinModalVisible: false });
     try {
       const { accessToken: token } = await login();
-      this.setState({ token });
-      const data = await postOwners({ token, accountId });
-      let { owner } = data;
-      if (owner) {
-        const { phoneNumber } = owner;
-        this.props.setPhoneNumber({ payload: { phoneNumber } });
-        this.props.setAccountId({ payload: { accountId } });
-        this.props.navigation.navigate('Join', {
-          screen: 'CreateName',
-          params: { },
-        });
-      }
       this.setState({ isLoading: false });
+      this.props.setPhoneNumber({ payload: { phoneNumber } });
+      this.props.setAccountId({ payload: { accountId } });
+      this.props.navigation.navigate('Join', {
+        screen: 'CreateName',
+        params: { },
+      });
     } catch (e) {
       console.log(e);
       this.setState({ isLoading: false });

@@ -123,11 +123,8 @@ class AvailableNumberList extends Component {
       this.setState({ isFetching: true });
       const { phoneNumber: phoneNumberItem, token } = this.state;
       const phoneNumber = phoneNumberItem.phoneNumber;
-      console.log(phoneNumber);
       if (phoneNumber.length > 0) {
-        console.log('phoneNumber');
         const data = await postAccounts({ token, phoneNumber });
-        console.log(data);
         let { account } = data;
         if (account) {
           const { phoneNumber, isActive, id: accountId } = account;
@@ -168,8 +165,6 @@ class AvailableNumberList extends Component {
   }
 
   stopTimer() {
-    console.log('stopTimer');
-    console.log(this.intervalId);
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = undefined;
@@ -178,7 +173,6 @@ class AvailableNumberList extends Component {
 
   componentDidUpdate() {
     if (this.state.timer === 0 && this.intervalId) {
-      console.log('refresh');
       this.fetch();
     }
   }

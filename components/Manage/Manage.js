@@ -98,7 +98,7 @@ class Manage extends Component {
         <View style={styles.infoContainer}>
           <Text
             style={[styles.textInput, {margin: 5}]}
-            onPress={() => this.props.navigation.navigate('Me')}
+            onPress={() => this.props.navigation.navigate('Name')}
           >
             {name}
           </Text>

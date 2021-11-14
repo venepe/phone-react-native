@@ -13,7 +13,6 @@ export default {
   TITLE_CREATE_ACCOUNT: 'Create Account',
   TITLE_CREATE_NUMBER: 'Select Number',
   TITLE_ENTER_CODE: 'Scan Invitation',
-  TITLE_ME: 'Me',
   TITLE_NAME: 'Name',
   TITLE_BIRTHDATE: 'Birthdate',
   TITLE_MEMBERS: 'Us',

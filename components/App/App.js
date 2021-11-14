@@ -294,10 +294,10 @@ function AccountStackScreen() {
         })}
       />
       <AccountStack.Screen
-        name='Me'
+        name='Name'
         component={UpdateName}
         options={({ route, navigation }) => ({
-          title: R.strings.TITLE_ME,
+          title: R.strings.TITLE_NAME,
         })}
       />
       <AccountStack.Screen

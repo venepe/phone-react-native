@@ -10,9 +10,10 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { delOwner } from '../../fetches';
+import { delOwner, getMe } from '../../fetches';
 import { getToken, getAccountId } from '../../reducers';
 import { clearSession } from '../../utilities/auth';
+import { getBirthdateText } from '../../utilities/date';
 import R from '../../resources';
 
 class Manage extends Component {
@@ -24,8 +25,29 @@ class Manage extends Component {
       isLoading: false,
       token: props.token,
       accountId: props.accountId,
+      name: '',
+      birthdate: '',
     };
   }
+
+  componentDidMount() {
+    this.fetch();
+  }
+
+  async fetch() {
+    try {
+      const { token } = this.state;
+      const data = await getMe({ token });
+      let { user: { name, birthdate } } = data;
+      this.setState({
+        birthdate,
+        name,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 
   componentDidUpdate(prevProps) {
     const props = this.props;
@@ -69,9 +91,24 @@ class Manage extends Component {
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, name, birthdate } = this.state;
+    const birthdateText = getBirthdateText(birthdate);
     return (
       <View style={styles.root}>
+        <View style={styles.infoContainer}>
+          <Text
+            style={[styles.textInput, {margin: 5}]}
+            onPress={() => this.props.navigation.navigate('Me')}
+          >
+            {name}
+          </Text>
+          <Text
+            style={[styles.textInput, {margin: 5}]}
+            onPress={() => this.props.navigation.navigate('Birthdate')}
+          >
+            {birthdateText}
+          </Text>
+        </View>
           <TouchableOpacity style={styles.buttonContainer} disabled={isLoading} onPress={this.onLeave} isd>
             {
               isLoading ? (
@@ -89,13 +126,14 @@ class Manage extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    flexDirection: 'row',
     backgroundColor: R.colors.BACKGROUND_MAIN,
-    alignItems: 'flex-end',
+  },
+  infoContainer: {
+    flex: 1,
+    flexDirection: 'column',
   },
   buttonContainer: {
     height: 100,
-    flex: 1,
     backgroundColor: R.colors.NO,
     alignItems: 'center',
     justifyContent: 'center',
@@ -109,6 +147,14 @@ const styles = StyleSheet.create({
   },
   spinner: {
     height: 35,
+  },
+  textInput: {
+    padding: 20,
+    color: R.colors.BACKGROUND_DARK,
+    fontSize: 24,
+    fontWeight: '500',
+    backgroundColor: R.colors.TEXT_BACKGROUND_LIGHT,
+    marginTop: 20,
   },
 });
 

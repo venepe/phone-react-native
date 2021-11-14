@@ -130,7 +130,6 @@ class AvailableNumberList extends Component {
         console.log(data);
         let { account } = data;
         if (account) {
-          console.log(account);
           const { phoneNumber, isActive, id: accountId } = account;
           this.props.storeAndSetActiveUser({ payload: { phoneNumber, isActive, accountId } });
           this.props.navigation.navigate('CreateAccount', {

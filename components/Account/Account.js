@@ -32,11 +32,6 @@ const ADVICE_LIST = [
 
 const ACCOUNT_LIST = [
   {
-    title: R.strings.TITLE_ME,
-    icon: 'person',
-    iconSet: 'MaterialIcons',
-  },
-  {
     title: R.strings.TITLE_MEMBERS,
     icon: 'people',
     iconSet: 'MaterialIcons',
@@ -44,6 +39,11 @@ const ACCOUNT_LIST = [
 ];
 
 const MANAGE_LIST = [
+  {
+    title: R.strings.TITLE_MEMBERS,
+    icon: 'people',
+    iconSet: 'MaterialIcons',
+  },
   {
     title: R.strings.TITLE_INVITE,
     icon: 'share',
@@ -67,11 +67,7 @@ const SECTION_LIST = [
     data: ADVICE_LIST,
   },
   {
-    title: 'People',
-    data: ACCOUNT_LIST,
-  },
-  {
-    title: 'Settings',
+    title: 'Account',
     data: MANAGE_LIST,
   }
 ];

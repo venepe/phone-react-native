@@ -33,10 +33,12 @@ import MemberList from '../MemberList';
 import ShareCode from '../ShareCode';
 import ShareInvite from '../ShareInvite';
 import ShareQRCode from '../ShareQRCode';
-import CreateBirthdate from '../CreateBirthdate';
-import CreateName from '../CreateName';
-import UpdateBirthdate from '../UpdateBirthdate';
-import UpdateName from '../UpdateName';
+import CreateAccountCreateBirthdate from '../CreateAccount/CreateBirthdate';
+import CreateAccountCreateName from '../CreateAccount/CreateName';
+import JoinAccountCreateBirthdate from '../JoinAccount/CreateBirthdate';
+import JoinAccountCreateName from '../JoinAccount/CreateName';
+import UpdateBirthdate from '../ManageAccount/UpdateBirthdate';
+import UpdateName from '../ManageAccount/UpdateName';
 import TodoList from '../TodoApp/TodoList';
 import CreateTodo from '../TodoApp/CreateTodo';
 import EssentialList from '../EssentialApp/EssentialList';
@@ -111,14 +113,14 @@ function CreateAccountStackScreen() {
     >
       <CreateAccountStack.Screen
         name='CreateName'
-        component={CreateName}
+        component={CreateAccountCreateName}
         options={() => ({
           title: R.strings.TITLE_NAME,
         })}
       />
       <CreateAccountStack.Screen
         name='CreateBirthdate'
-        component={CreateBirthdate}
+        component={CreateAccountCreateBirthdate}
         options={() => ({
           title: R.strings.TITLE_BIRTHDATE,
         })}
@@ -146,6 +148,13 @@ function JoinStackScreen() {
     <JoinStack.Navigator initialRouteName='JoinCode'
       screenOptions={{
         headerShown: false,
+        headerStyle: {
+          backgroundColor: R.colors.HEADER_MAIN,
+        },
+        headerTintColor: R.colors.TEXT_MAIN,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
       }}
     >
       <JoinStack.Screen
@@ -153,6 +162,24 @@ function JoinStackScreen() {
         component={JoinCode}
         options={() => ({
           title: R.strings.TITLE_ENTER_CODE,
+        })}
+      />
+      <JoinStack.Screen
+        name='CreateName'
+        component={JoinAccountCreateName}
+        options={() => ({
+          headerShown: true,
+          title: R.strings.TITLE_NAME,
+          headerBackTitle: R.strings.LABEL_BACK,
+        })}
+      />
+      <JoinStack.Screen
+        name='CreateBirthdate'
+        component={JoinAccountCreateBirthdate}
+        options={() => ({
+          headerShown: true,
+          title: R.strings.TITLE_BIRTHDATE,
+          headerBackTitle: R.strings.LABEL_BACK,
         })}
       />
     </JoinStack.Navigator>
@@ -277,7 +304,7 @@ function AccountStackScreen() {
         name='Birthdate'
         component={UpdateBirthdate}
         options={({ route, navigation }) => ({
-          title: R.strings.TITLE_ME,
+          title: R.strings.TITLE_BIRTHDATE,
         })}
       />
       <AccountStack.Screen

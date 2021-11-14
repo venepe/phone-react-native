@@ -29,6 +29,7 @@ class UpdateName extends Component {
 
   constructor(props) {
     super(props);
+    this.fetch = this.fetch.bind(this);
     this.onUpdateName = this.onUpdateName.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
 
@@ -42,12 +43,8 @@ class UpdateName extends Component {
   async fetch() {
     try {
       const { token } = this.state;
-      console.log(token);
-      console.log('here');
       const data = await getMe({ token });
-      console.log(data);
       let { user: { name } } = data;
-      console.log(name);
       this.setState({
         name,
       });

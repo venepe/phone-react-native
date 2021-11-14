@@ -21,6 +21,7 @@ class UpdateBirthdate extends Component {
 
   constructor(props) {
     super(props);
+    this.fetch = this.fetch.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onUpdateBirthdate = this.onUpdateBirthdate.bind(this);
     this.stopLoading = this.stopLoading.bind(this);
@@ -105,7 +106,7 @@ class UpdateBirthdate extends Component {
     const { isLoading, isValid, birthdate } = this.state;
     const birthdateText = getBirthdateText(birthdate);
     const display = Platform.OS === 'ios' ? 'spinner' : 'calendar';
-    if (isLoading) {
+    if (!birthdateText || birthdateText.length < 1) {
       return (<Empty navigation={this.props.navigation}/>);
     }
     return (
